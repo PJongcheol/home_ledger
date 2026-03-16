@@ -8,11 +8,11 @@
 		<version>4.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>devel_cms</groupId>
-	<artifactId>devel_cms</artifactId>
+	<groupId>home_ledger</groupId>
+	<artifactId>home_ledger</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>devel_cms</name>
+	<name>home_ledger</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
