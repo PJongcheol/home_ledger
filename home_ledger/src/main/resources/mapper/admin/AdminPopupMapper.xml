@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="devel.admin.popup.mapper.AdminPopupMapper">
+	<!-- 팝업 목록 카운트 -->
+	<select id="selectPopupTotalCount" parameterType="Map" resultType="int">
+		/* AdminPopupMapper.selectPopupTotalCount */
+		SELECT
+			COUNT(1)
+		FROM
+			TB_MAIN_POPUP
+		<where>
+			<if test="popupTy != null and popupTy != ''">
+				AND POPUP_TY = #{popupTy}
+			</if>
+			<if test="popupSe != null and popupSe != ''">
+				AND POPUP_SE = #{popupSe}
+			</if>
+			<if test="siteCode != null and siteCode != ''">
+				AND SITE_CODE = #{siteCode}
+			</if>
+			<if test="useYn != null and useYn != ''">
+				AND USE_YN = #{useYn}
+			</if>
+			<if test="popupSj != null and popupSj != ''">
+				AND POPUP_SJ LIKE CONCAT('%', #{popupSj} ,'%')
+			</if>
+		</where>
+	</select>
+
+	<!-- 팝업 목록 조회 -->
+	<select id="selectPopupList" parameterType="Map" resultType="Map">
+		/* AdminPopupMapper.selectPopupTotalCount */
+		SELECT
+			 POPUP_SEQ									AS popupSeq
+			,POPUP_SJ									AS popupSj
+			,BGNDE_DE									AS bgndeDe
+			,END_DE										AS endDe
+			,POPUP_ORDR									AS popupOrdr
+			,POPUP_TY									AS popupTy
+			,POPUP_SE									AS popupSe
+			,SITE_CODE									AS siteCode
+			,USE_YN										AS useYn
+			,REG_ID										AS regId
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d %H:%i:%s')	AS regDt
+			,UPD_ID										AS updId
+			,DATE_FORMAT(UPD_DT, '%Y-%m-%d %H:%i:%s')	AS updDt
+		FROM
+			TB_MAIN_POPUP
+		<where>
+			<if test="popupTy != null and popupTy != ''">
+				AND POPUP_TY = #{popupTy}
+			</if>
+			<if test="popupSe != null and popupSe != ''">
+				AND POPUP_SE = #{popupSe}
+			</if>
+			<if test="siteCode != null and siteCode != ''">
+				AND SITE_CODE = #{siteCode}
+			</if>
+			<if test="useYn != null and useYn != ''">
+				AND USE_YN = #{useYn}
+			</if>
+			<if test="popupSj != null and popupSj != ''">
+				AND POPUP_SJ LIKE CONCAT('%', #{popupSj} ,'%')
+			</if>
+		</where>
+		ORDER BY
+			REG_DT DESC
+		LIMIT
+			#{offset}, #{pageSize}
+	</select>
+
+	<!-- 팝업 상세 조회 -->
+	<select id="selectPopupDtl" parameterType="Map" resultType="Map">
+		/* AdminPopupMapper.selectPopupDtl */
+		SELECT
+			 POPUP_SEQ									AS popupSeq
+			,POPUP_SJ									AS popupSj
+			,POPUP_URL									AS popupUrl
+			,ATCHFILENO									AS atchfileno
+			,POPUP_WIDTH_LC								AS popupWidthLc
+			,POPUP_HEIGHT_LC							AS popupHeightLc
+			,POPUP_WIDTH								AS popupWidth
+			,POPUP_HEIGHT								AS popupHeight
+			,BGNDE_DE									AS bgndeDe
+			,END_DE										AS endDe
+			,POPUP_ORDR									AS popupOrdr
+			,POPUP_CN									AS popupCn
+			,POPUP_TY									AS popupTy
+			,POPUP_SE									AS popupSe
+			,SITE_CODE									AS siteCode
+			,USE_YN										AS useYn
+			,REG_ID										AS regId
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d %H:%i:%s')	AS regDt
+			,UPD_ID										AS updId
+			,DATE_FORMAT(UPD_DT, '%Y-%m-%d %H:%i:%s')	AS updDt
+		FROM
+			TB_MAIN_POPUP
+		WHERE
+			POPUP_SEQ = #{popupSeq}
+	</select>
+
+	<!-- 팝업 저장 -->
+	<insert id="insertPopup">
+		/* AdminPopupMapper.insertPopup */
+		INSERT INTO TB_MAIN_POPUP (
+			 POPUP_SJ
+			,POPUP_URL
+			,ATCHFILENO
+			,POPUP_WIDTH_LC
+			,POPUP_HEIGHT_LC
+			,POPUP_WIDTH
+			,POPUP_HEIGHT
+			,BGNDE_DE
+			,END_DE
+			,POPUP_ORDR
+			,POPUP_CN
+			,POPUP_TY
+			,POPUP_SE
+			,SITE_CODE
+			,USE_YN
+			,REG_ID
+			,REG_DT
+			,UPD_ID
+			,UPD_DT
+		) VALUES (
+			 #{popupSj}
+			,#{popupUrl}
+			,#{atchfileno}
+			,#{popupWidthLc}
+			,#{popupHeightLc}
+			,#{popupWidth}
+			,#{popupHeight}
+			,#{bgndeDe}
+			,#{endDe}
+			,#{popupOrdr}
+			,#{popupCn}
+			,#{popupTy}
+			,#{popupSe}
+			,#{siteCode}
+			,#{useYn}
+			,#{userId}
+			,now()
+			,#{userId}
+			,now()
+		)
+	</insert>
+
+	<!-- 팝업 수정 -->
+	<update id="updatePopup" parameterType="Map">
+		/* AdminPopupMapper.updatePopup */
+		UPDATE TB_MAIN_POPUP
+		SET
+			 POPUP_SJ			= #{popupSj}
+			,POPUP_URL			= #{popupUrl}
+			,ATCHFILENO			= #{atchfileno}
+			,POPUP_WIDTH_LC		= #{popupWidthLc}
+			,POPUP_HEIGHT_LC	= #{popupHeightLc}
+			,POPUP_WIDTH		= #{popupWidth}
+			,POPUP_HEIGHT		= #{popupHeight}
+			,BGNDE_DE			= #{bgndeDe}
+			,END_DE				= #{endDe}
+			,POPUP_ORDR			= #{popupOrdr}
+			,POPUP_CN			= #{popupCn}
+			,POPUP_TY			= #{popupTy}
+			,POPUP_SE			= #{popupSe}
+			,SITE_CODE			= #{siteCode}
+			,USE_YN				= #{useYn}
+			,UPD_ID				= #{userId}
+			,UPD_DT				= now()
+		WHERE
+			POPUP_SEQ = #{popupSeq}
+	</update>
+
+	<!-- 팝업 삭제 -->
+	<delete id="deletePopup" parameterType="Map">
+		/* AdminPopupMapper.deletePopup */
+		DELETE FROM TB_MAIN_POPUP
+		WHERE
+			POPUP_SEQ = #{popupSeq}
+	</delete>
+</mapper>

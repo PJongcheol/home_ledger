@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="devel.cmmn.login.mapper.LoginMapper">
+
+	<!-- 로그인 ID 실패카운트 조회 -->
+	<select id="selectLoginFailCnt" parameterType="Map" resultType="String">
+		/* LoginMapper.selectLoginFailCnt */
+		SELECT
+			FAIL_CNT
+		FROM
+			TB_USER_INFO
+		WHERE
+			MEMBER_ID = #{memberId}
+	</select>
+
+	<!-- 아이디 승인 체크 -->
+	<select id="selectConfmYn" parameterType="Map" resultType="String">
+		/* LoginMapper.selectConfmYn */
+		SELECT
+			CONFM_YN
+		FROM
+			TB_USER_INFO
+		WHERE
+			MEMBER_ID = #{memberId}
+	</select>
+
+	<!-- 로그인 정보 조회 -->
+	<select id="actionLogin" parameterType="Map" resultType="LoginVO">
+		/* LoginMapper.actionLogin */
+		SELECT
+			 MEMBER_ID								AS memberId
+			,AUTH_GRP_CD							AS authGrpCd
+			,MEMBER_NM								AS memberNm
+			,MASTER_CODE							AS masterCode
+			,MEMBER_EMAIL							AS memberEmail
+			,MEMBER_BRTHDY							AS memberBrthdy
+			,MEMBER_PHONE							AS memberPhone
+			,MEMBER_POST							AS memberPost
+			,MEMBER_ADDR							AS memberAddr
+			,MEMBER_ADDR_DETL						AS memberAddrDetl
+			,DATE_FORMAT(LAST_LOGIN_DT, '%Y%m%d') 	AS lastLoginDt
+			,FAIL_CNT								AS failCnt
+	    FROM
+	    	TB_USER_INFO
+	 	WHERE
+	 		MEMBER_ID = #{memberId}
+	    AND
+	    	MEMBER_PW = #{memberPw}
+	   	AND
+	   		USE_YN = 'Y'
+	</select>
+
+	<!-- 최종로그인 일시 처리 -->
+	<update id="updateLastLogin" parameterType="String">
+		/* LoginMapper.updateLastLogin */
+		UPDATE
+			TB_USER_INFO
+		SET
+			LAST_LOGIN_DT = now()
+		WHERE
+			MEMBER_ID = #{value}
+	</update>
+
+
+	<!-- 로그인 이력 저장 -->
+	<insert id="insertLoginHis"  parameterType="Map">
+		/* LoginMapper.insertLoginHis */
+		INSERT INTO TB_LOGIN_HIS(
+		    MEMBER_ID,
+		    LOGIN_IP,
+		    LOGIN_DT
+		)VALUES(
+		    #{memberId},
+		    #{loginIp},
+		    NOW()
+		)
+	</insert>
+
+	<!-- 로그인 실패 카운트 처리 -->
+	<update id="updateUserFailCnt" parameterType="Map">
+		/* LoginMapper.updateUserFailCnt */
+		UPDATE
+			TB_USER_INFO
+		SET
+			FAIL_CNT = #{failCnt}
+		WHERE
+			MEMBER_ID = #{memberId}
+	</update>
+
+	<!-- 아이디 중복체크 -->
+	<select id="checkId" parameterType="Map" resultType="int">
+		/* LoginMapper.checkId */
+		SELECT
+			COUNT(1)
+		FROM
+			TB_USER_INFO
+		WHERE
+			MEMBER_ID = #{memberId}
+	</select>
+
+	<!-- 회원 등록 -->
+	<insert id="insertSignUp" parameterType="Map">
+		/* LoginMapper.insertSignUp */
+		INSERT INTO TB_USER_INFO (
+			 MEMBER_ID
+			,AUTH_GRP_CD
+			,MEMBER_NM
+			,MEMBER_PW
+			,MASTER_CODE
+			,MEMBER_EMAIL
+			,MEMBER_BRTHDY
+			,MEMBER_PHONE
+			,MEMBER_POST
+			,MEMBER_ADDR
+			,MEMBER_ADDR_DETL
+			,AGREE_YN
+			,CONFM_YN
+			,JOIN_DE
+			,CONFM_ID
+			,CONFM_DT
+			,USE_YN
+		) VALUES (
+			 #{memberId}
+			,'1'
+			,#{memberNm}
+			,#{memberPw}
+			,'1'
+			,#{memberEmail}
+			,#{memberBrthdy}
+			,#{memberPhone}
+			,#{memberPost}
+			,#{memberAddr}
+			,#{memberAddrDetl}
+			,#{agreeYn}
+			,'Y'
+			,now()
+			,'admin'
+			,now()
+			,'Y'
+		)
+	</insert>
+
+	<!-- 아이디 찾기 -->
+	<select id="selectId" parameterType="Map" resultType="Map">
+		/* LoginMapper.selectId */
+		SELECT
+			MEMBER_ID	AS memberId
+		FROM
+			TB_USER_INFO
+		WHERE
+			MEMBER_NM = #{memberNm}
+		AND
+			MEMBER_EMAIL = #{memberEmail}
+		AND
+			MEMBER_BRTHDY = #{memberBrthdy}
+		AND
+			MEMBER_PHONE = #{memberPhone}
+	</select>
+
+	<!-- SNS 아이디 조회 -->
+	<select id="selectSnsMember" parameterType="String" resultType="LoginVO">
+		/* LoginMapper.selectSnsMember */
+		SELECT
+			 MEMBER_ID								AS memberId
+			,AUTH_GRP_CD							AS authGrpCd
+			,MEMBER_NM								AS memberNm
+			,MASTER_CODE							AS masterCode
+			,MEMBER_EMAIL							AS memberEmail
+			,MEMBER_BRTHDY							AS memberBrthdy
+			,MEMBER_PHONE							AS memberPhone
+			,MEMBER_POST							AS memberPost
+			,MEMBER_ADDR							AS memberAddr
+			,MEMBER_ADDR_DETL						AS memberAddrDetl
+			,DATE_FORMAT(LAST_LOGIN_DT, '%Y%m%d') 	AS lastLoginDt
+			,FAIL_CNT								AS failCnt
+			,SNS_SE									AS snsSe
+	    FROM
+			TB_USER_INFO
+		WHERE
+			SNS_ID = #{value}
+	</select>
+
+	<!-- SNS 아이디 중복 조회 -->
+	<select id="selectSnsIdCount" parameterType="String" resultType="int">
+		/* LoginMapper.selectSnsIdCount */
+		SELECT
+			COUNT(1)
+		FROM
+			TB_USER_INFO
+		WHERE
+			SNS_ID = #{value}
+	</select>
+
+	<!-- SNS 아이디 저장 -->
+	<insert id="insertSnsMember" parameterType="Map">
+		/* LoginMapper.insertSnsMember */
+		INSERT INTO TB_USER_INFO (
+			 MEMBER_ID
+			,AUTH_GRP_CD
+			,MEMBER_NM
+			,MEMBER_PW
+			,MASTER_CODE
+			,MEMBER_EMAIL
+			,MEMBER_BRTHDY
+			,MEMBER_PHONE
+			,AGREE_YN
+			,CONFM_YN
+			,JOIN_DE
+			,CONFM_ID
+			,CONFM_DT
+			,SNS_ID
+			,SNS_SE
+			,USE_YN
+		) VALUES (
+			 #{memberId}
+			,'1'
+			,#{memberNm}
+			,#{memberPw}
+			,'1'
+			,#{memberEmail}
+			,#{memberBrthdy}
+			,#{memberPhone}
+			,'Y'
+			,'Y'
+			,now()
+			,'admin'
+			,now()
+			,#{snsId}
+			,#{snsSe}
+			,'Y'
+		)
+	</insert>
+</mapper>

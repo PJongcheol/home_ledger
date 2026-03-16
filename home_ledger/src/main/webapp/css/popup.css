@@ -1,0 +1,48 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+}
+
+/* 본문 영역 */
+.popup-wrapper {
+    flex: 1;                 /* 남는 공간 전부 차지 */
+    overflow: auto;          /* 내용 많으면 스크롤 */
+}
+
+/* 푸터 */
+.popup-footer {
+    padding: 10px 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fafafa;
+}
+
+/* 체크박스 정렬 */
+.popup-footer label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.popup-footer input[type="checkbox"] {
+    margin: 0;
+}
+
+.popup-footer button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    background: #3498db;
+    color: #fff;
+    cursor: pointer;
+}

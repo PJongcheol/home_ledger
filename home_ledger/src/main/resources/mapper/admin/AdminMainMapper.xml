@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="devel.admin.main.mapper.AdminMainMapper">
+	<!-- 팝업 목록 조회 -->
+	<select id="selectPopupList" resultType="Map">
+		/* AdminMainMapper.selectPopupList */
+		SELECT
+			 A.POPUP_SEQ									AS popupSeq
+			,A.POPUP_SJ										AS popupSj
+			,A.POPUP_URL									AS popupUrl
+			,A.ATCHFILENO									AS atchfileno
+			,A.POPUP_WIDTH_LC								AS popupWidthLc
+			,A.POPUP_HEIGHT_LC								AS popupHeightLc
+			,A.POPUP_WIDTH									AS popupWidth
+			,A.POPUP_HEIGHT									AS popupHeight
+			,A.BGNDE_DE										AS bgndeDe
+			,A.END_DE										AS endDe
+			,A.POPUP_ORDR									AS popupOrdr
+			,A.POPUP_CN										AS popupCn
+			,A.POPUP_TY										AS popupTy
+			,A.POPUP_SE										AS popupSe
+			,B.SVFILENM										AS svfilenm
+		FROM
+			TB_MAIN_POPUP A
+		LEFT JOIN
+			TB_FILE_INFO B
+		ON
+			A.ATCHFILENO = B.ATCHFILENO
+		WHERE
+			A.SITE_CODE = 'admin'
+		AND
+			A.USE_YN = 'Y'
+		AND
+			DATE_FORMAT(now(), '%Y-%m-%d') BETWEEN A.BGNDE_DE AND A.END_DE
+	</select>
+
+	<!-- 팝업 조회 -->
+	<select id="selectPopup" parameterType="Map" resultType="Map">
+		/* AdminMainMapper.selectPopup */
+		SELECT
+			 A.POPUP_SEQ									AS popupSeq
+			,A.POPUP_SJ										AS popupSj
+			,A.POPUP_URL									AS popupUrl
+			,A.ATCHFILENO									AS atchfileno
+			,A.POPUP_WIDTH_LC								AS popupWidthLc
+			,A.POPUP_HEIGHT_LC								AS popupHeightLc
+			,A.POPUP_WIDTH									AS popupWidth
+			,A.POPUP_HEIGHT									AS popupHeight
+			,A.BGNDE_DE										AS bgndeDe
+			,A.END_DE										AS endDe
+			,A.POPUP_ORDR									AS popupOrdr
+			,A.POPUP_CN										AS popupCn
+			,A.POPUP_TY										AS popupTy
+			,A.POPUP_SE										AS popupSe
+			,B.SVFILENM										AS svfilenm
+		FROM
+			TB_MAIN_POPUP A
+		LEFT JOIN
+			TB_FILE_INFO B
+		ON
+			A.ATCHFILENO = B.ATCHFILENO
+		WHERE
+			A.POPUP_SEQ = #{popupSeq}
+	</select>
+
+	<!-- 대시보드 상단 조회 -->
+	<select id="selectIndexTop" resultType="Map">
+		/* AdminMainMapper.selectIndexTop */
+		SELECT
+			 (SELECT COUNT(1) FROM TB_USER_INFO) AS userCnt
+			,(SELECT COUNT(1) FROM TB_LOGIN_HIS WHERE DATE_FORMAT(LOGIN_DT, '%Y-%m-%d') = DATE_FORMAT(now(), '%Y-%m-%d')) AS logCnt
+			,(SELECT COUNT(1) FROM TB_BOARD_MST) AS boardCnt
+			,(SELECT COUNT(1) FROM TB_MAIN_POPUP WHERE DATE_FORMAT(now(), '%Y-%m-%d') BETWEEN BGNDE_DE AND END_DE AND USE_YN = 'Y') AS popupCnt
+	</select>
+
+	<!-- 대시보드 회원 목록 조회 -->
+	<select id="selectIndexMemberList" resultType="Map">
+		/* AdminMainMapper.selectIndexMemberList */
+		SELECT
+			 MEMBER_ID		AS memberId
+			,MEMBER_NM		AS memberNm
+			,MASTER_CODE	AS masterCode
+			,JOIN_DE		AS joinDe
+			,USE_YN			AS useYn
+		FROM
+			TB_USER_INFO
+		ORDER BY
+			JOIN_DE DESC
+		LIMIT 0,5
+	</select>
+
+	<!-- 대시보드 공지사항 목록 조회 -->
+	<select id="selectBbsList" parameterType="Map" resultType="Map">
+		/* AdminMainMapper.selectBbsList */
+		SELECT
+			 BBS_SEQ							AS bbsSeq
+			,NTT_SEQ							AS nttSeq
+			,NTT_SJ								AS nttSj
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d')	AS regDt
+		FROM
+			TB_BOARD
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+		AND
+			DEL_YN = 'N'
+		ORDER BY
+			REG_DT DESC
+		LIMIT 0,5
+	</select>
+</mapper>

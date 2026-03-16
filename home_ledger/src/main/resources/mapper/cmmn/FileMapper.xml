@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="devel.cmmn.file.mapper.FileMapper">
+	<!-- 파일 일련번호 조회 -->
+	<select id="selectAtchfileno" resultType="int">
+		/* FileMapper.selectAtchfileno */
+		SELECT
+			IFNULL(MAX(ATCHFILENO), 0) + 1
+		FROM
+			TB_FILE_INFO
+	</select>
+
+	<select id="selectFileord" parameterType="Map" resultType="int">
+		/* FileMapper.selectFileord */
+		SELECT
+			IFNULL(MAX(FILEORD), 0) + 1
+		FROM
+			TB_FILE_INFO
+		WHERE
+			ATCHFILENO = #{atchfileno}
+	</select>
+
+	<!-- 파일 저장 -->
+	<insert id="insertFile" parameterType="Map">
+		/* FileMapper.insertFile */
+		INSERT INTO TB_FILE_INFO (
+			 ATCHFILENO
+			,FILEORD
+			,ORGFILENM
+			,SVFILENM
+			,FILEEXT
+			,FILEDIR
+			,FILESIZE
+			,REG_ID
+			,REG_DT
+			,DWLD_CNT
+		) VALUES (
+			 #{atchfileno}
+			,#{fileord}
+			,#{orgfilenm}
+			,#{svfilenm}
+			,#{fileext}
+			,#{filedir}
+			,#{filesize}
+			,#{userId}
+			,now()
+			,0
+		)
+	</insert>
+
+	<!-- 파일 목록 조회 -->
+	<select id="selectFileList" parameterType="Map" resultType="Map">
+		/* FileMapper.selectFileList */
+		SELECT
+			 ATCHFILENO		AS atchfileno
+			,FILEORD		AS fileord
+			,ORGFILENM		AS orgfilenm
+			,SVFILENM		AS svfilenm
+			,FILEEXT		AS fileext
+			,FILEDIR		AS filedir
+			,FILESIZE		AS filesize
+		FROM
+			TB_FILE_INFO
+		WHERE
+			ATCHFILENO = #{atchfileno}
+		ORDER BY
+			FILEORD
+	</select>
+
+	<!-- 파일 삭제 -->
+	<delete id="deleteFile" parameterType="Map">
+		/* FileMapper.deleteFile */
+		DELETE FROM
+			TB_FILE_INFO
+		WHERE
+			ATCHFILENO = #{atchfileno}
+		AND
+			FILEORD	= #{fileord}
+	</delete>
+
+	<!-- 파일 조회 -->
+	<select id="selectFile" parameterType="Map" resultType="Map">
+		/* FileMapper.selectFile */
+		SELECT
+			 ORGFILENM		AS orgfilenm
+			,SVFILENM		AS svfilenm
+			,FILEDIR		AS filedir
+		FROM
+			TB_FILE_INFO
+		WHERE
+			ATCHFILENO = #{atchfileno}
+		AND
+			FILEORD = #{fileord}
+	</select>
+
+	<!-- 파일 다운로드 횟수 업데이트 -->
+	<update id="updateFileCount" parameterType="Map">
+		/* FileMapper.updateFileCount */
+		UPDATE
+			TB_FILE_INFO
+		SET
+			DWLD_CNT = DWLD_CNT + 1
+		WHERE
+			ATCHFILENO = #{atchfileno}
+		AND
+			FILEORD	= #{fileord}
+	</update>
+</mapper>

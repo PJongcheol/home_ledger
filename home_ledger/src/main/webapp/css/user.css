@@ -1,0 +1,329 @@
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f4f6f9;
+}
+
+/* =========================
+   Header
+========================= */
+.header {
+    background: #2c3e50;
+}
+
+header .user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 40px;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* =========================
+   Top Menu
+========================= */
+.nav {
+    margin-right: auto;
+}
+
+.nav > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 40px;
+}
+
+.nav > ul > li {
+    position: relative;
+    padding: 14px 4px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #ecf0f1;
+    transition: color 0.2s ease;
+}
+
+.nav > ul > li:hover {
+    color: #3498db;
+}
+
+.nav > ul > li:hover .submenu{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+}
+
+
+.submenu{
+    position:absolute;
+    top:48px;
+    left:0;
+
+    list-style:none;
+    padding:8px 0;
+    margin:0;
+
+    min-width:180px;
+
+    background: rgba(255,255,255,0.75);   /* 밝은 반투명 */
+    border-radius:8px;
+
+    box-shadow:0 8px 18px rgba(0,0,0,0.15);
+
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(10px);
+
+    transition:all 0.25s ease;
+}
+
+.submenu li{
+    padding:10px 18px;
+    font-size:14px;
+    color:#444;
+    cursor:pointer;
+    transition:all 0.2s ease;
+}
+
+.submenu li:hover{
+    background:rgba(52,152,219,0.08);
+    color:#3498db;
+}
+
+.submenu::before{
+    content:"";
+    position:absolute;
+    top:-10px;
+    left:0;
+    right:0;
+    height:10px;
+}
+
+/* hover 시 메뉴 열기 */
+.nav > ul > li:hover .submenu{
+    display:block;
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    font-size:14px;
+    color:#ecf0f1;
+}
+
+/* 사용자 영역 */
+.user a{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    text-decoration:none;
+    color:#ecf0f1;
+    padding:6px 10px;
+    border-radius:6px;
+    transition:all 0.2s ease;
+}
+
+/* hover */
+.user a:hover{
+    background:rgba(255,255,255,0.12);
+}
+
+/* 사용자 이름 */
+.user-name{
+    font-weight:600;
+}
+
+/* 로그아웃 버튼 */
+.btn-logout{
+    padding:6px 12px;
+    border-radius:6px;
+    border:1px solid rgba(255,255,255,0.3);
+    font-size:13px;
+}
+
+.btn-logout:hover{
+    background:#e74c3c;
+    border-color:#e74c3c;
+    color:#fff;
+}
+
+/* =========================
+   Hero
+========================= */
+.hero {
+    height: 420px;
+    background: linear-gradient(
+        rgba(44,62,80,0.85),
+        rgba(44,62,80,0.85)
+    );
+    display: flex;
+    align-items: center;
+}
+
+.hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    color: #fff;
+}
+
+.hero h1 {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    font-size: 16px;
+    color: #dcdde1;
+}
+
+.a-decoration-color-non {
+	text-decoration: none;
+	color: inherit;
+}
+
+/* =========================
+   Admin Button
+========================= */
+.admin-section {
+    padding: 60px 20px;
+    text-align: center;
+    background: #f4f6f9;
+}
+
+.admin-btn {
+    padding: 16px 44px;
+    font-size: 16px;
+    font-weight: bold;
+    background: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.admin-btn:hover {
+    background: #2980b9;
+}
+
+/* =========================
+   Footer
+========================= */
+.footer {
+    width: 100%;
+    background: #fafafa;
+    border-top: 1px solid #e5e5e5;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Left */
+.footer-left {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.footer-left .company {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 6px;
+}
+
+.footer-left .copyright {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #999;
+}
+
+/* Right */
+.footer-right {
+    font-size: 13px;
+    color: #666;
+}
+
+.footer-right a {
+    color: #555;
+    text-decoration: none;
+    margin: 0 6px;
+    transition: color 0.2s ease;
+}
+
+.footer-right a:hover {
+    color: #3498db;
+}
+
+.footer-right span {
+    color: #bbb;
+}
+
+/* Footer Admin Button */
+.footer-admin-btn {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: #777;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+}
+
+/* Hover */
+.footer-admin-btn:hover {
+    background: #3498db;
+    border-color: #3498db;
+    color: #fff;
+}
+
+
+/* =========================
+   Sticky Footer (선택)
+========================= */
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    margin-top: auto;
+}

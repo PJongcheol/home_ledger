@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="devel.admin.menu.mapper.AdminMenuMapper">
+	<!-- 메뉴목록 조회 -->
+	<select id="getMenuList" parameterType="Map" resultType="Map">
+		/* AdminMenuMapper.getMenuList */
+		SELECT
+			 CASE WHEN MENU_PID = '0' THEN '#' ELSE MENU_PID END 	AS parent
+			,MENU_ORDR 												AS menuOrder
+			,MENU_DEPTH 											AS menuDepth
+			,MENU_ID 												AS id
+			,MENU_NM 												AS text
+			,MENU_TYPE 												AS menuType
+			,BBS_SEQ												AS bbsSeq
+			,MENU_URL 												AS menuUrl
+			,MENU_ICON 												AS menuIcon
+			,USE_YN 												AS useYn
+			,SITE_CODE 												AS siteCode
+		FROM
+			TB_MENU
+		WHERE
+			SITE_CODE = #{siteCode}
+		ORDER BY
+			MENU_ORDR ASC
+	</select>
+
+	<!-- 게시물 목록 조회 -->
+	<select id="adminBbsList" parameterType="Map" resultType="Map">
+		/* AdminMenuMapper.adminBbsList */
+		SELECT
+			 BBS_SEQ		AS bbsSeq
+			,BBS_NM			AS bbsNm
+		FROM
+			TB_BOARD_MST
+		WHERE
+			SITE_CODE = #{siteCode}
+		AND
+			USE_YN = 'Y'
+		ORDER BY
+			REG_DT DESC
+	</select>
+
+	<!-- 메뉴목록관리 저장 -->
+	<insert id="insertMenu" parameterType="Map">
+		/* AdminMenuMapper.insertMenu */
+		INSERT INTO TB_MENU (
+			 MENU_PID
+			,MENU_NM
+			,MENU_ORDR
+			,MENU_TYPE
+			,BBS_SEQ
+			,MENU_DEPTH
+			,MENU_URL
+			,MENU_ICON
+			,USE_YN
+			,SITE_CODE
+			,REG_ID
+			,REG_DT
+			,UPD_ID
+			,UPD_DT
+		) VALUES (
+			 #{menuPid}
+			,#{menuNm}
+			,#{menuOrdr}
+			,#{menuType}
+			,NULLIF(#{bbsSeq}, '')
+			,#{menuDepth}
+			,#{menuUrl}
+			,#{menuIcon}
+			,#{useYn}
+			,#{siteCode}
+			,#{userId}
+			,now()
+			,#{userId}
+			,now()
+		)
+	</insert>
+
+	<!-- 메뉴목록관리 수정 -->
+	<update id="updateMenu" parameterType="Map">
+		/* AdminMenuMapper.updateMenu */
+		UPDATE
+			TB_MENU
+		SET
+			 MENU_NM = #{menuNm}
+			,MENU_ORDR = #{menuOrdr}
+			,MENU_TYPE = #{menuType}
+			,BBS_SEQ = NULLIF(#{bbsSeq}, '')
+			,MENU_URL = #{menuUrl}
+			,MENU_ICON = #{menuIcon}
+			,USE_YN = #{useYn}
+			,UPD_ID = #{userId}
+			,UPD_DT = now()
+		WHERE
+			MENU_ID = #{menuId}
+		AND
+			MENU_PID = #{menuPid}
+		AND
+			SITE_CODE = #{siteCode}
+	</update>
+
+	<!-- 메뉴목록관리 삭제 -->
+	<delete id="deleteMenu" parameterType="Map">
+		/* AdminMenuMapper.deleteMenu */
+		DELETE FROM TB_MENU
+		WHERE
+			MENU_ID = #{menuId}
+		AND
+			MENU_PID = #{menuPid}
+		AND
+			SITE_CODE = #{siteCode}
+	</delete>
+
+	<!-- 메뉴권한관리 목록 조회 -->
+	<select id="selectMenuAuthList" parameterType="Map">
+		/* AdminMenuMapper.selectMenuAuthList */
+		SELECT
+			 AUTH_GRP_CD 	AS authGrpCd
+			,MENU_ID 		AS menuId
+			,MENU_PID 		AS menuPid
+			,SITE_CODE 		AS siteCode
+		FROM
+			TB_MENU_AUTH
+		WHERE
+			MENU_ID = #{menuId}
+		AND
+			MENU_PID = #{menuPid}
+		AND
+			SITE_CODE = #{siteCode}
+	</select>
+
+	<!-- 메뉴권한 저장 -->
+	<insert id="insertMenuAuth">
+		/* AdminMenuMapper.insertMenuAuth */
+		INSERT INTO TB_MENU_AUTH (
+			 AUTH_GRP_CD
+			,SITE_CODE
+			,MENU_PID
+			,MENU_ID
+		) VALUES
+		<foreach collection="list" item="item" separator=",">
+			(
+				 #{item.authGrpCd}
+				,#{item.siteCode}
+				,#{item.menuPid}
+				,#{item.menuId}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 메뉴권한 삭제 -->
+	<delete id="deleteMenuAuth">
+		/* AdminMenuMapper.deleteMenuAuth */
+		DELETE FROM TB_MENU_AUTH
+		WHERE
+			(
+				 AUTH_GRP_CD
+				,SITE_CODE
+				,MENU_PID
+				,MENU_ID
+			) IN
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			(
+				 #{item.authGrpCd}
+				,#{item.siteCode}
+				,#{item.menuPid}
+				,#{item.menuId}
+			)
+		</foreach>
+	</delete>
+
+	<!-- 메뉴 상세 정보 조회 -->
+	<select id="selectMenuDtl" parameterType="Map" resultType="Map">
+		/* AdminMenuMapper.selectMenuDtl */
+		SELECT
+			 A.MENU_NM		AS menuNm
+			,A.MENU_ORDR	AS menuOrdr
+			,A.MENU_TYPE	AS menuType
+			,A.BBS_SEQ		AS bbsSeq
+			,A.MENU_DEPTH	AS menuDepth
+			,A.MENU_URL		AS menuUrl
+			,B.USE_YN		AS nttRdcntYn
+		FROM
+			TB_MENU A
+		LEFT JOIN
+			TB_BOARD_MST_FIELD B
+		ON
+			A.BBS_SEQ = B.BBS_SEQ
+		AND
+			COLUMN_NM = 'NTT_RDCNT'
+		WHERE
+			A.MENU_ID = #{mId}
+		AND
+			A.MENU_PID = #{mPid}
+		AND
+			A.SITE_CODE = 'admin'
+	</select>
+</mapper>

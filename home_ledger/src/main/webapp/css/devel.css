@@ -1,0 +1,384 @@
+/* =========================
+   Common (전체 공통)
+========================= */
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f4f6f9;
+}
+
+/* =========================
+   dev Page
+========================= */
+.dev-page {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* dev Card */
+.dev-box {
+    width: 380px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* Header */
+.dev-header {
+    background: #2c3e50;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.dev-header h1 {
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: 1px;
+}
+
+/* Body */
+.dev-body {
+    padding: 30px;
+    max-height: 70vh; /* 화면 높이의 70% */
+    overflow-y: auto;  /* 세로 스크롤 허용 */
+
+}
+
+.dev-body label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #555;
+}
+
+.dev-body input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.dev-body input.btn-63 {
+    width: 63%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.dev-body input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Button */
+.btn-35 {
+    width: 35%;
+    padding: 12px;
+    background: #D3D3D3;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom : 3px;
+}
+
+.dev-btn {
+    width: 100%;
+    padding: 12px;
+    background: #3498db;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom : 3px;
+}
+
+/* Button */
+.dev-btn-gray {
+    width: 100%;
+    padding: 12px;
+    background: #D3D3D3;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom : 3px;
+}
+
+/* Button */
+.dev-btn-gray-50 {
+    width: 49%;
+    padding: 12px;
+    background: #D3D3D3;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom : 3px;
+}
+
+.btn-30:hover {
+    background: #2980b9;
+}
+
+.dev-btn:hover {
+    background: #2980b9;
+}
+
+/* Footer */
+.dev-footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 12px;
+    color: #888;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+}
+
+/* =========================
+   Admin Layout
+========================= */
+
+/* Top Bar */
+.topbar {
+    height: 60px;
+    background: #2c3e50;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+/* Layout */
+.container {
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background: #34495e;
+    min-height: calc(100vh - 60px);
+    color: #fff;
+}
+
+.sidebar h2 {
+    padding: 20px;
+    margin: 0;
+    font-size: 18px;
+    border-bottom: 1px solid #2c3e50;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    padding: 14px 20px;
+    cursor: pointer;
+}
+
+.sidebar li:hover {
+    background: #2c3e50;
+}
+
+/* Main */
+.main {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Cards */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.card {
+    padding: 20px;
+    color: #fff;
+    border-radius: 8px;
+}
+
+.blue { background: #3498db; }
+.green { background: #2ecc71; }
+.orange { background: #e67e22; }
+.purple { background: #9b59b6; }
+
+.card h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+}
+
+.card p {
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Content Sections */
+.section {
+    background: #fff;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background: #f9f9f9;
+}
+
+/*
+	datepicker
+ */
+.ui-datepicker {
+    width: 300px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #e1e4e8;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Header */
+.ui-datepicker-header {
+    background: #2c3e50;
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+}
+
+.ui-datepicker-title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Prev / Next */
+.ui-datepicker-prev,
+.ui-datepicker-next {
+    top: 6px;
+    cursor: pointer;
+}
+
+.ui-datepicker-prev span,
+.ui-datepicker-next span {
+    filter: brightness(0) invert(1);
+}
+
+/* Calendar table */
+.ui-datepicker table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ui-datepicker th {
+    padding: 8px 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.ui-datepicker td {
+    padding: 4px;
+}
+
+/* Day cell */
+.ui-datepicker td a {
+    display: block;
+    padding: 8px 0;
+    border-radius: 6px;
+    text-align: center;
+    color: #333;
+    text-decoration: none;
+    transition: all .15s ease;
+}
+
+/* Hover */
+.ui-datepicker td a:hover {
+    background: #ecf4fb;
+    color: #3498db;
+}
+
+/* Today */
+.ui-datepicker-today a {
+    border: 1px solid #3498db;
+    font-weight: bold;
+}
+
+/* Selected */
+.ui-datepicker-current-day a {
+    background: #3498db !important;
+    color: #fff !important;
+}
+
+/* Disabled */
+.ui-datepicker-unselectable span {
+    color: #ccc;
+}
+
+/* Month / Year select */
+.ui-datepicker select.ui-datepicker-month,
+.ui-datepicker select.ui-datepicker-year {
+    border: none;
+    border-radius: 4px;
+    padding: 4px 6px;
+    font-size: 13px;
+}
+
+.agree-box {
+	margin: 15px 0;
+	font-size: 14px;
+	text-align: center;
+}
+/* SNS 로그인 */
+.sns-wrap {
+    display: flex;
+    gap: 5px;
+}
+
+.sns-btn {
+    flex: 1;
+}
+
+.sns-btn img {
+    width: 100%;
+    height: 45px;
+    object-fit: contain;
+    cursor: pointer;
+}

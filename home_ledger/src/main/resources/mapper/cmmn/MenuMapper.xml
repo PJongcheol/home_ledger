@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="devel.cmmn.menu.mapper.MenuMapper">
+	<!-- 메뉴 조회 -->
+	<select id="getMenu" parameterType="Map" resultType="devel.cmmn.menu.vo.MenuVO">
+		/* MenuMapper.getMenu */
+		SELECT
+			 A.MENU_ID 			AS menuId
+			,A.MENU_PID 		AS menuPid
+			,A.MENU_NM 			AS menuNm
+			,A.MENU_ORDR 		AS menuOrdr
+			,A.MENU_TYPE 		AS menuType
+			,A.MENU_DEPTH 		AS menuDepth
+			,A.MENU_URL 		AS menuUrl
+			,A.MENU_ICON 		AS menuIcon
+			,A.USE_YN 			AS useYn
+			,A.SITE_CODE 		AS siteCode
+		FROM
+			TB_MENU A
+		LEFT JOIN
+			TB_MENU_AUTH B
+		ON
+			A.MENU_ID = B.MENU_ID
+		AND
+			A.MENU_PID = B.MENU_PID
+		AND
+			A.SITE_CODE = B.SITE_CODE
+		WHERE
+			A.MENU_DEPTH != '0'
+		AND
+			A.SITE_CODE = #{siteCode}
+		AND
+			B.AUTH_GRP_CD = #{authGrpCd}
+		ORDER BY
+			A.MENU_ORDR ASC
+	</select>
+</mapper>

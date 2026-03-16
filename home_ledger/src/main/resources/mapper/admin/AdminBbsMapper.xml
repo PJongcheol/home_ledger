@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="devel.admin.bbs.mapper.AdminBbsMapper">
+	<!-- 게시판 목록 카운트 -->
+	<select id="selectBbsMstTotalCount" parameterType="Map">
+		/* AdminBbsMapper.selectBbsMstTotalCount */
+		SELECT
+			COUNT(1)
+		FROM
+			TB_BOARD_MST
+		<where>
+			<if test="bbsType != null and bbsType != ''">
+				AND BBS_TYPE = #{bbsType}
+			</if>
+			<if test="siteCode != null and siteCode != ''">
+				AND SITE_CODE = #{siteCode}
+			</if>
+			<if test="bbsNm != null and bbsNm != ''">
+				AND BBS_NM LIKE CONCAT('%', #{bbsNm}, '%')
+			</if>
+		</where>
+	</select>
+
+	<!-- 게시판 목록 -->
+	<select id="selectBbsMstList" parameterType="Map" resultType="Map">
+		/* AdminBbsMapper.selectBbsMstList */
+		SELECT
+			 BBS_SEQ												AS bbsSeq
+			,BBS_NM													AS bbsNm
+			,BBS_TYPE												AS bbsType
+			,FIXING_YN												AS fixingYn
+			,REPLY_YN												AS replyYn
+			,FILE_ATCH_YN											AS fileAtchYn
+			,FILE_EXT_FLTER											AS fileExtFlter
+			,FILE_ATCH_CO											AS fileAtchCo
+			,VIEWER_YN												AS viewerYn
+			,PAGE_LIST_CO											AS pageListCo
+			,PRHIBT_WRD												AS prhibtWrd
+			,USE_YN													AS useYn
+			,REG_ID													AS regId
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d %H:%i:%s')				AS regDt
+			,UPD_ID													AS updId
+			,DATE_FORMAT(UPD_DT, '%Y-%m-%d %H:%i:%s')				AS updDt
+			,EDITR_YN												AS editrYn
+			,FILE_LMTT_SIZE											AS fileLmttSize
+			,SITE_CODE												AS siteCode
+			,INSERT_YN												AS insertYn
+			,UPDATE_YN												AS updateYn
+			,DELETE_YN												AS deleteYn
+		FROM
+			TB_BOARD_MST
+		<where>
+			<if test="bbsType != null and bbsType != ''">
+				AND BBS_TYPE = #{bbsType}
+			</if>
+			<if test="siteCode != null and siteCode != ''">
+				AND SITE_CODE = #{siteCode}
+			</if>
+			<if test="bbsNm != null and bbsNm != ''">
+				AND BBS_NM LIKE CONCAT('%', #{bbsNm}, '%')
+			</if>
+		</where>
+		ORDER BY
+			REG_DT DESC
+		LIMIT
+			#{offset}, #{pageSize}
+	</select>
+
+	<!-- 게시판 상세 -->
+	<select id="selectBbsDetail" parameterType="Map" resultType="Map">
+		/* AdminBbsMapper.selectBbsDetail */
+		SELECT
+			 BBS_SEQ									AS bbsSeq
+			,BBS_NM										AS bbsNm
+			,BBS_TYPE									AS bbsType
+			,FIXING_YN									AS fixingYn
+			,REPLY_YN									AS replyYn
+			,FILE_ATCH_YN								AS fileAtchYn
+			,FILE_EXT_FLTER								AS fileExtFlter
+			,FILE_ATCH_CO								AS fileAtchCo
+			,VIEWER_YN									AS viewerYn
+			,PAGE_LIST_CO								AS pageListCo
+			,PRHIBT_WRD									AS prhibtWrd
+			,USE_YN										AS useYn
+			,REG_ID										AS regId
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d %H:%i:%s')	AS regDt
+			,UPD_ID										AS updId
+			,DATE_FORMAT(UPD_DT, '%Y-%m-%d %H:%i:%s')	AS updDt
+			,EDITR_YN									AS editrYn
+			,FILE_LMTT_SIZE								AS fileLmttSize
+			,SITE_CODE									AS siteCode
+			,INSERT_YN									AS insertYn
+			,UPDATE_YN									AS updateYn
+			,DELETE_YN									AS deleteYn
+		FROM
+			TB_BOARD_MST
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+	</select>
+
+	<!-- 게시판 필드 상세 목록 -->
+	<select id="selectBbsDtlFieldList" parameterType="Map" resultType="Map">
+		/* AdminBbsMapper.selectBbsDtlFieldList */
+		SELECT
+			 A.COLUMN_NM		AS columnNm
+			,A.COLUMN_SJ		AS columnSj
+			,A.ESSENTIAL_YN		AS essentialYn
+			,B.BBS_SEQ			AS bbsSeq
+			,B.SEQ				AS seq
+			,B.USE_YN			AS useYn
+			,B.ESSNTL_YN		AS essntlYn
+			,B.DETAIL_YN		AS detailYn
+			,B.LIST_YN			AS listYn
+			,B.FIELD_SIZE		AS fieldSize
+			,B.SEARCH_YN		AS searchYn
+			,B.LIST_ORDR		AS listOrdr
+		FROM
+			TB_BOARD_FIELD_LIST A
+		LEFT JOIN
+			TB_BOARD_MST_FIELD B
+		ON
+			A.COLUMN_NM = B.COLUMN_NM
+		AND
+			A.COLUMN_SJ = B.COLUMN_SJ
+		AND
+			B.BBS_SEQ = #{bbsSeq}
+		ORDER BY
+			BFL_SEQ
+	</select>
+
+	<!-- 게시판 필드 목록 -->
+	<select id="selectBbsFieldList" parameterType="Map" resultType="Map">
+		/* AdminBbsMapper.selectBbsFieldList */
+		SELECT
+			 COLUMN_NM		AS columnNm
+			,COLUMN_SJ		AS columnSj
+			,ESSENTIAL_YN	AS essentialYn
+		FROM
+			TB_BOARD_FIELD_LIST
+		ORDER BY
+			BFL_SEQ
+	</select>
+
+	<!-- 게시판 일련번호 -->
+	<select id="selectBbsSeq" resultType="int">
+		/* AdminBbsMapper.selectBbsSeq */
+		SELECT
+			IFNULL(MAX(BBS_SEQ), 0) + 1
+		FROM
+			TB_BOARD_MST
+	</select>
+
+	<!-- 게시판 저장 -->
+	<insert id="insertBbs" parameterType="Map">
+		/* AdminBbsMapper.insertBbs */
+		INSERT INTO TB_BOARD_MST (
+			 BBS_SEQ
+			,BBS_NM
+			,BBS_TYPE
+			,FIXING_YN
+			,REPLY_YN
+			,FILE_ATCH_YN
+			,FILE_EXT_FLTER
+			,FILE_ATCH_CO
+			,VIEWER_YN
+			,PAGE_LIST_CO
+			,PRHIBT_WRD
+			,EDITR_YN
+			,FILE_LMTT_SIZE
+			,SITE_CODE
+			,INSERT_YN
+			,UPDATE_YN
+			,DELETE_YN
+			,USE_YN
+			,REG_ID
+			,REG_DT
+			,UPD_ID
+			,UPD_DT
+		) VALUES (
+			 #{bbsSeq}
+			,#{bbsNm}
+			,#{bbsType}
+			,#{fixingYn}
+			,#{replyYn}
+			,#{fileAtchYn}
+			,#{fileExtFlter}
+			,#{fileAtchCo}
+			,#{viewerYn}
+			,#{pageListCo}
+			,#{prhibtWrd}
+			,#{editrYn}
+			,#{fileLmttSize}
+			,#{siteCode}
+			,IFNULL(#{insertYn}, 'N')
+			,IFNULL(#{updateYn}, 'N')
+			,IFNULL(#{deleteYn}, 'N')
+			,#{useYn}
+			,#{userId}
+			,now()
+			,#{userId}
+			,now()
+		)
+	</insert>
+
+	<!-- 게시판 필드 일련번호 -->
+	<select id="selectBbsFieldSeq" parameterType="Map" resultType="int">
+		/* AdminBbsMapper.selectBbsFieldSeq */
+		SELECT
+			IFNULL(MAX(SEQ), 0) + 1
+		FROM
+			TB_BOARD_MST_FIELD
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+	</select>
+
+	<!-- 게시판 필드 목록 저장 -->
+	<insert id="insertBbsField" parameterType="Map">
+		/* AdminBbsMapper.selectBbsFieldSeq */
+		INSERT INTO TB_BOARD_MST_FIELD (
+			 BBS_SEQ
+			,SEQ
+			,COLUMN_NM
+			,COLUMN_SJ
+			,USE_YN
+			,ESSNTL_YN
+			,DETAIL_YN
+			,LIST_YN
+			,FIELD_SIZE
+			,SEARCH_YN
+			,LIST_ORDR
+		) VALUES (
+			 #{bbsSeq}
+			,#{seq}
+			,#{columnNm}
+			,#{columnSj}
+			,IFNULL(#{useYn}, 'N')
+			,IFNULL(#{essntlYn}, 'N')
+			,IFNULL(#{detailYn}, 'N')
+			,IFNULL(#{listYn}, 'N')
+			,#{fieldSize}
+			,IFNULL(#{searchYn}, 'N')
+			,NULLIF(#{listOrdr}, '')
+		)
+	</insert>
+
+	<!-- 게시판 수정 -->
+	<update id="updateBbs" parameterType="Map">
+		/* AdminBbsMapper.updateBbs */
+		UPDATE TB_BOARD_MST
+		SET
+			 BBS_NM 			= #{bbsNm}
+			,BBS_TYPE 			= #{bbsType}
+			,FIXING_YN 			= #{fixingYn}
+			,REPLY_YN 			= #{replyYn}
+			,FILE_ATCH_YN 		= #{fileAtchYn}
+			,FILE_EXT_FLTER 	= #{fileExtFlter}
+			,FILE_ATCH_CO 		= #{fileAtchCo}
+			,VIEWER_YN 			= #{viewerYn}
+			,PAGE_LIST_CO 		= #{pageListCo}
+			,PRHIBT_WRD 		= #{prhibtWrd}
+			,EDITR_YN 			= #{editrYn}
+			,FILE_LMTT_SIZE 	= #{fileLmttSize}
+			,SITE_CODE 			= #{siteCode}
+			,INSERT_YN 			= IFNULL(#{insertYn}, 'N')
+			,UPDATE_YN 			= IFNULL(#{updateYn}, 'N')
+			,DELETE_YN 			= IFNULL(#{deleteYn}, 'N')
+			,USE_YN 			= #{useYn}
+			,UPD_ID 			= #{userId}
+			,UPD_DT 			= now()
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+	</update>
+
+	<!-- 게시판 필드 수정 -->
+	<update id="updateBbsField" parameterType="Map">
+		/* AdminBbsMapper.updateBbsField */
+		UPDATE TB_BOARD_MST_FIELD
+		SET
+			 COLUMN_NM		= #{columnNm}
+			,COLUMN_SJ		= #{columnSj}
+			,USE_YN			= IFNULL(#{useYn}, 'N')
+			,ESSNTL_YN		= IFNULL(#{essntlYn}, 'N')
+			,DETAIL_YN		= IFNULL(#{detailYn}, 'N')
+			,LIST_YN		= IFNULL(#{listYn}, 'N')
+			,FIELD_SIZE		= #{fieldSize}
+			,SEARCH_YN		= IFNULL(#{searchYn}, 'N')
+			,LIST_ORDR		= NULLIF(#{listOrdr}, '')
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+		AND
+			SEQ = #{seq}
+	</update>
+
+	<!-- 게시판 삭제 -->
+	<delete id="deleteBbs" parameterType="Map">
+		/* AdminBbsMapper.deleteBbs */
+		DELETE FROM TB_BOARD_MST
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+	</delete>
+
+	<!-- 게시판 필드 삭제 -->
+	<delete id="deleteBbsField" parameterType="Map">
+		/* AdminBbsMapper.deleteBbsField */
+		DELETE FROM TB_BOARD_MST_FIELD
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+	</delete>
+
+	<!-- bbs 목록 카운트 -->
+	<select id="selectBbsTotalCount" parameterType="Map" resultType="int">
+		/* AdminBbsMapper.selectBbsTotalCount */
+		SELECT
+			COUNT(1)
+		FROM
+			TB_BOARD A
+		LEFT JOIN
+			TB_MENU B
+		ON
+			A.BBS_SEQ = B.BBS_SEQ
+		AND
+			B.MENU_ID = #{menuId}
+		AND
+			B.MENU_PID = #{menuPid}
+		AND
+			B.SITE_CODE = 'admin'
+		WHERE
+			A.DEL_YN = 'N'
+		<if test="nttSj != null and nttSj != ''">
+			AND A.NTT_SJ LIKE CONCAT('%', #{nttSj}, '%')
+		</if>
+	</select>
+
+	<!-- bbs 목록 조회 -->
+	<select id="selectBbsList" parameterType="Map" resultType="Map">
+		/* AdminBbsMapper.selectBbsList */
+		SELECT
+			 A.NTT_SEQ							AS nttSeq
+			,A.BBS_SEQ							AS bbsSeq
+			,A.NTT_SJ							AS nttSj
+			,A.NTT_RDCNT						AS nttRdcnt
+			,A.REG_ID							AS regId
+			,DATE_FORMAT(A.REG_DT, '%Y-%m-%d') 	AS regDt
+			,A.SECRET_YN						AS secretYn
+		FROM
+			TB_BOARD A
+		LEFT JOIN
+			TB_MENU B
+		ON
+			A.BBS_SEQ = B.BBS_SEQ
+		AND
+			B.MENU_ID = #{menuId}
+		AND
+			B.MENU_PID = #{menuPid}
+		AND
+			B.SITE_CODE = 'admin'
+		WHERE
+			A.DEL_YN = 'N'
+		<if test="nttSj != null and nttSj != ''">
+			AND A.NTT_SJ LIKE CONCAT('%', #{nttSj}, '%')
+		</if>
+		ORDER BY
+			A.REG_DT DESC
+		LIMIT
+			#{offset}, #{pageSize}
+	</select>
+
+	<!-- bbs 비밀번호 체크 -->
+	<select id="bbsPassword" parameterType="Map" resultType="int">
+		/* AdminBbsMapper.bbsPassword */
+		SELECT
+			COUNT(1)
+		FROM
+			TB_BOARD
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+		AND
+			NTT_SEQ = #{nttSeq}
+		AND
+			NTT_PASSWORD = #{nttPassword}
+	</select>
+
+	<!-- bbs 조회 -->
+	<select id="selectBoardMst" parameterType="Map" resultType="Map">
+		/* AdminBbsMapper.selectBoardMst */
+		SELECT
+			 FILE_ATCH_YN				AS fileAtchYn
+			,FILE_EXT_FLTER				AS fileExtFlter
+			,FILE_ATCH_CO				AS fileAtchCo
+			,VIEWER_YN					AS viewerYn
+			,PAGE_LIST_CO				AS pageListCo
+			,PRHIBT_WRD					AS prhibtWrd
+			,EDITR_YN					AS editrYn
+			,FILE_LMTT_SIZE				AS fileLmttSize
+			,INSERT_YN					AS insertYn
+			,UPDATE_YN					AS updateYn
+			,DELETE_YN					AS deleteYn
+		FROM
+			TB_BOARD_MST
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+	</select>
+
+	<!-- bbs 필드 목록 조회 -->
+	<select id="selectAdminBoardFieldList" parameterType="Map" resultType="Map">
+		/* AdminBbsMapper.selectAdminBoardFieldList */
+		SELECT
+			 COLUMN_NM					AS columnNm
+			,COLUMN_SJ					AS columnSj
+			,USE_YN						AS useYn
+			,ESSNTL_YN					AS essntlYn
+			,DETAIL_YN					AS detailYn
+			,LIST_YN					AS listYn
+			,FIELD_SIZE					AS fieldSize
+			,SEARCH_YN					AS searchYn
+			,LIST_ORDR					AS listOrdr
+		FROM
+			TB_BOARD_MST_FIELD
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+		ORDER BY
+			LIST_ORDR, SEQ
+	</select>
+
+	<!-- bbs 상세 조회 -->
+	<select id="selectBoardDtl" parameterType="Map" resultType="Map">
+		/* AdminBbsMapper.selectBoardDtl */
+		SELECT
+			 NTT_SEQ									AS nttSeq
+			,BBS_SEQ									AS bbsSeq
+			,SITE_CODE									AS siteCode
+			,NTT_SJ										AS nttSj
+			,NTT_CN										AS nttCn
+			,NTT_RDCNT									AS nttRdcnt
+			,ATCHFILENO									AS atchfileno
+			,USE_YN										AS useYn
+			,REG_ID										AS regId
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d %H:%i:%s')	AS regDt
+			,UPD_ID										AS updId
+			,DATE_FORMAT(UPD_DT, '%Y-%m-%d %H:%i:%s')	AS updDt
+			,SECRET_YN									AS secretYn
+		FROM
+			TB_BOARD
+		WHERE
+			NTT_SEQ = #{nttSeq}
+		AND
+			BBS_SEQ = #{bbsSeq}
+	</select>
+
+	<!-- bbs 일련번호 조회 -->
+	<select id="selectBoardSeq" parameterType="Map" resultType="int">
+		/* AdminBbsMapper.selectBoardSeq */
+		SELECT
+			IFNULL(MAX(NTT_SEQ), 0) + 1
+		FROM
+			TB_BOARD
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+	</select>
+
+	<!-- bbs 저장 -->
+	<insert id="insertBoard" parameterType="Map">
+		/* AdminBbsMapper.insertBoard */
+		INSERT INTO TB_BOARD (
+			 BBS_SEQ
+			,NTT_SEQ
+			,SITE_CODE
+			,NTT_SJ
+			,NTT_CN
+			,NTT_RDCNT
+			,NTT_PASSWORD
+			,ATCHFILENO
+			,BGNDE
+			,ENDDE
+			,USE_YN
+			,REG_ID
+			,REG_DT
+			,UPD_ID
+			,UPD_DT
+			,DEL_YN
+			,SECRET_YN
+		) VALUES (
+			 #{bbsSeq}
+			,#{nttSeq}
+			,#{siteCode}
+			,#{nttSj}
+			,#{nttCn}
+			,0
+			,#{nttPassword}
+			,#{atchfileno}
+			,#{bgnde}
+			,#{endde}
+			,#{useYn}
+			,#{userId}
+			,now()
+			,#{userId}
+			,now()
+			,'N'
+			,#{secretYn}
+		)
+	</insert>
+
+	<!-- bbs 수정 -->
+	<update id="updateBoard" parameterType="Map">
+		/* AdminBbsMapper.updateBoard */
+		UPDATE
+			TB_BOARD
+		SET
+			 SITE_CODE = #{siteCode}
+			,NTT_SJ = #{nttSj}
+			,NTT_CN = #{nttCn}
+			,NTT_PASSWORD = #{nttPassword}
+			,ATCHFILENO = #{atchfileno}
+			,BGNDE = #{bgnde}
+			,ENDDE = #{endde}
+			,USE_YN = #{useYn}
+			,UPD_ID = #{userId}
+			,UPD_DT = now()
+			,SECRET_YN = #{secretYn}
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+		AND
+			NTT_SEQ = #{nttSeq}
+	</update>
+
+	<!-- bbs 삭제 -->
+	<update id="deleteBoard" parameterType="Map">
+		/* AdminBbsMapper.deleteBoard */
+		UPDATE
+			TB_BOARD
+		SET
+			 DEL_YN = 'Y'
+			,UPD_ID = #{userId}
+			,UPD_DT = now()
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+		AND
+			NTT_SEQ = #{nttSeq}
+	</update>
+
+	<!-- bbs 조회수 업데이트 -->
+	<update id="updateBoardRdcnt" parameterType="Map">
+		/* AdminBbsMapper.updateBoardRdcnt */
+		UPDATE
+			TB_BOARD
+		SET
+			 NTT_RDCNT = NTT_RDCNT + 1
+		WHERE
+			BBS_SEQ = #{bbsSeq}
+		AND
+			NTT_SEQ = #{nttSeq}
+	</update>
+</mapper>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="devel.admin.user.mapper.AdminUserMapper">
+	<!-- 사용자 목록 카운트 -->
+	<select id="selectUserTotalCount" parameterType="Map" resultType="int">
+		/* AdminUserMapper.selectUserTotalCount */
+		SELECT
+			COUNT(1)
+		FROM
+			TB_USER_INFO
+		<where>
+			<if test="masterCode != null and masterCode != ''">
+				AND MASTER_CODE = #{masterCode}
+			</if>
+			<if test="confmYn != null and confmYn != ''">
+				AND CONFM_YN = #{confmYn}
+			</if>
+			<if test="useYn != null and useYn != ''">
+				AND USE_YN = #{useYn}
+			</if>
+			<if test="memberId != null and memberId != ''">
+				AND MEMBER_ID LIKE CONCAT('%', #{memberId}, '%')
+			</if>
+			<if test="memberNm != null and memberNm != ''">
+				AND MEMBER_NM LIKE CONCAT('%', #{memberNm}, '%')
+			</if>
+		</where>
+	</select>
+
+	<!-- 사용자 목록 조회 -->
+	<select id="selectUserList" parameterType="Map" resultType="Map">
+		/* AdminUserMapper.selectUserList */
+		SELECT
+			 MEMBER_ID									AS memberId
+			,AUTH_GRP_CD								AS authGrpCd
+			,MEMBER_NM 									AS memberNm
+			,MEMBER_PW 									AS memberPw
+			,MASTER_CODE 								AS masterCode
+			,MEMBER_EMAIL 								AS memberEmail
+			,MEMBER_BRTHDY 								AS memberBrthdy
+			,MEMBER_PHONE 								AS memberPhone
+			,MEMBER_POST 								AS memberPost
+			,MEMBER_ADDR 								AS memberAddr
+			,MEMBER_ADDR_DETL 							AS memberAddrDetl
+			,CONFM_YN 									AS confmYn
+			,JOIN_DE									AS joinDe
+			,CONFM_ID 									AS confmId
+			,CONFM_DT 									AS confmDt
+			,PASSWORD_UPD_DT 							AS passwordUpdDt
+			,LAST_LOGIN_DT 								AS lastLoginDt
+			,USE_YN 									AS useYn
+			,UPD_ID 									AS updId
+			,DATE_FORMAT(UPD_DT, '%Y-%m-%d %H:%i:%s') 	AS updDt
+			,FAIL_CNT 									AS failCnt
+		FROM
+			TB_USER_INFO
+		<where>
+			<if test="masterCode != null and masterCode != ''">
+				AND MASTER_CODE = #{masterCode}
+			</if>
+			<if test="confmYn != null and confmYn != ''">
+				AND CONFM_YN = #{confmYn}
+			</if>
+			<if test="useYn != null and useYn != ''">
+				AND USE_YN = #{useYn}
+			</if>
+			<if test="memberId != null and memberId != ''">
+				AND MEMBER_ID LIKE CONCAT('%', #{memberId}, '%')
+			</if>
+			<if test="memberNm != null and memberNm != ''">
+				AND MEMBER_NM LIKE CONCAT('%', #{memberNm}, '%')
+			</if>
+		</where>
+		ORDER BY
+			JOIN_DE DESC
+		LIMIT #{offset}, #{pageSize}
+	</select>
+
+	<!-- 사용자 상세 조회 -->
+	<select id="selectUserDetail" parameterType="Map" resultType="Map">
+		/* AdminUserMapper.selectUserDetail */
+		SELECT
+			 MEMBER_ID									AS memberId
+			,AUTH_GRP_CD								AS authGrpCd
+			,MEMBER_NM 									AS memberNm
+			,MEMBER_PW 									AS memberPw
+			,MASTER_CODE 								AS masterCode
+			,MEMBER_EMAIL 								AS memberEmail
+			,MEMBER_BRTHDY 								AS memberBrthdy
+			,MEMBER_PHONE 								AS memberPhone
+			,MEMBER_POST 								AS memberPost
+			,MEMBER_ADDR 								AS memberAddr
+			,MEMBER_ADDR_DETL 							AS memberAddrDetl
+			,CONFM_YN 									AS confmYn
+			,JOIN_DE									AS joinDe
+			,CONFM_ID 									AS confmId
+			,CONFM_DT 									AS confmDt
+			,PASSWORD_UPD_DT 							AS passwordUpdDt
+			,LAST_LOGIN_DT 								AS lastLoginDt
+			,USE_YN 									AS useYn
+			,UPD_ID 									AS updId
+			,DATE_FORMAT(UPD_DT, '%Y-%m-%d %H:%i:%s') 	AS updDt
+			,FAIL_CNT 									AS failCnt
+		FROM
+			TB_USER_INFO
+		WHERE
+			MEMBER_ID = #{memberId}
+	</select>
+
+	<!-- 사용자 상세 저장 -->
+	<update id="saveUser" parameterType="Map">
+		/* AdminUserMapper.saveUser */
+		UPDATE TB_USER_INFO
+		SET
+			 AUTH_GRP_CD 		= #{masterCode}
+			,MEMBER_NM   		= #{memberNm}
+			,MASTER_CODE 		= #{masterCode}
+			,MEMBER_EMAIL 		= #{memberEmail}
+			,MEMBER_BRTHDY		= #{memberBrthdy}
+			,MEMBER_PHONE		= #{memberPhone}
+			,MEMBER_POST 		= #{memberPost}
+			,MEMBER_ADDR 		= #{memberAddr}
+			,MEMBER_ADDR_DETL 	= #{memberAddrDetl}
+			,CONFM_YN 			= #{confmYn}
+			,CONFM_ID 			= #{userId}
+			,CONFM_DT 			= now()
+			,USE_YN 			= #{useYn}
+			,UPD_ID 			= #{userId}
+			,UPD_DT				= now()
+		WHERE
+			MEMBER_ID = #{memberId}
+	</update>
+
+	<!-- 로그인 실패 카운트 초기화 -->
+	<update id="loginCountReset" parameterType="Map">
+		/* AdminUserMapper.loginCountReset */
+		UPDATE TB_USER_INFO
+		SET
+			 FAIL_CNT	= 0
+			,UPD_ID 	= #{userId}
+			,UPD_DT		= now()
+		WHERE
+			MEMBER_ID = #{memberId}
+	</update>
+
+	<!-- 로그인 이력 목록 카운트 -->
+	<select id="selectLogTotalCount" parameterType="Map" resultType="int">
+		/* AdminUserMapper.selectLogTotalCount */
+		SELECT
+			COUNT(1)
+		FROM
+			TB_LOGIN_HIS
+		<where>
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND DATE_FORMAT(LOGIN_DT, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+			</if>
+			<if test="memberId != null and memberId != ''">
+				AND MEMBER_ID LIKE CONCAT('%', #{memberId}, '%')
+			</if>
+			<if test="memberNm != null and memberNm != ''">
+				AND MEMBER_NM LIKE CONCAT('%', #{memberNm}, '%')
+			</if>
+		</where>
+	</select>
+
+	<!-- 로그인 이력 목록 조회 -->
+	<select id="selectLogList" parameterType="Map" resultType="Map">
+		/* AdminUserMapper.selectLogList */
+		SELECT
+			 A.MEMBER_ID									AS memberId
+			,A.LOGIN_IP										AS loginIp
+			,DATE_FORMAT(LOGIN_DT, '%Y-%m-%d %H:%i:%s') 	AS loginDt
+			,B.MEMBER_NM									AS memberNm
+			,B.MEMBER_EMAIL									AS memberEmail
+			,B.MEMBER_BRTHDY								AS memberBrthdy
+			,B.MEMBER_PHONE									AS memberPhone
+		FROM
+			TB_LOGIN_HIS A
+		LEFT JOIN
+			TB_USER_INFO B
+		ON
+			A.MEMBER_ID = B.MEMBER_ID
+		<where>
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND DATE_FORMAT(A.LOGIN_DT, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+			</if>
+			<if test="memberId != null and memberId != ''">
+				AND A.MEMBER_ID LIKE CONCAT('%', #{memberId}, '%')
+			</if>
+			<if test="memberNm != null and memberNm != ''">
+				AND A.MEMBER_NM LIKE CONCAT('%', #{memberNm}, '%')
+			</if>
+		</where>
+		ORDER BY
+			A.LOGIN_DT DESC
+		LIMIT #{offset}, #{pageSize}
+	</select>
+</mapper>
