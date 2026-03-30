@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="devel.user.settings.mapper.UserSettingsMapper">
+	<!-- 통장/카드 관리 목록 카운트 -->
+	<select id="selectAccountTotalCount" parameterType="Map" resultType="int">
+		/* userSettingsMapper.selectAccountTotalCount */
+		SELECT
+			COUNT(1)
+		FROM
+			TB_ACCOUNT_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			DEL_YN = 'N'
+		<if test="aiSe != null and aiSe != ''">
+			AND AI_SE = #{aiSe}
+		</if>
+		<if test="cardType != null and cardType != ''">
+			AND CARD_TYPE = #{cardType}
+		</if>
+		<if test="useYn != null and useYn != ''">
+			AND USE_YN = #{useYn}
+		</if>
+		<if test="aiNm != null and aiNm != ''">
+			AND AI_NM LIKE CONCAT('%', #{aiNm} ,'%')
+		</if>
+	</select>
+
+	<!-- 통장/카드 관리 목록 -->
+	<select id="selectAccountList" parameterType="Map" resultType="Map">
+		/* userSettingsMapper.selectAccountList */
+		SELECT
+			 AI_SEQ					 		 AS aiSeq
+			,AI_SE					 		 AS aiSe
+			,CASE
+				WHEN AI_SE = 'B' THEN (SELECT BANK_NAME FROM BANK_CODE WHERE BANK_CODE = AI_CODE)
+				ELSE (SELECT CARD_NAME FROM CARD_CODE WHERE CARD_CODE = AI_CODE)
+			 END 							 AS aiCode
+			,AI_NM					 		 AS aiNm
+			,CARD_TYPE					 	 AS cardType
+			,SPEND_BGN_MT_SE				 AS spendBgnMtSe
+			,SPEND_BGN_DAY					 AS spendBgnDay
+			,SPEND_END_MT_SE				 AS spendEndMtSe
+			,SPEND_END_DAY					 AS spendEndDay
+			,USE_YN							 AS useYn
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d') AS regDt
+		FROM
+			TB_ACCOUNT_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			DEL_YN = 'N'
+		<if test="aiSe != null and aiSe != ''">
+			AND AI_SE = #{aiSe}
+		</if>
+		<if test="cardType != null and cardType != ''">
+			AND CARD_TYPE = #{cardType}
+		</if>
+		<if test="useYn != null and useYn != ''">
+			AND USE_YN = #{useYn}
+		</if>
+		<if test="aiNm != null and aiNm != ''">
+			AND AI_NM LIKE CONCAT('%', #{aiNm} ,'%')
+		</if>
+		ORDER BY
+			REG_DT DESC
+		LIMIT
+			#{offset}, #{pageSize}
+	</select>
+
+	<!-- 통장/카드 관리 상세 -->
+	<select id="selectAccountDtl" parameterType="Map" resultType="Map">
+		/* userSettingsMapper.selectAccountDtl */
+		SELECT
+			 AI_SEQ					 		 AS aiSeq
+			,AI_SE					 		 AS aiSe
+			,AI_CODE					 	 AS aiCode
+			,AI_NM					 		 AS aiNm
+			,CARD_TYPE					 	 AS cardType
+			,SPEND_BGN_MT_SE				 AS spendBgnMtSe
+			,SPEND_BGN_DAY					 AS spendBgnDay
+			,SPEND_END_MT_SE				 AS spendEndMtSe
+			,SPEND_END_DAY					 AS spendEndDay
+			,AI_RM							 AS aiRm
+			,USE_YN							 AS useYn
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d') AS regDt
+		FROM
+			TB_ACCOUNT_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+	</select>
+
+	<!-- 통장/카드 일련번호 -->
+	<select id="selectAccountSeq" parameterType="Map" resultType="int">
+		/* userSettingsMapper.selectAccountSeq */
+		SELECT
+			IFNULL(MAX(AI_SEQ), 0) + 1
+		FROM
+			TB_ACCOUNT_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+	</select>
+
+	<!-- 통장/카드 저장 -->
+	<insert id="insertAccount" parameterType="Map">
+		/* userSettingsMapper.insertAccount */
+		INSERT INTO TB_ACCOUNT_INFO (
+			 MEMBER_ID
+			,AI_SEQ
+			,AI_SE
+			,AI_CODE
+			,AI_NM
+			,CARD_TYPE
+			,SPEND_BGN_MT_SE
+			,SPEND_BGN_DAY
+			,SPEND_END_MT_SE
+			,SPEND_END_DAY
+			,AI_RM
+			,USE_YN
+			,DEL_YN
+			,REG_ID
+			,REG_DT
+			,UPD_ID
+			,UPD_DT
+		) VALUES (
+			 #{userId}
+			,#{aiSeq}
+			,#{aiSe}
+			,#{aiCode}
+			,#{aiNm}
+			,#{cardType}
+			,#{spendBgnMtSe}
+			,#{spendBgnDay}
+			,#{spendEndMtSe}
+			,#{spendEndDay}
+			,#{aiRm}
+			,#{useYn}
+			,'N'
+			,#{userId}
+			,now()
+			,#{userId}
+			,now()
+		)
+	</insert>
+
+	<!-- 통장/카드 수정 -->
+	<update id="updateAccount" parameterType="Map">
+		/* userSettingsMapper.updateAccount */
+		UPDATE TB_ACCOUNT_INFO
+		SET
+			 AI_SE 				= #{aiSe}
+			,AI_CODE 			= #{aiCode}
+			,AI_NM 				= #{aiNm}
+			,CARD_TYPE 			= #{cardType}
+			,SPEND_BGN_MT_SE 	= #{spendBgnMtSe}
+			,SPEND_BGN_DAY 		= #{spendBgnDay}
+			,SPEND_END_MT_SE 	= #{spendEndMtSe}
+			,SPEND_END_DAY 		= #{spendEndDay}
+			,AI_RM 				= #{aiRm}
+			,USE_YN 			= #{useYn}
+			,UPD_ID 			= #{userId}
+			,UPD_DT 			= now()
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+	</update>
+
+	<!-- 통장/카드 수정 -->
+	<update id="deleteAccount" parameterType="Map">
+		/* userSettingsMapper.deleteAccount */
+		UPDATE TB_ACCOUNT_INFO
+		SET
+			 DEL_YN				= 'Y'
+			,UPD_ID 			= #{userId}
+			,UPD_DT 			= now()
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+	</update>
+
+	<!-- 카테고리 목록 조회 -->
+	<select id="selectCategoryList" parameterType="Map" resultType="Map">
+		/* userSettingsMapper.selectCategoryList */
+		SELECT
+			 CATEGORY_CODE AS categoryCode
+			,CATEGORY_NAME AS categoryName
+		FROM
+			CATEGORY_CODE
+		<where>
+			<if test="categoryCode != null and categoryCode != ''">
+				AND CATEGORY_CODE = #{categoryCode}
+			</if>
+		</where>
+		ORDER BY
+			CATEGORY_CODE
+	</select>
+
+	<!-- 카테고리 목록 조회 -->
+	<select id="selectSubCategoryList" parameterType="Map" resultType="Map">
+		/* userSettingsMapper.selectSubCategoryList */
+		SELECT
+			 CATEGORY_CODE					 AS categoryCode
+			,CI_SEQ 						 AS ciSeq
+			,CI_NM  						 AS ciNm
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d') AS regDt
+		FROM
+			TB_CATEGORY_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			CATEGORY_CODE = #{categoryCode}
+		AND
+			DEL_YN = 'N'
+		ORDER BY
+			CI_SEQ
+	</select>
+
+	<!-- 카테고리 상세 -->
+	<select id="selectCategoryDtl" parameterType="Map" resultType="Map">
+		/* userSettingsMapper.selectCategoryDtl */
+		SELECT
+			 CATEGORY_CODE  					AS categoryCode
+			,CI_SEQ								AS ciSeq
+			,CI_NM								AS ciNm
+			,REG_ID								AS regId
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d') 	AS regDt
+			,UPD_ID								AS updId
+			,DATE_FORMAT(UPD_DT, '%Y-%m-%d')	AS updDt
+		FROM
+			TB_CATEGORY_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			CATEGORY_CODE = #{categoryCode}
+		AND
+			CI_SEQ = #{ciSeq}
+		AND
+			DEL_YN = 'N'
+	</select>
+
+	<!-- 카테고리 일련번호 -->
+	<select id="selectCategorySeq" parameterType="Map" resultType="int">
+		/* userSettingsMapper.selectCategorySeq */
+		SELECT
+			IFNULL(MAX(CI_SEQ), 0) + 1
+		FROM
+			TB_CATEGORY_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			CATEGORY_CODE = #{categoryCode}
+	</select>
+
+	<!-- 카테고리 저장 -->
+	<insert id="insertCategory" parameterType="Map">
+		/* userSettingsMapper.insertCategory */
+		INSERT INTO TB_CATEGORY_INFO (
+			 MEMBER_ID
+			,CATEGORY_CODE
+			,CI_SEQ
+			,CI_NM
+			,DEL_YN
+			,REG_ID
+			,REG_DT
+			,UPD_ID
+			,UPD_DT
+		) VALUES (
+			 #{userId}
+			,#{categoryCode}
+			,#{ciSeq}
+			,#{ciNm}
+			,'N'
+			,#{userId}
+			,now()
+			,#{userId}
+			,now()
+		)
+	</insert>
+
+	<!-- 카테고리 수정 -->
+	<update id="updateCategory" parameterType="Map">
+		/* userSettingsMapper.updateCategory */
+		UPDATE
+			TB_CATEGORY_INFO
+		SET
+			 CI_NM  = #{ciNm}
+			,UPD_ID = #{userId}
+			,UPD_DT = now()
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			CATEGORY_CODE = #{categoryCode}
+		AND
+			CI_SEQ = #{ciSeq}
+	</update>
+
+	<!-- 카테고리 삭제 -->
+	<update id="deleteCategory" parameterType="Map">
+		/* userSettingsMapper.deleteCategory */
+		UPDATE
+			TB_CATEGORY_INFO
+		SET
+			 DEL_YN = 'Y'
+			,UPD_ID = #{userId}
+			,UPD_DT = now()
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			CATEGORY_CODE = #{categoryCode}
+		AND
+			CI_SEQ = #{ciSeq}
+	</update>
+
+	<!-- 고정지출 통장/카드 목록 -->
+	<select id="selectFiexedExpenseAccountList" parameterType="Map" resultType="Map">
+		/* userSettingsMapper.selectFiexedExpenseAccountList */
+		SELECT
+			 AI_SEQ					 		 AS aiSeq
+			,AI_SE					 		 AS aiSe
+			,AI_CODE					 	 AS aiCode
+			,AI_NM					 		 AS aiNm
+			,CARD_TYPE					 	 AS cardType
+			,SPEND_BGN_MT_SE				 AS spendBgnMtSe
+			,SPEND_BGN_DAY					 AS spendBgnDay
+			,SPEND_END_MT_SE				 AS spendEndMtSe
+			,SPEND_END_DAY					 AS spendEndDay
+			,USE_YN							 AS useYn
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d') AS regDt
+		FROM
+			TB_ACCOUNT_INFO A
+		WHERE
+			A.MEMBER_ID = #{userId}
+		AND
+			A.DEL_YN = 'N'
+		ORDER BY
+			A.REG_DT DESC
+	</select>
+
+	<!-- 고정지출 목록 -->
+	<select id="selectFixedExpenseList" parameterType="Map" resultType="Map">
+		/* userSettingsMapper.selectFixedExpenseList */
+		SELECT
+			 AI_SEQ							 AS aiSeq
+			,FEI_SEQ						 AS feiSeq
+			,CATEGORY_CODE					 AS categoryCode
+			,CI_SEQ							 AS ciSeq
+			,INOUT_TYPE						 AS inoutType
+			,AMOUNT							 AS amount
+			,TRAN_DAY						 AS tranDay
+			,REMARK							 AS remark
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d') AS regDt
+		FROM
+			TB_FIXED_EXPENSE_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+		AND
+			DEL_YN = 'N'
+		ORDER BY
+			FEI_SEQ
+	</select>
+
+	<!-- 고정지출 상세 -->
+	<select id="selectFixedExpenseDtl" parameterType="Map" resultType="Map">
+		/* userSettingsMapper.selectFixedExpenseDtl */
+		SELECT
+			 AI_SEQ							 AS aiSeq
+			,FEI_SEQ						 AS feiSeq
+			,CATEGORY_CODE					 AS categoryCode
+			,CI_SEQ							 AS ciSeq
+			,INOUT_TYPE						 AS inoutType
+			,AMOUNT							 AS amount
+			,TRAN_DAY						 AS tranDay
+			,REMARK							 AS remark
+			,REG_ID							 AS regId
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d') AS regDt
+			,UPD_ID							 AS updId
+			,DATE_FORMAT(UPD_DT, '%Y-%m-%d') AS updDt
+		FROM
+			TB_FIXED_EXPENSE_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+		AND
+			FEI_SEQ = #{feiSeq}
+		AND
+			DEL_YN = 'N'
+	</select>
+
+	<!-- 카테고리 상세 -->
+	<select id="selectCategory" parameterType="Map" resultType="Map">
+		/* userSettingsMapper.selectCategory */
+		SELECT
+			 CI_SEQ								AS ciSeq
+			,CI_NM								AS ciNm
+		FROM
+			TB_CATEGORY_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			CATEGORY_CODE = #{categoryCode}
+		AND
+			DEL_YN = 'N'
+		ORDER BY
+			CI_SEQ
+	</select>
+
+	<!-- 고정지출 일련번호 -->
+	<select id="selectFixedExpenseSeq" parameterType="Map">
+		/* userSettingsMapper.selectFixedExpenseDtl */
+		SELECT
+			IFNULL(MAX(FEI_SEQ), 0) + 1
+		FROM
+			TB_FIXED_EXPENSE_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+	</select>
+
+	<!-- 고정지출 저장 -->
+	<insert id="insertFixedExpense" parameterType="Map">
+		/* userSettingsMapper.insertFixedExpense */
+		INSERT INTO TB_FIXED_EXPENSE_INFO (
+			 MEMBER_ID
+			,AI_SEQ
+			,FEI_SEQ
+			,CATEGORY_CODE
+			,CI_SEQ
+			,INOUT_TYPE
+			,AMOUNT
+			,TRAN_DAY
+			,REMARK
+			,DEL_YN
+			,REG_ID
+			,REG_DT
+			,UPD_ID
+			,UPD_DT
+		) VALUES (
+			 #{userId}
+			,#{aiSeq}
+			,#{feiSeq}
+			,#{categoryCode}
+			,#{ciSeq}
+			,#{inoutType}
+			,REPLACE(#{amount}, ',', '')
+			,#{tranDay}
+			,#{remark}
+			,'N'
+			,#{userId}
+			,now()
+			,#{userId}
+			,now()
+		)
+	</insert>
+
+	<!-- 고정지출 수정 -->
+	<update id="updateFixedExpense" parameterType="Map">
+		/* userSettingsMapper.updateFixedExpense */
+		UPDATE
+			TB_FIXED_EXPENSE_INFO
+		SET
+			 CATEGORY_CODE 	= #{categoryCode}
+			,CI_SEQ 		= #{ciSeq}
+			,INOUT_TYPE 	= #{inoutType}
+			,AMOUNT 		= REPLACE(#{amount}, ',', '')
+			,TRAN_DAY 		= #{tranDay}
+			,REMARK 		= #{remark}
+			,UPD_ID 		= #{userId}
+			,UPD_DT 		= now()
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+		AND
+			FEI_SEQ = #{feiSeq}
+	</update>
+
+	<!-- 고정지출 삭제 -->
+	<update id="deleteFixedExpense" parameterType="Map">
+		/* userSettingsMapper.deleteFixedExpense */
+		UPDATE
+			TB_FIXED_EXPENSE_INFO
+		SET
+			 DEL_YN			= 'Y'
+			,UPD_ID 		= #{userId}
+			,UPD_DT 		= now()
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+		AND
+			FEI_SEQ = #{feiSeq}
+	</update>
+
+	<!-- 사용 가능 가계부 목록 -->
+	<select id="selectUseBookViewConfigList" parameterType="Map" resultType="Map">
+		 /* userSettingsMapper.selectUseBookViewConfigList */
+		 SELECT
+			 A.SEQ			AS seq
+			,A.BC_NM		AS bcNm
+			,A.REQUIRED_YN	AS requiredYn
+			,B.BS_ORDER		AS bsOrder
+		FROM
+			BOOK_CODE A
+		LEFT JOIN
+			TB_BOOK_VIEW_CONFIG B
+		ON
+			A.SEQ = B.SEQ
+		AND
+			B.MEMBER_ID = #{userId}
+		WHERE
+			B.BS_ORDER IS NULL
+		ORDER BY
+			A.SEQ
+	</select>
+
+	<!-- 사용중인 가계부 목록 -->
+	<select id="selectUsedBookViewConfigList" parameterType="Map" resultType="Map">
+		/* userSettingsMapper.selectUsedBookViewConfigList */
+		SELECT
+			 A.SEQ			AS seq
+			,A.BC_NM		AS bcNm
+			,A.REQUIRED_YN	AS requiredYn
+			,B.BS_ORDER		AS bsOrder
+		FROM
+			BOOK_CODE A
+		LEFT JOIN
+			TB_BOOK_VIEW_CONFIG B
+		ON
+			A.SEQ = B.SEQ
+		AND
+			B.MEMBER_ID = #{userId}
+		WHERE
+			B.BS_ORDER IS NOT NULL
+		ORDER BY
+			B.BS_ORDER
+	</select>
+
+	<!-- 가계부 목록 저장 -->
+	<insert id="addBookViewConfig" parameterType="Map">
+		/* userSettingsMapper.addBookViewConfig */
+		INSERT INTO TB_BOOK_VIEW_CONFIG (
+			 MEMBER_ID
+			,SEQ
+			,BS_ORDER
+		) VALUES (
+			 #{userId}
+			,#{seq}
+			,#{bsOrder}
+		)
+	</insert>
+
+	<!-- 가계부 목록 전체 삭제 -->
+	<delete id="deleteAllBookViewConfig" parameterType="Map">
+		/* userSettingsMapper.deleteAllBookViewConfig */
+		DELETE FROM
+			TB_BOOK_VIEW_CONFIG
+		WHERE
+			MEMBER_ID = #{userId}
+	</delete>
+
+	<!-- 가계부 목록 삭제 -->
+	<delete id="deleteBookViewConfig" parameterType="Map">
+		/* userSettingsMapper.deleteBookViewConfig */
+		DELETE FROM
+			TB_BOOK_VIEW_CONFIG
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			SEQ = #{seq}
+	</delete>
+
+	<!-- 신규 유저 가계부 목록 추가 -->
+	<insert id="addSignUpBookViewConfig" parameterType="Map">
+		/* userSettingsMapper.addSignUpBookViewConfig */
+		INSERT INTO TB_BOOK_VIEW_CONFIG
+		SELECT
+			#{userId}, SEQ, SEQ
+		FROM
+			BOOK_CODE
+	</insert>
+</mapper>

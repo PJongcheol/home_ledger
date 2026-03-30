@@ -123,7 +123,7 @@ public class AdminUserController extends BaseController {
 			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
 
 		// 로그인 사용자 정보
-    	LoginVO user = (LoginVO) request.getSession().getAttribute("LoginVO");
+    	LoginVO user = (LoginVO) session.getAttribute("LoginVO");
     	param.put("userId", user.getMemberId());
 
 		Map<String, Object> result = new HashMap<>();
@@ -151,7 +151,7 @@ public class AdminUserController extends BaseController {
 			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
 
 		// 로그인 사용자 정보
-    	LoginVO user = (LoginVO) request.getSession().getAttribute("LoginVO");
+    	LoginVO user = (LoginVO) session.getAttribute("LoginVO");
     	param.put("userId", user.getMemberId());
 
 		Map<String, Object> result = new HashMap<>();

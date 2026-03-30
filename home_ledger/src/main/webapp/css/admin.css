@@ -9,6 +9,12 @@ header {
     position:sticky; top:0; z-index:100;
 }
 header .logo { font-weight:bold; font-size:20px; }
+
+header .logo img {
+    max-height: 40px;
+    width: auto;
+}
+
 header .user { display:flex; align-items:center; gap:10px; }
 
 /* Layout */

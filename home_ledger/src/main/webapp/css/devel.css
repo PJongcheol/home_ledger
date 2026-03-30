@@ -32,9 +32,9 @@ body {
 
 /* Header */
 .dev-header {
-    background: #2c3e50;
+/*     background: #2c3e50; */
     color: #fff;
-    padding: 20px;
+/*     padding: 5px; */
     text-align: center;
 }
 
@@ -42,6 +42,11 @@ body {
     margin: 0;
     font-size: 22px;
     letter-spacing: 1px;
+}
+
+.dev-header img {
+    max-width: 100%;
+    height: auto;
 }
 
 /* Body */

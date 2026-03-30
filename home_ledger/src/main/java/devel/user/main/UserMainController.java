@@ -5,11 +5,11 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import devel.cmmn.base.BaseController;
-import devel.cmmn.login.vo.LoginVO;
 import jakarta.servlet.http.HttpSession;
 
 /**
@@ -32,6 +32,23 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/user/main")
 public class UserMainController extends BaseController{
+	/**
+     * 메인 대시보드
+     * @Method : dashboard
+     * @param request
+     * @param response
+     * @param throws
+     * @throws Exception
+     * @return : String
+     */
+	@PostMapping(value ="/dashboard.do")
+	public String dashboard(@RequestParam Map<String, Object> param
+			, ModelMap model, HttpSession session) throws Exception {
+
+		return "redirect:/user/main/index.do";
+
+	}
+
 	/**
      * 메인 대시보드
      * @Method : index

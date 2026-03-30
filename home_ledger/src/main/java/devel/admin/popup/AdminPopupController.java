@@ -133,7 +133,7 @@ public class AdminPopupController extends BaseController {
 			, @RequestParam(value="files", required=false) List<MultipartFile> files
 			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
 
-		LoginVO user = (LoginVO) request.getSession().getAttribute("LoginVO");
+		LoginVO user = (LoginVO) session.getAttribute("LoginVO");
 		param.put("userId", user.getMemberId());
 		param.put("dir", "popup");
 

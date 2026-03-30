@@ -37,4 +37,55 @@
 		WHERE
 			MEMBER_ID = #{memberId}
 	</update>
+
+	<!-- 은행 목록 조회 -->
+	<select id="selectBankList" resultType="Map">
+		/* EtcMapper.selectBankList */
+		SELECT
+			 BANK_CODE AS bankCode
+			,BANK_NAME AS bankName
+		FROM
+			BANK_CODE
+		ORDER BY
+			BANK_CODE
+	</select>
+
+	<!-- 카드 목록 조회 -->
+	<select id="selectCardList" resultType="Map">
+		/* EtcMapper.selectCardList */
+		SELECT
+			 CARD_CODE AS cardCode
+			,CARD_NAME AS cardName
+		FROM
+			CARD_CODE
+		ORDER BY
+			CARD_CODE
+	</select>
+
+	<!-- 카테고리 목록 조회 -->
+	<select id="selectCategoryList" resultType="Map">
+		/* EtcMapper.selectCategoryList */
+		SELECT
+			 CATEGORY_CODE AS categoryCode
+			,CATEGORY_NAME AS categoryName
+		FROM
+			CATEGORY_CODE
+		ORDER BY
+			CATEGORY_CODE
+	</select>
+
+	<!-- 통장/카드 목록 조회 -->
+	<select id="selectAccountList" parameterType="Map" resultType="Map">
+		/* EtcMapper.selectAccountList */
+		SELECT
+			  AI_SEQ	AS aiSeq
+			 ,AI_SE		AS aiSe
+			 ,AI_NM		AS aiNm
+		FROM
+			TB_ACCOUNT_INFO
+		WHERE
+			DEL_YN = 'N'
+		ORDER BY
+			AI_SE DESC, AI_SEQ
+	</select>
 </mapper>

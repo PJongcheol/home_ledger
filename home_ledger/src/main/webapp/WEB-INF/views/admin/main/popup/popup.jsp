@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>팝업</title>
 <link rel="stylesheet" href="<c:url value='/css/popup.css'/>">
+<link href="/images/favicon.ico" id="favicon" rel="shortcut icon" sizes="64x64" type="image/x-icon">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="<c:url value='/js/devel.js'/>"></script>
 <script>

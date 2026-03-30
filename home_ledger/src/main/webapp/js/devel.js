@@ -57,6 +57,16 @@ $(function () {
 
 		$(this).val(value);
 	});
+
+	// 숫자 자동 변환 콤마
+	$(".only_number_comma").on("input", function(){
+		var value = $(this).val();
+
+		// 숫자만 허용
+		value = value.replace(/[^0-9]/g, "").replace(/\d(?=(?:\d{3})+$)/g, '$&,');
+
+		$(this).val(value);
+	});
 });
 
 // 이메일 형식 체크

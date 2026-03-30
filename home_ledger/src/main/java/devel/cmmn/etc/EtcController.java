@@ -177,7 +177,7 @@ public class EtcController {
 	public String memberProfile(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
 
-		LoginVO user = (LoginVO) request.getSession().getAttribute("LoginVO");
+		LoginVO user = (LoginVO) session.getAttribute("LoginVO");
 		param.put("memberId", user.getMemberId());
 
 		// 사용자 정보 조회
@@ -197,7 +197,7 @@ public class EtcController {
 	public Map<String, Object> updateProfile(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
 
-		LoginVO user = (LoginVO) request.getSession().getAttribute("LoginVO");
+		LoginVO user = (LoginVO) session.getAttribute("LoginVO");
 		param.put("userId", user.getMemberId());
 
 		Map<String, Object> result = new HashMap<>();

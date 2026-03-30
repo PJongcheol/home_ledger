@@ -134,9 +134,9 @@ public class AdminBbsController extends BaseController{
 	@PostMapping(value ="/saveBbs.do")
 	@ResponseBody
 	public Map<String, Object> saveBbs(@RequestParam Map<String, Object> param
-			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
+			, ModelMap model, HttpSession session) throws Exception {
 
-		LoginVO user = (LoginVO) request.getSession().getAttribute("LoginVO");
+		LoginVO user = (LoginVO) session.getAttribute("LoginVO");
 		param.put("userId", user.getMemberId());
 
 		Map<String, Object> result = new HashMap<>();
@@ -168,7 +168,7 @@ public class AdminBbsController extends BaseController{
 	public Map<String, Object> deleteBbs(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
 
-		LoginVO user = (LoginVO) request.getSession().getAttribute("LoginVO");
+		LoginVO user = (LoginVO) session.getAttribute("LoginVO");
 
 		Map<String, Object> result = new HashMap<>();
 
@@ -330,7 +330,7 @@ public class AdminBbsController extends BaseController{
 
 		Map<String, Object> result = new HashMap<>();
 
-		LoginVO user = (LoginVO) request.getSession().getAttribute("LoginVO");
+		LoginVO user = (LoginVO) session.getAttribute("LoginVO");
 		param.put("userId", user.getMemberId());
 		param.put("dir", "board");
 
@@ -374,7 +374,7 @@ public class AdminBbsController extends BaseController{
 
 		Map<String, Object> result = new HashMap<>();
 
-		LoginVO user = (LoginVO) request.getSession().getAttribute("LoginVO");
+		LoginVO user = (LoginVO) session.getAttribute("LoginVO");
 		param.put("userId", user.getMemberId());
 
 		adminBbsService.deleteBoard(param);

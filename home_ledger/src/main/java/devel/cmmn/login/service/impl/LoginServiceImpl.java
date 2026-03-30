@@ -1,5 +1,6 @@
 package devel.cmmn.login.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import devel.cmmn.login.mapper.LoginMapper;
 import devel.cmmn.login.service.LoginService;
 import devel.cmmn.login.vo.LoginVO;
+import devel.user.settings.mapper.UserSettingsMapper;
 
 /**
 *
@@ -32,6 +34,9 @@ public class LoginServiceImpl implements LoginService {
 
 	@Autowired
 	private LoginMapper loginMapper;
+
+	@Autowired
+	private UserSettingsMapper userSettingsMapper;
 
 	/**
 	 * 비밀번호실패 카운트 조회
@@ -119,6 +124,10 @@ public class LoginServiceImpl implements LoginService {
 		String pw = param.get("memberPw").toString();
 		param.put("memberPw", DigestUtils.sha256Hex(pw));
 		loginMapper.insertSignUp(param);
+
+		param.put("userId", param.get("memberId"));
+
+		userSettingsMapper.addSignUpBookViewConfig(param);
 	}
 
 	/**
