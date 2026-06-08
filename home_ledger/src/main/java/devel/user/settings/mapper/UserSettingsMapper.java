@@ -91,4 +91,10 @@ public interface UserSettingsMapper {
 	// 신규 유저 가계부 목록 추가
 	public void addSignUpBookViewConfig(Map<String, Object> param);
 
+	// 가계부 목록 관리
+	public List<Map<String, Object>> selectBookViewList(Map<String, Object> param);
+
+	//------------------------  Scheduler   ------------------------
+	// 스케줄러 고정지출 목록
+	public List<Map<String, Object>> selectSchedulerFixedExpenseList(String param);
 }

@@ -24,4 +24,7 @@ public interface EtcMapper {
 
 	// 통장/카드 목록 조회
 	public List<Map<String, Object>> selectAccountList(Map<String, Object> param);
+
+	// 통장/카드 목록 조회
+	public List<Map<String, Object>> selectYearList();
 }

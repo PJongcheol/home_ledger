@@ -61,9 +61,17 @@ public interface EtcService {
 
 	/**
      * 통장/카드 목록 조회
-     * @Method : selectCategoryList
+     * @Method : selectAccountList
      * @throws Exception
      * @return : List
      */
 	public List<Map<String, Object>> selectAccountList(Map<String, Object> param) throws Exception;
+
+	/**
+     * 년도 목록 조회
+     * @Method : selectYearList
+     * @throws Exception
+     * @return : List
+     */
+	public List<Map<String, Object>> selectYearList() throws Exception;
 }

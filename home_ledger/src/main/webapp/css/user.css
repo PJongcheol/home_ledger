@@ -100,7 +100,7 @@ header .user { display:flex; align-items:center; gap:10px; }
 /* Section Table */
 .section { background:#fff; margin-top:30px; padding:25px; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.05); }
 .common_section { background:#fff; width:100%; padding:25px; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.05); }
-.section h3 { margin-top:0; font-weight:600; }
+.section h3 { font-size: 16px; font-weight:600; }
 #datepicker { padding:10px 14px; border-radius:8px; border:1px solid #ccc; width:200px; font-size:14px; transition:all 0.3s ease; box-shadow:0 2px 5px rgba(0,0,0,0.08); }
 #datepicker:focus { border-color:#3498db; box-shadow:0 4px 12px rgba(52,152,219,0.3); outline:none; }
 
@@ -823,6 +823,7 @@ header .user-name {
 
 /* 공통 박스 */
 .dashboard-box {
+    position: relative;
     background: #fff;
     border-radius: 12px;
     padding: 20px 22px;
@@ -1009,13 +1010,13 @@ header .user-name {
     transition:all 0.25s ease;
 }
 
-.password-layer {
+.chart-layer {
     position: fixed;
     top:50%;
     left:50%;
     transform:translate(-50%, -50%) scale(0.9);
 
-    width:380px;
+    width:1000px;
     background:#fff;
     border-radius:12px;
     padding:28px;
@@ -1029,7 +1030,7 @@ header .user-name {
     transition:all 0.25s ease;
 }
 
-.password-layer.open {
+.chart-layer.open {
     opacity:1;
     visibility:visible;
     transform:translate(-50%, -50%) scale(1);
@@ -1041,7 +1042,7 @@ header .user-name {
 }
 
 /* 제목 */
-.password-layer h3{
+.chart-layer h3{
     margin:0 0 15px;
     font-size:18px;
 }
@@ -1101,6 +1102,10 @@ table tbody tr td[rowspan] {
 
 .input-small{
     width: 160px !important;
+}
+
+.search-input-small{
+    width: 100px !important;
 }
 
 .account-move-layout{
@@ -1191,4 +1196,199 @@ table tbody tr td[rowspan] {
 .account-sort-table .empty-row {
     display: table-cell !important;
     text-align: center !important;
+}
+
+/* 테이블 내부 액션 버튼 */
+.tableBtn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+/* 클릭 느낌 */
+.tableBtn:active {
+    transform: scale(0.96);
+}
+
+/* 총 수입 / 지출 영역 */
+.summary-box {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0 10px;
+}
+
+/* 각각 박스 */
+.summary-item {
+    flex: 1;
+    padding: 14px 18px;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1px solid #e6e6e6;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* 금액 */
+.summary-item span {
+    float: right;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* 색상 구분 */
+.summary-item.income span {
+    color: #3498db;
+}
+
+.summary-item.expense span {
+    color: #e74c3c;
+}
+
+.summary-item.balance span {
+    color: #3498db;
+}
+
+.summary-item.count span {
+    color: #555;
+}
+/* ===== Datepicker 전체 ===== */
+.ui-datepicker {
+    z-index: 9999 !important;
+    position: absolute !important;
+    padding: 12px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ===== 헤더 (년/월 영역) ===== */
+.ui-datepicker-header {
+    background: #f4f6f9;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+}
+
+/* 년월 select */
+.ui-datepicker select {
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 13px;
+    padding: 0 6px;
+}
+
+/* 이전 / 다음 버튼 */
+.ui-datepicker-prev,
+.ui-datepicker-next {
+    top: 10px;
+    cursor: pointer;
+}
+
+/* ===== 요일 ===== */
+.ui-datepicker th {
+    font-size: 12px;
+    color: #6b7280;
+    padding: 6px 0;
+}
+
+/* 날짜 셀 간격 */
+.ui-datepicker td {
+    padding: 2px;
+}
+
+/* 날짜 버튼 */
+.ui-datepicker td a {
+    width: 33px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 13px;
+    border-radius: 8px;
+    padding: 0;
+}
+
+/* 행 높이 */
+.ui-datepicker tr {
+    height: 32px;
+}
+
+/* 요일 */
+.ui-datepicker th {
+    padding: 6px 0;
+    font-size: 13px;
+}
+
+/* hover */
+.ui-datepicker td a:hover {
+    background: #ecf4fb;
+}
+
+/* 오늘 */
+.ui-datepicker-today a {
+    border: 1px solid #3498db;
+}
+
+/* 선택된 날짜 */
+.ui-datepicker td a.ui-state-active {
+    background: #3498db !important;
+    color: #fff !important;
+    font-weight: 600;
+}
+
+/* 비활성 날짜 */
+.ui-datepicker td .ui-state-disabled {
+    opacity: 0.3;
+}
+
+/* ===== 테두리 제거 ===== */
+.ui-widget.ui-widget-content {
+    border: none;
+}
+
+.chart-box {
+    display: flex;
+    justify-content: center;
+}
+
+.chart-box canvas {
+    max-width: 300px;
+    max-height: 300px;
+}
+.chartBar-box {
+/*     display: flex; */
+    justify-content: center;
+}
+
+.chartBar-box canvas {
+    max-width: 700px;
+    max-height: 300px;
+}
+
+.chartFlex {
+	display:flex;
+	align-items:center;
+	gap:12px;
+	flex-wrap:wrap;
+	margin-bottom:16px;
+}
+
+.chartText {
+	display:none;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    color:#999;
+    font-size:16px;
+    font-weight:bold;
 }

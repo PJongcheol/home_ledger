@@ -1073,3 +1073,8 @@ header .user-name {
     background:rgba(255,255,255,0.15);
     border-color:rgba(255,255,255,0.6);
 }
+
+.ui-datepicker {
+    z-index: 99999 !important;
+    position: absolute !important;
+}

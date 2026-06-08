@@ -88,4 +88,15 @@
 		ORDER BY
 			AI_SE DESC, AI_SEQ
 	</select>
+
+	<!-- 년도 목록 조회 -->
+	<select id="selectYearList" resultType="Map">
+		/* EtcMapper.selectYearList */
+		SELECT
+			DUMMY_YEAR AS dummyYear
+		FROM
+			DUMMY_YEAR
+		ORDER BY
+			DUMMY_YEAR
+	</select>
 </mapper>

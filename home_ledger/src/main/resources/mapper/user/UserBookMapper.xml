@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="devel.user.book.mapper.UserBookMapper">
+	<!-- 가계부 총 수입 지출 건수 -->
+	<select id="selectBookTotalAmount" parameterType="Map" resultType="Map">
+		/* UserBookMapper.selectBookTotalAmount */
+		SELECT
+			 FORMAT(SUM(CASE WHEN A.INOUT_TYPE = 'I' THEN A.AMOUNT ELSE 0 END), 0) AS incomeTotalAmount
+			,FORMAT(SUM(CASE WHEN A.INOUT_TYPE = 'E' THEN A.AMOUNT ELSE 0 END), 0) AS expendituretotalamount
+			,FORMAT(COUNT(1), 0) AS cnt
+		FROM
+			TB_HOME_LEDGER_INFO A
+		LEFT JOIN
+			TB_ACCOUNT_INFO B
+		ON
+			A.MEMBER_ID = B.MEMBER_ID
+		AND
+			A.AI_SEQ = B.AI_SEQ
+		WHERE
+			A.MEMBER_ID = #{userId}
+		AND
+			A.DEL_YN = 'N'
+		<if test="beginDe != null and beginDe != '' and endDe != null and endDe != ''">
+			AND A.TRAN_DATE BETWEEN #{beginDe} AND #{endDe}
+		</if>
+		<if test="inoutType != null and inoutType != ''">
+			AND A.INOUT_TYPE = #{inoutType}
+		</if>
+		<if test="osYn != null and osYn != ''">
+			AND A.OVER_SPENDING_YN = #{osYn}
+		</if>
+		<if test="aiSe != null and aiSe != ''">
+			AND B.AI_SE = #{aiSe}
+		</if>
+		<if test="aiSeq != null and aiSeq != ''">
+			AND A.AI_SEQ = #{aiSeq}
+		</if>
+	</select>
+
+	<!-- 가계부 목록 카운트 -->
+	<select id="selectBookTotalCount" parameterType="Map" resultType="int">
+		/* UserBookMapper.selectBookTotalCount */
+		SELECT
+			COUNT(1)
+		FROM
+			TB_HOME_LEDGER_INFO A
+		LEFT JOIN
+			TB_ACCOUNT_INFO B
+		ON
+			A.MEMBER_ID = B.MEMBER_ID
+		AND
+			A.AI_SEQ = B.AI_SEQ
+		WHERE
+			A.MEMBER_ID = #{userId}
+		AND
+			A.DEL_YN = 'N'
+		<if test="beginDe != null and beginDe != '' and endDe != null and endDe != ''">
+			AND A.TRAN_DATE BETWEEN #{beginDe} AND #{endDe}
+		</if>
+		<if test="inoutType != null and inoutType != ''">
+			AND A.INOUT_TYPE = #{inoutType}
+		</if>
+		<if test="osYn != null and osYn != ''">
+			AND A.OVER_SPENDING_YN = #{osYn}
+		</if>
+		<if test="aiSe != null and aiSe != ''">
+			AND B.AI_SE = #{aiSe}
+		</if>
+		<if test="aiSeq != null and aiSeq != ''">
+			AND A.AI_SEQ = #{aiSeq}
+		</if>
+	</select>
+
+	<!-- 가계부 목록 -->
+	<select id="selectBookList" parameterType="Map" resultType="Map">
+		/* UserBookMapper.selectBookList */
+		SELECT
+			 A.AI_SEQ							 	AS aiSeq
+			,A.HLI_SEQ						 		AS hliSeq
+			,A.CATEGORY_CODE					 	AS categoryCode
+			,A.CI_SEQ							 	AS ciSeq
+			,FORMAT(A.AMOUNT, 0)					AS amount
+			,A.TRAN_DATE						 	AS tranDate
+			,A.OVER_SPENDING_YN						AS overSpendingYn
+			,A.REMARK							 	AS remark
+			,DATE_FORMAT(A.REG_DT, '%Y-%m-%d') 		AS regDt
+			,B.AI_NM								AS aiNm
+			,CASE
+				WHEN A.INOUT_TYPE = 'I' THEN '수입'
+				ELSE '지출'
+		 	 END									AS inoutType
+			,CASE
+				WHEN B.AI_SE = 'B' THEN '통장'
+				ELSE '카드'
+		 	 END									AS aiSe
+		 	,CASE
+				WHEN B.AI_SE = 'B' THEN (SELECT BK.BANK_NAME FROM BANK_CODE BK WHERE BK.BANK_CODE = B.AI_CODE)
+				ELSE (SELECT CC.CARD_NAME FROM CARD_CODE CC WHERE CC.CARD_CODE = B.AI_CODE)
+			 END 							 		AS aiCode
+			,CASE
+				WHEN B.AI_SE = 'B' THEN '통장'
+				WHEN B.CARD_TYPE = 'C' THEN '신용'
+				ELSE '체크'
+			 END									AS cardType
+		FROM
+			TB_HOME_LEDGER_INFO A
+		LEFT JOIN
+			TB_ACCOUNT_INFO B
+		ON
+			A.MEMBER_ID = B.MEMBER_ID
+		AND
+			A.AI_SEQ = B.AI_SEQ
+		WHERE
+			A.MEMBER_ID = #{userId}
+		AND
+			A.DEL_YN = 'N'
+		<if test="beginDe != null and beginDe != '' and endDe != null and endDe != ''">
+			AND A.TRAN_DATE BETWEEN #{beginDe} AND #{endDe}
+		</if>
+		<if test="inoutType != null and inoutType != ''">
+			AND A.INOUT_TYPE = #{inoutType}
+		</if>
+		<if test="osYn != null and osYn != ''">
+			AND A.OVER_SPENDING_YN = #{osYn}
+		</if>
+		<if test="aiSe != null and aiSe != ''">
+			AND B.AI_SE = #{aiSe}
+		</if>
+		<if test="aiSeq != null and aiSeq != ''">
+			AND A.AI_SEQ = #{aiSeq}
+		</if>
+		ORDER BY
+			A.TRAN_DATE DESC
+	</select>
+
+	<!-- 가계부 상세 -->
+	<select id="selectBookDtl" parameterType="Map" resultType="Map">
+		/* UserBookMapper.selectBookDtl */
+		SELECT
+			 AI_SEQ									AS aiSeq
+			,HLI_SEQ								AS hliSeq
+			,CATEGORY_CODE							AS categoryCode
+			,CI_SEQ									AS ciSeq
+			,INOUT_TYPE								AS inoutType
+			,AMOUNT									AS amount
+			,TRAN_DATE								AS tranDate
+			,OVER_SPENDING_YN						AS overSpendingYn
+			,REMARK									AS remark
+			,REG_ID									AS regId
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d') 		AS regDt
+			,UPD_ID									AS updId
+			,DATE_FORMAT(UPD_DT, '%Y-%m-%d') 		AS updDt
+		FROM
+			TB_HOME_LEDGER_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+		AND
+			HLI_SEQ = #{hliSeq}
+	</select>
+
+	<!-- 가계부 일련번호 -->
+	<select id="selectBookSeq" parameterType="Map" resultType="int">
+		/* UserBookMapper.selectBookSeq */
+		SELECT
+			IFNULL(MAX(HLI_SEQ), 0) + 1
+		FROM
+			TB_HOME_LEDGER_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+	</select>
+
+	<!-- 가계부 저장 -->
+	<insert id="insertBook" parameterType="Map">
+		/* UserBookMapper.insertBook */
+		INSERT INTO TB_HOME_LEDGER_INFO (
+			 MEMBER_ID
+			,AI_SEQ
+			,HLI_SEQ
+			,CATEGORY_CODE
+			,CI_SEQ
+			,INOUT_TYPE
+			,AMOUNT
+			,TRAN_DATE
+			,OVER_SPENDING_YN
+			,REMARK
+			,DEL_YN
+			,REG_ID
+			,REG_DT
+			,UPD_ID
+			,UPD_DT
+		) VALUES (
+			 #{userId}
+			,#{aiSeq}
+			,#{hliSeq}
+			,#{categoryCode}
+			,#{ciSeq}
+			,#{inoutType}
+			,REPLACE(#{amount}, ',', '')
+			,#{tranDate}
+			,#{overSpendingYn}
+			,#{remark}
+			,'N'
+			,#{userId}
+			,now()
+			,#{userId}
+			,now()
+		)
+	</insert>
+
+	<!-- 가계부 수정 -->
+	<update id="updateBook" parameterType="Map">
+		/* UserBookMapper.updateBook */
+		UPDATE
+			TB_HOME_LEDGER_INFO
+		SET
+			 CI_SEQ 			= #{ciSeq}
+			,INOUT_TYPE 		= #{inoutType}
+			,AMOUNT 			= REPLACE(#{amount}, ',', '')
+			,TRAN_DATE 			= #{tranDate}
+			,OVER_SPENDING_YN	= #{overSpendingYn}
+			,REMARK 			= #{remark}
+			,UPD_ID 			= #{userId}
+			,UPD_DT				= now()
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+		AND
+			HLI_SEQ = #{hliSeq}
+	</update>
+
+	<!-- 가계부 수정 -->
+	<update id="updateOverSpendingYn" parameterType="Map">
+		/* UserBookMapper.updateOverSpendingYn */
+		UPDATE
+			TB_HOME_LEDGER_INFO
+		SET
+			 OVER_SPENDING_YN 		= #{overSpendingYn}
+			,UPD_ID 				= #{userId}
+			,UPD_DT					= now()
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+		AND
+			HLI_SEQ = #{hliSeq}
+	</update>
+
+	<!-- 가계부 수정 -->
+	<update id="deleteBook" parameterType="Map">
+		/* UserBookMapper.deleteBook */
+		UPDATE
+			TB_HOME_LEDGER_INFO
+		SET
+			 DEL_YN 		= 'Y'
+			,UPD_ID 		= #{userId}
+			,UPD_DT			= now()
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+		AND
+			HLI_SEQ = #{hliSeq}
+	</update>
+
+	<!--                   Scheduler                    -->
+	<!-- 스케줄러 가계부 일련번호 -->
+	<select id="selectSchedulerBookSeq" parameterType="Map" resultType="int">
+		/* UserBookMapper.selectSchedulerBookSeq */
+		SELECT
+			IFNULL(MAX(HLI_SEQ), 0) + 1
+		FROM
+			TB_HOME_LEDGER_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			AI_SEQ = #{aiSeq}
+	</select>
+
+	<!-- 스케줄러 가계부 저장 -->
+	<insert id="insertSchedulerBook" parameterType="Map">
+		/* UserBookMapper.insertSchedulerBook */
+		INSERT INTO TB_HOME_LEDGER_INFO (
+			 MEMBER_ID
+			,AI_SEQ
+			,HLI_SEQ
+			,CATEGORY_CODE
+			,CI_SEQ
+			,INOUT_TYPE
+			,AMOUNT
+			,TRAN_DATE
+			,REMARK
+			,DEL_YN
+			,REG_ID
+			,REG_DT
+			,UPD_ID
+			,UPD_DT
+		) VALUES (
+			 #{userId}
+			,#{aiSeq}
+			,#{hliSeq}
+			,#{categoryCode}
+			,#{ciSeq}
+			,#{inoutType}
+			,#{amount}
+			,#{tranDate}
+			,#{remark}
+			,'N'
+			,#{userId}
+			,now()
+			,#{userId}
+			,now()
+		)
+	</insert>
+</mapper>

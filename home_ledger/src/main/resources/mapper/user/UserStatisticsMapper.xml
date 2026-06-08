@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="devel.user.statistics.mapper.UserStatisticsMapper">
+	<!-- 과소비 체크 월별 총 금액 목록 -->
+	<select id="selectCategoryTotalList" parameterType="Map" resultType="Map">
+		/* UserStatisticsMapper.selectCategoryTotalList */
+		SELECT
+		      A.CATEGORY_NAME AS categoryName
+		     ,COALESCE(SUM(B.AMOUNT), 0) AS totalAmount
+		FROM
+		    CATEGORY_CODE A
+		LEFT JOIN
+		    TB_HOME_LEDGER_INFO B
+		ON
+		    A.CATEGORY_CODE = B.CATEGORY_CODE
+		AND
+			B.MEMBER_ID = #{userId}
+		AND
+			B.INOUT_TYPE = 'E'
+		AND
+			B.OVER_SPENDING_YN = 'Y'
+		AND
+			B.TRAN_DATE BETWEEN #{categoryBeginDe} AND #{categoryEndDe}
+		AND
+			B.DEL_YN = 'N'
+		GROUP BY
+		    A.CATEGORY_CODE
+		ORDER BY
+		    A.CATEGORY_CODE
+	</select>
+
+	<!-- 과소비 체크 월별 총 금액 목록 -->
+	<select id="selectSpendingTotalList" parameterType="Map" resultType="Map">
+		/* UserStatisticsMapper.selectSpendingTotalList */
+		SELECT
+		      A.YEAR_MONTH AS yearMonth
+		     ,COALESCE(SUM(B.AMOUNT), 0) AS totalAmount
+		FROM
+		    DUMMY_DATE A
+		LEFT JOIN
+		    TB_HOME_LEDGER_INFO B
+		ON
+		    A.YEAR_MONTH = DATE_FORMAT(B.TRAN_DATE, '%Y-%m')
+		AND
+			B.MEMBER_ID = #{userId}
+		AND
+			B.INOUT_TYPE = 'E'
+		AND
+			B.OVER_SPENDING_YN = 'Y'
+		AND
+			B.DEL_YN = 'N'
+		WHERE
+		    LEFT(A.YEAR_MONTH, 4) = #{spendingYear}
+		GROUP BY
+		    A.YEAR_MONTH
+		ORDER BY
+		    A.YEAR_MONTH
+	</select>
+
+	<!-- 수입/지출 월별 총 금액 목록 -->
+	<select id="selectInoutTotalList" parameterType="Map" resultType="Map">
+		/* UserStatisticsMapper.selectInoutTotalList */
+		SELECT
+		      A.YEAR_MONTH AS yearMonth
+		     ,CASE
+			     WHEN B.INOUT_TYPE = 'I' THEN '수입'
+			     ELSE '지출'
+			  END AS inoutType
+		     ,COALESCE(SUM(C.AMOUNT), 0) AS totalAmount
+		FROM
+		    DUMMY_DATE A
+		CROSS JOIN (
+		    SELECT 'I' AS INOUT_TYPE
+		    UNION ALL
+		    SELECT 'E'
+		) B
+		LEFT JOIN
+		    TB_HOME_LEDGER_INFO C
+		ON
+		    A.YEAR_MONTH = DATE_FORMAT(C.TRAN_DATE, '%Y-%m')
+		AND
+			B.INOUT_TYPE = C.INOUT_TYPE
+		AND
+			C.MEMBER_ID = #{userId}
+		AND
+			C.DEL_YN = 'N'
+		WHERE
+		    LEFT(A.YEAR_MONTH, 4) = #{inoutYear}
+		GROUP BY
+		    A.YEAR_MONTH, B.INOUT_TYPE
+		ORDER BY
+		    A.YEAR_MONTH, B.INOUT_TYPE
+	</select>
+
+	<!-- 과소비 체크 월별 총 금액 목록 -->
+	<select id="selectSpendingList" parameterType="Map" resultType="Map">
+		/* UserStatisticsMapper.selectSpendingList */
+		SELECT
+		     A.TRAN_DATE							AS tranDate
+		    ,FORMAT(A.AMOUNT, 0)					AS amount
+		    ,B.AI_NM								AS aiNm
+		    ,CASE
+				WHEN B.AI_SE = 'B' THEN '통장'
+				ELSE '카드'
+		 	 END									AS aiSe
+		 	,CASE
+				WHEN A.INOUT_TYPE = 'I' THEN '수입'
+				ELSE '지출'
+		 	 END									AS inoutType
+		 	,CASE
+				WHEN B.AI_SE = 'B' THEN (SELECT BK.BANK_NAME FROM BANK_CODE BK WHERE BK.BANK_CODE = B.AI_CODE)
+				ELSE (SELECT CC.CARD_NAME FROM CARD_CODE CC WHERE CC.CARD_CODE = B.AI_CODE)
+			 END 							 		AS aiCode
+			,CASE
+				WHEN B.AI_SE = 'B' THEN '통장'
+				WHEN B.CARD_TYPE = 'C' THEN '신용'
+				ELSE '체크'
+			 END									AS cardType
+		FROM
+		    TB_HOME_LEDGER_INFO A
+		LEFT JOIN
+			TB_ACCOUNT_INFO B
+		ON
+			A.MEMBER_ID = B.MEMBER_ID
+		AND
+			A.AI_SEQ = B.AI_SEQ
+		WHERE
+			A.MEMBER_ID = #{userId}
+		AND
+			DATE_FORMAT(A.TRAN_DATE, '%Y-%m') = #{date}
+		AND
+			A.INOUT_TYPE = 'E'
+		AND
+			A.OVER_SPENDING_YN = 'Y'
+		AND
+			A.DEL_YN = 'N'
+		ORDER BY
+		    A.TRAN_DATE
+	</select>
+</mapper>

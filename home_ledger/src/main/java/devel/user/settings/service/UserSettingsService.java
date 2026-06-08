@@ -93,6 +93,14 @@ public interface UserSettingsService {
 	public void deleteCategory(Map<String, Object> param) throws Exception;
 
 	/**
+	 * 셀렉트 박스용 통장/카드 목록
+	 * @param Map
+	 * @return List
+	 * @exception Exception
+	 */
+	public List<Map<String, Object>> selectFiexedExpenseAccountList(Map<String, Object> param) throws Exception;
+
+	/**
 	 * 고정지출 관리 목록
 	 * @param Map
 	 * @return List
@@ -172,4 +180,23 @@ public interface UserSettingsService {
 	 */
 	public void deleteBookViewConfig(Map<String, Object> param) throws Exception;
 
+	/**
+	 * 가계부 목록 관리
+	 * @param Map
+	 * @return List
+	 * @exception Exception
+	 */
+	public List<Map<String, Object>> selectBookViewList(Map<String, Object> param) throws Exception;
+
+
+
+
+	//------------------------  Scheduler   ------------------------
+	/**
+	 * 스케줄러 고정지출 목록
+	 * @param Map
+	 * @return List
+	 * @exception Exception
+	 */
+	public List<Map<String, Object>> selectSchedulerFixedExpenseList(String param) throws Exception;
 }

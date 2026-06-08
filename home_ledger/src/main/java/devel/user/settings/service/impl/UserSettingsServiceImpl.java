@@ -159,6 +159,17 @@ public class UserSettingsServiceImpl implements UserSettingsService {
 	}
 
 	/**
+	 * 셀렉트 박스용 통장/카드 목록
+	 * @param Map
+	 * @return List
+	 * @exception Exception
+	 */
+	@Override
+	public List<Map<String, Object>> selectFiexedExpenseAccountList(Map<String, Object> param) throws Exception {
+		return userSettingsMapper.selectFiexedExpenseAccountList(param);
+	}
+
+	/**
 	 * 고정지출 관리 목록
 	 * @param Map
 	 * @return List
@@ -291,5 +302,28 @@ public class UserSettingsServiceImpl implements UserSettingsService {
 			map.put("userId", param.get("userId"));
 			userSettingsMapper.deleteBookViewConfig(map);
 		}
+	}
+
+	/**
+	 * 가계부 목록 관리
+	 * @param Map
+	 * @return List
+	 * @exception Exception
+	 */
+	@Override
+	public List<Map<String, Object>> selectBookViewList(Map<String, Object> param) throws Exception {
+		return userSettingsMapper.selectBookViewList(param);
+	}
+
+	//------------------------  Scheduler   ------------------------
+	/**
+	 * 스케줄러 고정지출 목록
+	 * @param Map
+	 * @return List
+	 * @exception Exception
+	 */
+	@Override
+	public List<Map<String, Object>> selectSchedulerFixedExpenseList(String param) throws Exception {
+		return userSettingsMapper.selectSchedulerFixedExpenseList(param);
 	}
 }

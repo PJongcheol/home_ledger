@@ -587,4 +587,42 @@
 		FROM
 			BOOK_CODE
 	</insert>
+
+	<!-- 가계부 목록 관리 -->
+	<select id="selectBookViewList" parameterType="Map" resultType="Map">
+		/* userSettingsMapper.selectBookViewList */
+		SELECT
+			 B.BC_NM		AS bcNm
+			,B.COLIMN_NAME	AS colimnName
+		FROM
+			TB_BOOK_VIEW_CONFIG A
+		LEFT JOIN
+			BOOK_CODE B
+		ON
+			A.SEQ = B.SEQ
+		WHERE
+			A.MEMBER_ID = #{userId}
+		ORDER BY
+			A.BS_ORDER
+	</select>
+
+	<!--                   Scheduler                    -->
+	<!-- 스케줄러 고정지출 목록 -->
+	<select id="selectSchedulerFixedExpenseList" parameterType="Map" resultType="Map">
+		/* userSettingsMapper.addSignUpBookViewConfig */
+		SELECT
+			 MEMBER_ID		AS memberId
+			,AI_SEQ			AS aiSeq
+			,CATEGORY_CODE	AS categoryCode
+			,CI_SEQ			AS ciSeq
+			,INOUT_TYPE		AS inoutType
+			,AMOUNT			AS amount
+			,REMARK			AS remark
+		FROM
+			TB_FIXED_EXPENSE_INFO
+		WHERE
+			DEL_YN = 'N'
+		AND
+			TRAN_DAY = #{value}
+	</select>
 </mapper>

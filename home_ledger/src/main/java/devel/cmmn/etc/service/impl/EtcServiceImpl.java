@@ -96,4 +96,15 @@ public class EtcServiceImpl implements EtcService{
 	public List<Map<String, Object>> selectAccountList(Map<String, Object> param) throws Exception {
 		return etcMapper.selectAccountList(param);
 	}
+
+	/**
+     * 년도 목록 조회
+     * @Method : selectYearList
+     * @throws Exception
+     * @return : List
+     */
+	@Override
+	public List<Map<String, Object>> selectYearList() throws Exception {
+		return etcMapper.selectYearList();
+	}
 }
