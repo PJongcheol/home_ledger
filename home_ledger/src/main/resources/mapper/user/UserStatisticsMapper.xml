@@ -93,6 +93,58 @@
 		    A.YEAR_MONTH, B.INOUT_TYPE
 	</select>
 
+	<!-- 카테고리별 소비 목록 -->
+	<select id="selectCategoryList" parameterType="Map" resultType="Map">
+		/* UserStatisticsMapper.selectCategoryList */
+		SELECT
+		     A.TRAN_DATE							AS tranDate
+		    ,FORMAT(A.AMOUNT, 0)					AS amount
+		    ,B.AI_NM								AS aiNm
+		    ,CASE
+				WHEN B.AI_SE = 'B' THEN '통장'
+				ELSE '카드'
+		 	 END									AS aiSe
+		 	,CASE
+				WHEN A.INOUT_TYPE = 'I' THEN '수입'
+				ELSE '지출'
+		 	 END									AS inoutType
+		 	,CASE
+				WHEN B.AI_SE = 'B' THEN (SELECT BK.BANK_NAME FROM BANK_CODE BK WHERE BK.BANK_CODE = B.AI_CODE)
+				ELSE (SELECT CC.CARD_NAME FROM CARD_CODE CC WHERE CC.CARD_CODE = B.AI_CODE)
+			 END 							 		AS aiCode
+			,CASE
+				WHEN B.AI_SE = 'B' THEN '통장'
+				WHEN B.CARD_TYPE = 'C' THEN '신용'
+				ELSE '체크'
+			 END									AS cardType
+		FROM
+		    TB_HOME_LEDGER_INFO A
+		LEFT JOIN
+			TB_ACCOUNT_INFO B
+		ON
+			A.MEMBER_ID = B.MEMBER_ID
+		AND
+			A.AI_SEQ = B.AI_SEQ
+		LEFT JOIN
+			CATEGORY_CODE C
+		ON
+			A.CATEGORY_CODE = C.CATEGORY_CODE
+		WHERE
+			A.MEMBER_ID = #{userId}
+		AND
+			A.TRAN_DATE BETWEEN #{beginDe} AND #{endDe}
+		AND
+			A.INOUT_TYPE = 'E'
+		AND
+			A.OVER_SPENDING_YN = 'Y'
+		AND
+			A.DEL_YN = 'N'
+		AND
+			C.CATEGORY_NAME = #{categoryName}
+		ORDER BY
+		    A.TRAN_DATE
+	</select>
+
 	<!-- 과소비 체크 월별 총 금액 목록 -->
 	<select id="selectSpendingList" parameterType="Map" resultType="Map">
 		/* UserStatisticsMapper.selectSpendingList */
@@ -133,6 +185,50 @@
 			A.INOUT_TYPE = 'E'
 		AND
 			A.OVER_SPENDING_YN = 'Y'
+		AND
+			A.DEL_YN = 'N'
+		ORDER BY
+		    A.TRAN_DATE
+	</select>
+
+	<!-- 월별 수입/지출(선택) 목록 -->
+	<select id="selectInoutList" parameterType="Map" resultType="Map">
+		/* UserStatisticsMapper.selectInoutList */
+		SELECT
+		     A.TRAN_DATE							AS tranDate
+		    ,FORMAT(A.AMOUNT, 0)					AS amount
+		    ,B.AI_NM								AS aiNm
+		    ,CASE
+				WHEN B.AI_SE = 'B' THEN '통장'
+				ELSE '카드'
+		 	 END									AS aiSe
+		 	,CASE
+				WHEN A.INOUT_TYPE = 'I' THEN '수입'
+				ELSE '지출'
+		 	 END									AS inoutType
+		 	,CASE
+				WHEN B.AI_SE = 'B' THEN (SELECT BK.BANK_NAME FROM BANK_CODE BK WHERE BK.BANK_CODE = B.AI_CODE)
+				ELSE (SELECT CC.CARD_NAME FROM CARD_CODE CC WHERE CC.CARD_CODE = B.AI_CODE)
+			 END 							 		AS aiCode
+			,CASE
+				WHEN B.AI_SE = 'B' THEN '통장'
+				WHEN B.CARD_TYPE = 'C' THEN '신용'
+				ELSE '체크'
+			 END									AS cardType
+		FROM
+		    TB_HOME_LEDGER_INFO A
+		LEFT JOIN
+			TB_ACCOUNT_INFO B
+		ON
+			A.MEMBER_ID = B.MEMBER_ID
+		AND
+			A.AI_SEQ = B.AI_SEQ
+		WHERE
+			A.MEMBER_ID = #{userId}
+		AND
+			DATE_FORMAT(A.TRAN_DATE, '%Y-%m') = #{date}
+		AND
+			A.INOUT_TYPE = #{inoutType}
 		AND
 			A.DEL_YN = 'N'
 		ORDER BY

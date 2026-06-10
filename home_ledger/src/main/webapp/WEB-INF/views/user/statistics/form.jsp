@@ -96,7 +96,15 @@ function fn_drawChart(){
    	                        return percent + '%';
    	                    }
    	                }
-   	            }
+   	            },
+	   	         onClick: function(event, elements) {
+	             	if(elements.length > 0) {
+	     				var categoryName = this.data.labels[elements[0].index];
+	             		var beginDe = $("#categoryBeginDe").val();
+	     				var endDe = $("#categoryEndDe").val();
+	     				chart1Layer(categoryName, beginDe, endDe);
+	             	}
+	             }
    	        },
    	        plugins: [ChartDataLabels]
    	    });
@@ -168,13 +176,24 @@ function fn_drawChart(){
                 legend: {
                     display: false
                 }
+            },
+            onClick: function(event, elements) {
+            	if(elements.length > 0) {
+    				var month = elements[0].index + 1;
+    				var datasetIndex = elements[0].datasetIndex;
+    				month = String(month).length == 1 ? "0" + month : month;
+
+    				var tranDate = $("#inoutYear").val() + "-" + month;
+					var inoutType = datasetIndex == '0' ? 'I' : 'E';
+    				chart3Layer(tranDate, inoutType);
+            	}
             }
         }
     });
 }
 
 
-// ajax 카테로리 차트
+// ajax 카테고리 차트
 function categoryChart(data) {
 	var categoryTotalList = JSON.parse(data.selectList);
 	var categoryNameData = categoryTotalList.map(r => r.categoryName);
@@ -212,7 +231,15 @@ function categoryChart(data) {
    	                        return percent + '%';
    	                    }
    	                }
-   	            }
+   	            },
+   	        	 onClick: function(event, elements) {
+	             	if(elements.length > 0) {
+	     				var categoryName = this.data.labels[elements[0].index];
+	             		var beginDe = $("#categoryBeginDe").val();
+	     				var endDe = $("#categoryEndDe").val();
+	     				chart1Layer(categoryName, beginDe, endDe);
+	             	}
+	             }
    	        },
    	        plugins: [ChartDataLabels]
    	    });
@@ -247,6 +274,16 @@ function spendingChart(data) {
                 legend: {
                     display: false
                 }
+            },
+            onClick: function(event, elements) {
+            	if(elements.length > 0) {
+    				var month = elements[0].index + 1;
+    				month = String(month).length == 1 ? "0" + month : month;
+
+    				var tranDate = $("#spendingYear").val() + "-" + month;
+
+    				chart2Layer(tranDate);
+            	}
             }
         }
     });
@@ -286,6 +323,17 @@ function inoutChart(data) {
                 legend: {
                     display: false
                 }
+            },
+            onClick: function(event, elements) {
+            	if(elements.length > 0) {
+    				var month = elements[0].index + 1;
+    				var datasetIndex = elements[0].datasetIndex;
+    				month = String(month).length == 1 ? "0" + month : month;
+
+    				var tranDate = $("#inoutYear").val() + "-" + month;
+					var inoutType = datasetIndex == '0' ? 'I' : 'E';
+    				chart3Layer(tranDate, inoutType);
+            	}
             }
         }
     });
@@ -301,9 +349,49 @@ function openChartLayer(){
     },200);
 }
 
+function chart1Layer(categoryName, beginDe, endDe) {
+	$.ajax({
+	  url: "/user/statistics/selectChart1List.do",
+	  type: "POST",
+	  data: {
+		   categoryName : categoryName
+		  ,beginDe 		: beginDe
+		  ,endDe 		: endDe
+	  },
+	  success: function(data) {
+		  if(data.message == "ok") {
+			  var html = "";
+
+			  for(i=0; i<data.selectList.length; i++) {
+				  html += "<tr>";
+				  html += "<td>"+data.selectList[i].aiNm+"</td>";
+				  html += "<td>"+data.selectList[i].tranDate+"</td>";
+				  html += "<td>"+data.selectList[i].aiSe+"</td>";
+				  html += "<td>"+data.selectList[i].aiCode+"</td>";
+				  html += "<td>"+data.selectList[i].cardType+"</td>";
+				  html += "<td><span class=\"text-color-red\">"+data.selectList[i].inoutType+"</span></td>";
+				  html += "<td><span class=\"text-color-red\">"+data.selectList[i].amount+"</span></td>";
+				  html += "</tr>";
+			  }
+
+			  $("#title").empty();
+			  $("#title").append(categoryName + " 소비 내역 ("+beginDe+" ~ "+endDe+")");
+
+			  $("#tb1").empty();
+			  $("#tb1").append(html);
+			  openChartLayer()
+		  }
+	  },
+	  error: function(xhr, status, error){
+		  console.log(xhr + ":" + status + ":" + error);
+		  alert("처리 중 오류가 발생했습니다.");
+		  return false;
+	  }
+	});
+}
+
 
 function chart2Layer(date) {
-	var red = "<span class='text-color-red'></span>";
 	$.ajax({
 	  url: "/user/statistics/selectChart2List.do",
 	  type: "POST",
@@ -342,12 +430,13 @@ function chart2Layer(date) {
 	});
 }
 
-function chart3Layer(date) {
+function chart3Layer(date, inoutType) {
 	$.ajax({
-	  url: "/user/statistics/selectChart2List.do",
+	  url: "/user/statistics/selectChart3List.do",
 	  type: "POST",
 	  data: {
-		 date : date
+		  date 		: date
+		 ,inoutType : inoutType
 	  },
 	  success: function(data) {
 		  if(data.message == "ok") {
@@ -371,8 +460,10 @@ function chart3Layer(date) {
 				  html += "</tr>";
 			  }
 
+			  var inout = inoutType == 'I' ? '수입' : '지출';
+
 			  $("#title").empty();
-			  $("#title").append(date + "과소비 내역");
+			  $("#title").append(inout+" 내역 (" + date + ")");
 
 			  $("#tb1").empty();
 			  $("#tb1").append(html);
@@ -386,6 +477,12 @@ function chart3Layer(date) {
 	  }
 	});
 }
+
+function closeChartLayer() {
+	 $("#layerDim").removeClass("open");
+	 $("#chartLayer").removeClass("open");
+}
+
 </script>
 
 </head>
@@ -505,10 +602,10 @@ function chart3Layer(date) {
 
     <!-- 레이어 -->
 	<div id="chartLayer" class="chart-layer">
-
+		 <button type="button" class="layer-close" onclick="closeChartLayer()">✕</button>
 	    <h3 id="title"></h3>
 		<form id="adminBbsPassword" name="adminBbsPassword">
-			<table class="table-hover">
+			<table class="table-hover" id="statistics_layer">
 	        	<colgroup>
 		        	<col style="width:15%">
 		        	<col style="width:15%">

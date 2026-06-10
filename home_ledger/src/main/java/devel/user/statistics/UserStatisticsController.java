@@ -124,6 +124,28 @@ public class UserStatisticsController extends BaseController {
 	}
 
 	/**
+     * chart1Layer 목록 조회
+     * @Method : selectChart2List
+     * @throws Exception
+     * @return : String
+     */
+	@PostMapping(value ="selectChart1List.do")
+	@ResponseBody
+	public Map<String, Object> selectChart1List(@RequestParam Map<String, Object> param
+			, ModelMap model, HttpSession session) throws Exception {
+
+		LoginVO user = (LoginVO) session.getAttribute("LoginVO");
+		param.put("userId", user.getMemberId());
+
+		Map<String, Object> result = new HashMap<>();
+
+		result.put("selectList", userStatisticsService.selectCategoryList(param));
+		result.put("message", "ok");
+
+		return result;
+	}
+
+	/**
      * chart2Layer 목록 조회
      * @Method : selectChart2List
      * @throws Exception
@@ -140,6 +162,28 @@ public class UserStatisticsController extends BaseController {
 		Map<String, Object> result = new HashMap<>();
 
 		result.put("selectList", userStatisticsService.selectSpendingList(param));
+		result.put("message", "ok");
+
+		return result;
+	}
+
+	/**
+     * chart3Layer 목록 조회
+     * @Method : selectChart3List
+     * @throws Exception
+     * @return : String
+     */
+	@PostMapping(value ="selectChart3List.do")
+	@ResponseBody
+	public Map<String, Object> selectChart3List(@RequestParam Map<String, Object> param
+			, ModelMap model, HttpSession session) throws Exception {
+
+		LoginVO user = (LoginVO) session.getAttribute("LoginVO");
+		param.put("userId", user.getMemberId());
+
+		Map<String, Object> result = new HashMap<>();
+
+		result.put("selectList", userStatisticsService.selectInoutList(param));
 		result.put("message", "ok");
 
 		return result;

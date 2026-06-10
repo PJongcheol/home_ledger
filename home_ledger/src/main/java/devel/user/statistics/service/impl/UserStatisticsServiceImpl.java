@@ -65,6 +65,17 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
 	}
 
 	/**
+	 * 카테고리별 소비 목록
+	 * @param Map
+	 * @return List
+	 * @exception Exception
+	 */
+	@Override
+	public List<Map<String, Object>> selectCategoryList(Map<String, Object> param) throws Exception {
+		return userStatisticsMapper.selectCategoryList(param);
+	}
+
+	/**
 	 * 과소비 체크 목록
 	 * @param Map
 	 * @return List
@@ -73,5 +84,16 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
 	@Override
 	public List<Map<String, Object>> selectSpendingList(Map<String, Object> param) throws Exception {
 		return userStatisticsMapper.selectSpendingList(param);
+	}
+
+	/**
+	 * 월별 수입/지출(선택) 목록
+	 * @param Map
+	 * @return List
+	 * @exception Exception
+	 */
+	@Override
+	public List<Map<String, Object>> selectInoutList(Map<String, Object> param) throws Exception {
+		return userStatisticsMapper.selectInoutList(param);
 	}
 }
