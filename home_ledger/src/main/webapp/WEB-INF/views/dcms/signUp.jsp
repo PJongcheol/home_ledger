@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>CMS</title>
+<title>회원가입</title>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script src="/js/devel.js"></script>
@@ -127,12 +127,6 @@
 			return false;
 		}
 
-		// Addr
-		if($("#memberPost").val() == "" || $("#memberAddr").val() == "") {
-			alert("주소는 필수입니다.");
-			return false;
-		}
-
 		// agree
 		if(!$("#agreeYn").is(":checked")) {
 			alert("개인정보 동의는 필수입니다.");
@@ -150,7 +144,6 @@
 			  data: formData,
 			  success: function(data) {
 				  if(data.message == "ok") {
-// 					  alert("정상적으로 처리되었습니다.\n관리자의 승인 후 이용 가능합니다.");
 					  alert("정상적으로 처리되었습니다.");
 					  location.href = "/login.do";
 				  }
@@ -178,26 +171,26 @@
 		    </div>
 
 		    <div class="dev-body">
-	            <label for="memberId">아이디</label>
+	            <label for="memberId">아이디<span class="required-label"></span></label>
 	            <input type="text" class="btn-63" id="memberId" name="memberId" placeholder="영문 또는 숫자 4자리" maxLength="100" />
 	            <button type="button" onclick="checkDup()" class="btn-35">중복검사</button>
 
-	            <label for="memberPw">비밀번호</label>
+	            <label for="memberPw">비밀번호<span class="required-label"></span></label>
 	            <input type="password" id="memberPw" name="memberPw" placeholder="4자리 이상" />
 
-	            <label for="memberPw2">비밀번호 확인</label>
+	            <label for="memberPw2">비밀번호 확인<span class="required-label"></span></label>
 	            <input type="password" id="memberPw2" name="memberPw2" placeholder="동일한 비밀번호를 입력하세요"/>
 
-	            <label for="memberNm">이름</label>
+	            <label for="memberNm">이름<span class="required-label"></span></label>
 	            <input type="text" id="memberNm" name="memberNm" placeholder="이름을 입력하세요" maxLength="50" />
 
-	            <label for="email">이메일</label>
+	            <label for="email">이메일<span class="required-label"></span></label>
 	            <input type="text" id="memberEmail" name="memberEmail" placeholder="ex)xxxx@xxx.xxx 형식" maxLength="40"/>
 
-	            <label for="memberBrthdy">생년월일</label>
+	            <label for="memberBrthdy">생년월일<span class="required-label"></span></label>
 	            <input type="text" class="datepicker" id="memberBrthdy" name="memberBrthdy" maxLength="20" readonly/>
 
-	            <label for="memberPhone">핸드폰번호</label>
+	            <label for="memberPhone">핸드폰번호<span class="required-label"></span></label>
 	            <input type="text" class="tel" id="memberPhone" name="memberPhone" placeholder="핸드폰 번호를 입력하세요" />
 
 	            <label for="memberPost">우편번호</label>
@@ -224,7 +217,7 @@
 		    </div>
 
 		    <div class="dev-footer">
-		        © 2026 CMS Admin System
+		        © 2026 TongLog. All Rights Reserved.
 		    </div>
 		</div>
 	</form>

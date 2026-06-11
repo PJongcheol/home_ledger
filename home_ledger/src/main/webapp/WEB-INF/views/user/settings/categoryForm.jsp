@@ -100,7 +100,7 @@
 	            	</colgroup>
 	                <tbody class="no-hover">
 	                    <tr>
-	                        <th>카테고리 구분</th>
+	                        <th>카테고리 구분<span class="required-label"></span></th>
 	                        <td>
 	                        	<c:choose>
 	                        		<c:when test="${!empty detail }">
@@ -121,7 +121,7 @@
 	                        		</c:otherwise>
 	                        	</c:choose>
 	                        </td>
-	                        <th>소분류 카테고리명</th>
+	                        <th>소분류 카테고리명<span class="required-label"></span></th>
 	                        <td><input type="text" id="ciNm" name="ciNm" value="${detail.ciNm }" maxlength="100"></td>
 	                    </tr>
 	                    <tr>

@@ -194,7 +194,7 @@
 	            	</colgroup>
 	                <tbody class="no-hover">
 	                    <tr>
-	                        <th>통장/카드 구분</th>
+	                        <th>통장/카드 구분<span class="required-label"></span></th>
 	                        <td colspan="3">
 	                        	<select id="aiSe" name="aiSe">
 									<option value="">선택</option>
@@ -204,9 +204,9 @@
 	                        </td>
 	                    </tr>
 	                    <tr>
-	                    	<th>통장/카드명</th>
+	                    	<th>통장/카드명<span class="required-label"></span></th>
 	                        <td><input type="text" id="aiNm" name="aiNm" value="${detail.aiNm }" maxlength="100"></td>
-	                        <th>통장/카드</th>
+	                        <th>통장/카드<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="aiCode" name="aiCode"></select>
 								<select id="cardType" name="cardType" style="display:none">
@@ -217,7 +217,7 @@
 	                        </td>
 	                    </tr>
 	                    <tr>
-	                        <th>소비기간 시작일</th>
+	                        <th>소비기간 시작일<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="spendBgnMtSe" name="spendBgnMtSe">
 									<option value="">선택</option>
@@ -231,7 +231,7 @@
 									</c:forEach>
 								</select>
 	                        </td>
-	                        <th>소비기간 종료일</th>
+	                        <th>소비기간 종료일<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="spendEndMtSe" name="spendEndMtSe">
 									<option value="">선택</option>
@@ -247,7 +247,7 @@
 							</td>
 	                    </tr>
 	                    <tr>
-	                        <th>사용여부</th>
+	                        <th>사용여부<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="useYn" name="useYn">
 									<option value="">선택</option>

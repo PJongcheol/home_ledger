@@ -11,7 +11,7 @@
 <header>
 
     <div class="logo">
-    	<a href="javascript:void(0)" onclick="fn_goMenu('/admin/main/index.do', '2', '1')" class="a-decoration-color-non">
+    	<a href="/user/main/index.do" class="a-decoration-color-non">
         	<img src="/images/header_logo.png" alt="텅로그">
         </a>
     </div>

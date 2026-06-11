@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>CMS</title>
+<title>아이디 찾기</title>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script src="/js/devel.js"></script>
@@ -60,16 +60,16 @@
 		    </div>
 
 		    <div class="dev-body">
-	            <label for="memberNm">이름</label>
+	            <label for="memberNm">이름<span class="required-label"></span></label>
 	            <input type="text" id="memberNm" name="memberNm" placeholder="이름을 입력하세요" />
 
-	            <label for="email">이메일</label>
+	            <label for="email">이메일<span class="required-label"></span></label>
 	            <input type="text" id="memberEmail" name="memberEmail" placeholder="ex)xxxx@xxx.xxx 형식" />
 
-	            <label for="memberBrthdy">생년월일</label>
+	            <label for="memberBrthdy">생년월일<span class="required-label"></span></label>
 	            <input type="text" class="datepicker" id="memberBrthdy" name="memberBrthdy" readonly/>
 
-	            <label for="memberPhone">핸드폰번호</label>
+	            <label for="memberPhone">핸드폰번호<span class="required-label"></span></label>
 	            <input type="text" class="tel" id="memberPhone" name="memberPhone" placeholder="핸드폰 번호를 입력하세요" />
 
 	            <button type="button" onclick="fn_searchUserId()" class="dev-btn">아이디 찾기</button>
@@ -77,7 +77,7 @@
 		    </div>
 
 		    <div class="dev-footer">
-		        © 2026 CMS Admin System
+		        © 2026 TongLog. All Rights Reserved.
 		    </div>
 		</div>
 	</form>

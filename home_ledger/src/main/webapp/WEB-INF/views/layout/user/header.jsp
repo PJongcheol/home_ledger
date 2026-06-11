@@ -11,15 +11,16 @@
 <header>
 
     <div class="logo">
-    	<a href="javascript:void(0)" onclick="fn_goMenu('/admin/main/index.do', '2', '1')" class="a-decoration-color-non">
+    	<a href="/user/main/index.do" class="a-decoration-color-non">
         	<img src="/images/header_logo.png" alt="텅로그">
         </a>
     </div>
 
     <c:if test="${not empty sessionScope.LoginVO}">
         <div class="user">
-        	<a href="/user/main/index.do" class="a-decoration-color-non"><i class="fa-solid fa-house"></i></a>
-
+        	<c:if test="${sessionScope.LoginVO.masterCode eq '10'}">
+        		<a href="javascript:void(0)" onclick="fn_mng()" class="a-decoration-color-non"><i class="fa-solid fa-gear"></i></a>
+        	</c:if>
             <a href="javascript:void(0)" onclick="fn_profile()" class="a-decoration-color-non">
 	            <i class="fa-solid fa-user"></i>
 	            <span class="user-name">

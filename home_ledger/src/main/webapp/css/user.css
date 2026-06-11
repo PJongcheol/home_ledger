@@ -6,12 +6,12 @@ header {
     height:60px; background:#1f2c3d; color:#fff;
     display:flex; align-items:center; justify-content:space-between;
     padding:0 30px; box-shadow:0 3px 10px rgba(0,0,0,0.1);
-    position:sticky; top:0; z-index:100;
+    position:sticky; top:0; z-index:100; padding-left:13px;
 }
 header .logo { font-weight:bold; font-size:20px; }
 
 header .logo img {
-    max-height: 40px;
+    max-height: 80px;
     width: auto;
 }
 
@@ -1482,4 +1482,9 @@ table tbody tr td[rowspan] {
 }
 #chartLayer #statistics_layer tbody::-webkit-scrollbar-track {
     background: transparent;
+}
+
+.required-label::after {
+    content: " *";
+    color: red;
 }

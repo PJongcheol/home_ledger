@@ -194,7 +194,7 @@
 	            	</colgroup>
 	                <tbody class="no-hover">
 	                     <tr>
-	                        <th>통장/카드 구분</th>
+	                        <th>통장/카드 구분<span class="required-label"></span></th>
 	                        <td colspan="3">
 	                        	<c:choose>
 	                        		<c:when test="${!empty detail }">
@@ -217,7 +217,7 @@
 	                        </td>
 	                    </tr>
 	                    <tr>
-	                        <th>카테고리 구분</th>
+	                        <th>카테고리 구분<span class="required-label"></span></th>
 	                        <td>
 	                        	<c:choose>
 	                        		<c:when test="${!empty detail }">
@@ -238,7 +238,7 @@
 	                        		</c:otherwise>
 	                        	</c:choose>
 	                        </td>
-	                        <th>소분류 카테고리 구분</th>
+	                        <th>소분류 카테고리 구분<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="ciSeq" name="ciSeq">
 	                        		<option value="">선택</option>
@@ -246,7 +246,7 @@
 	                        </td>
 	                    </tr>
 	                    <tr>
-	                        <th>수입/지출 구분</th>
+	                        <th>수입/지출 구분<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="inoutType" name="inoutType">
 	                        		<option value="">선택</option>
@@ -265,11 +265,11 @@
 	                        		});
 	                        	</script>
 	                        </td>
-	                        <th>금액</th>
+	                        <th>금액<span class="required-label"></span></th>
 	                        <td><input type="text" id="amount" name="amount" class="input-small only_number_comma" value="${detail.amount }" /></td>
 	                    </tr>
 	                    <tr>
-	                        <th>거래일</th>
+	                        <th>거래일<span class="required-label"></span></th>
 	                        <td><input type="text" id="tranDate" name="tranDate" value="${detail.tranDate }" class="input-small datepicker" readonly/></td>
 	                        <th>비고(적요)</th>
 	                        <td><input type="text" id="remark" name="remark" value="${detail.remark }"/></td>

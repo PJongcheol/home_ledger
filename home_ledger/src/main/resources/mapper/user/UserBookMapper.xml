@@ -131,7 +131,9 @@
 			AND A.AI_SEQ = #{aiSeq}
 		</if>
 		ORDER BY
-			A.TRAN_DATE DESC
+			A.TRAN_DATE DESC, A.REG_DT DESC
+		LIMIT
+			#{offset}, #{pageSize}
 	</select>
 
 	<!-- 가계부 상세 -->

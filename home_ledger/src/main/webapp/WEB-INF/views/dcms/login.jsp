@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>텅로그</title>
 <link rel="stylesheet" href="<c:url value='/css/devel.css'/>">
-<link href="/favicon.ico" id="favicon" rel="shortcut icon" sizes="64x64" type="image/x-icon">
+<link href="/images/favicon.ico" id="favicon" rel="shortcut icon" sizes="64x64" type="image/x-icon">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -83,7 +83,7 @@
 	            <button type="button" onclick="fn_searchId()" class="dev-btn-gray-50">아이디찾기</button>
 		    </div>
 		    <div class="dev-footer">
-		        © 2026 Household Account Book
+		        © 2026 TongLog. All Rights Reserved.
 		    </div>
 		</div>
 	</form>

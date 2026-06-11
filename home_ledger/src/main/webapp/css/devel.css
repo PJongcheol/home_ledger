@@ -387,3 +387,8 @@ th {
     object-fit: contain;
     cursor: pointer;
 }
+
+.required-label::after {
+    content: " *";
+    color: red;
+}
