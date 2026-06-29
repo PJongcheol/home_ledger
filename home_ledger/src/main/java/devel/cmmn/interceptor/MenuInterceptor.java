@@ -42,15 +42,22 @@ public class MenuInterceptor implements HandlerInterceptor {
             String uri = request.getRequestURI();
 
             // 메뉴 고정을 위해 넣어준다
-            if(request.getParameter("menuId") != null
-        		&& request.getParameter("menuPid") != null
-        		&& !"".equals(request.getParameter("menuId"))
-        		&& !"".equals(request.getParameter("menuPid"))
-        		&& !"/admin/menu/saveMenu.do".equals(uri)) {
+            // 유저 메인메뉴 URI는 체크하지 않는다
+            if("/user/main/index.do".equals(uri)) {
+            	session.setAttribute("menuId", "20");
+            	session.setAttribute("menuPid", "9");
+            } else {
+            	if(request.getParameter("menuId") != null
+            		&& request.getParameter("menuPid") != null
+            		&& !"".equals(request.getParameter("menuId"))
+            		&& !"".equals(request.getParameter("menuPid"))
+            		&& !"/admin/menu/saveMenu.do".equals(uri)) {
 
-            	session.setAttribute("menuId", request.getParameter("menuId"));
-            	session.setAttribute("menuPid", request.getParameter("menuPid"));
+                	session.setAttribute("menuId", request.getParameter("menuId"));
+                	session.setAttribute("menuPid", request.getParameter("menuPid"));
+                }
             }
+
         }
 
         return true;

@@ -1,7 +1,10 @@
 package devel.user.main;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import devel.cmmn.base.BaseController;
+import devel.cmmn.login.vo.LoginVO;
+import devel.user.main.service.UserMainService;
 import jakarta.servlet.http.HttpSession;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * 메인 관리를 위한 컨트롤러
  * @Class Name   : UserMainController
-   @Description  : 대시보드 및 대시보드 동작을 위한 컨트롤러
+   @Description  : 메인 관리를 위한 컨트롤러
 
  * @author  : PJC
  * @date    : 2026. 1. 12
@@ -32,6 +38,9 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/user/main")
 public class UserMainController extends BaseController{
+	@Autowired
+	private UserMainService userMainService;
+
 	/**
      * 메인 대시보드
      * @Method : dashboard
@@ -61,6 +70,36 @@ public class UserMainController extends BaseController{
 	@GetMapping(value ="/index.do")
 	public String loginRedirect(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
+
+		LoginVO user = (LoginVO) session.getAttribute("LoginVO");
+		param.put("userId", user.getMemberId());
+
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		// 현재달
+		model.addAttribute("month", now.getMonthValue());
+
+		// 현재 년월
+		param.put("nowYearMonth", now.format(formatter));
+
+		// 저번달 년월
+		LocalDate lastMonth = now.minusMonths(1);
+		param.put("lastYearMonth", lastMonth.format(formatter));
+
+		// 대시보드 상단 간략 정보 조회
+		model.addAttribute("topInfo", userMainService.selectMainTopInfo(param));
+
+		// 해당월 카테고리별 지출 조회
+		model.addAttribute("categoryList", mapper.writeValueAsString(userMainService.selectMainCategoryList(param)));
+
+		// 해당월 과소비 체크 금액 조회
+		model.addAttribute("spendingList", mapper.writeValueAsString(userMainService.selectMainSpendingList(param)));
+
+		// 해당월 통장/카드 수입/지출 금액 조회
+		model.addAttribute("accountAmountList", userMainService.selectMainAccountAmountList(param));
 
 		return userLayout(model, "/WEB-INF/views/user/main/index");
 
