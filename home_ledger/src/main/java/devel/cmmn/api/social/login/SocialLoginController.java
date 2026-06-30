@@ -64,7 +64,7 @@ public class SocialLoginController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@GetMapping(value="/oauth.do")
+	@RequestMapping(value="/oauth.do")
 	public void getKakaoUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String scheme = request.getScheme();
@@ -105,7 +105,7 @@ public class SocialLoginController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@GetMapping(value="/snsAuth.do")
+	@RequestMapping(value="/snsAuth.do")
 	public String snsAuth(HttpServletRequest request, @RequestParam String code, @RequestParam String state) throws Exception {
 		String scheme = request.getScheme();
 		String serverName = request.getServerName();

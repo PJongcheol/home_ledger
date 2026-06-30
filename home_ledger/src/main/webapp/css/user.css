@@ -630,6 +630,22 @@ tbody tr td {
     background: #2980b9;
 }
 
+/* 조회 버튼 */
+.btn-color-green {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    background: #2ecc71;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-color-blue:hover {
+    background: #2980b9;
+}
+
 /* 초기화 */
 .btn-reset {
     padding: 10px 18px;

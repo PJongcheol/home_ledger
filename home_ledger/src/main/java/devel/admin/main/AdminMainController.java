@@ -48,7 +48,7 @@ public class AdminMainController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/index.do")
+	@RequestMapping(value ="/index.do")
 	public String loginRedirect(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -76,7 +76,7 @@ public class AdminMainController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@GetMapping(value ="/windowPopup.do")
+	@RequestMapping(value ="/windowPopup.do")
 	public String windowPopup(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 

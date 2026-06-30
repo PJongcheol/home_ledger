@@ -55,7 +55,7 @@ public class AdminMenuController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/list.do")
+	@RequestMapping(value ="/list.do")
 	public String list(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -88,7 +88,7 @@ public class AdminMenuController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/saveMenu.do")
+	@RequestMapping(value ="/saveMenu.do")
 	@ResponseBody
 	public Map<String, Object> saveMenu(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
@@ -126,7 +126,7 @@ public class AdminMenuController extends BaseController {
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="/deleteMenu.do")
+	@RequestMapping(value ="/deleteMenu.do")
 	@ResponseBody
 	public Map<String, Object> deleteMenu(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
@@ -159,7 +159,7 @@ public class AdminMenuController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/auth/list.do")
+	@RequestMapping(value ="/auth/list.do")
 	public String authList(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -188,7 +188,7 @@ public class AdminMenuController extends BaseController {
      * @throws Exception
      * @return : List
      */
-	@PostMapping(value ="/auth/menuAuthList.do")
+	@RequestMapping(value ="/auth/menuAuthList.do")
 	@ResponseBody
 	public List<List<Map<String, Object>>> menuAuthList(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -241,7 +241,7 @@ public class AdminMenuController extends BaseController {
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="/auth/insertMenuAuth.do")
+	@RequestMapping(value ="/auth/insertMenuAuth.do")
 	@ResponseBody
 	public Map<String, Object> insertMenuAuth(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -269,7 +269,7 @@ public class AdminMenuController extends BaseController {
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="/auth/deleteMenuAuth.do")
+	@RequestMapping(value ="/auth/deleteMenuAuth.do")
 	@ResponseBody
 	public Map<String, Object> deleteMenuAuth(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {

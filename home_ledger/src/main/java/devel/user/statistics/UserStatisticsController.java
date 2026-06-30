@@ -53,7 +53,7 @@ public class UserStatisticsController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="form.do")
+	@RequestMapping(value ="form.do")
 	public String form(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -97,7 +97,7 @@ public class UserStatisticsController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="selectChartAjax.do")
+	@RequestMapping(value ="selectChartAjax.do")
 	@ResponseBody
 	public Map<String, Object> selectChartAjax(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -129,7 +129,7 @@ public class UserStatisticsController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="selectChart1List.do")
+	@RequestMapping(value ="selectChart1List.do")
 	@ResponseBody
 	public Map<String, Object> selectChart1List(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -151,7 +151,7 @@ public class UserStatisticsController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="selectChart2List.do")
+	@RequestMapping(value ="selectChart2List.do")
 	@ResponseBody
 	public Map<String, Object> selectChart2List(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -173,7 +173,7 @@ public class UserStatisticsController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="selectChart3List.do")
+	@RequestMapping(value ="selectChart3List.do")
 	@ResponseBody
 	public Map<String, Object> selectChart3List(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {

@@ -339,14 +339,16 @@ function inoutChart(data) {
     });
 }
 
-//패스워드 layer 열기
+//layer 열기
 function openChartLayer(){
     $("#layerDim").addClass("open");
     $("#chartLayer").addClass("open");
+}
 
-    setTimeout(function(){
-        $("#nttPassword").focus();
-    },200);
+//layer 닫기
+function closeChartLayer() {
+	 $("#layerDim").removeClass("open");
+	 $("#chartLayer").removeClass("open");
 }
 
 function chart1Layer(categoryName, beginDe, endDe) {
@@ -477,12 +479,6 @@ function chart3Layer(date, inoutType) {
 	  }
 	});
 }
-
-function closeChartLayer() {
-	 $("#layerDim").removeClass("open");
-	 $("#chartLayer").removeClass("open");
-}
-
 </script>
 
 </head>

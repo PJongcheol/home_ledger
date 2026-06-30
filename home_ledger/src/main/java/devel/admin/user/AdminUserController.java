@@ -51,7 +51,7 @@ public class AdminUserController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/userList.do")
+	@RequestMapping(value ="/userList.do")
 	public String userList(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -95,7 +95,7 @@ public class AdminUserController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/userDetail.do")
+	@RequestMapping(value ="/userDetail.do")
 	public String userDetail(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -117,7 +117,7 @@ public class AdminUserController extends BaseController {
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="/saveUser.do")
+	@RequestMapping(value ="/saveUser.do")
 	@ResponseBody
 	public Map<String, Object> saveUser(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
@@ -145,7 +145,7 @@ public class AdminUserController extends BaseController {
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="/loginCountReset.do")
+	@RequestMapping(value ="/loginCountReset.do")
 	@ResponseBody
 	public Map<String, Object> loginCountReset(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
@@ -173,7 +173,7 @@ public class AdminUserController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/logList.do")
+	@RequestMapping(value ="/logList.do")
 	public String logList(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 

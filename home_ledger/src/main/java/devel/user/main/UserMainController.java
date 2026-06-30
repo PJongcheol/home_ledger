@@ -50,7 +50,7 @@ public class UserMainController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/dashboard.do")
+	@RequestMapping(value ="/dashboard.do")
 	public String dashboard(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -67,7 +67,7 @@ public class UserMainController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@GetMapping(value ="/index.do")
+	@RequestMapping(value ="/index.do")
 	public String loginRedirect(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 

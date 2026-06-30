@@ -59,7 +59,7 @@ public class AdminBbsController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/list.do")
+	@RequestMapping(value ="/list.do")
 	public String list(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -103,7 +103,7 @@ public class AdminBbsController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/form.do")
+	@RequestMapping(value ="/form.do")
 	public String form(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -131,7 +131,7 @@ public class AdminBbsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="/saveBbs.do")
+	@RequestMapping(value ="/saveBbs.do")
 	@ResponseBody
 	public Map<String, Object> saveBbs(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -163,7 +163,7 @@ public class AdminBbsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="/deleteBbs.do")
+	@RequestMapping(value ="/deleteBbs.do")
 	@ResponseBody
 	public Map<String, Object> deleteBbs(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
@@ -195,7 +195,7 @@ public class AdminBbsController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/board/list.do")
+	@RequestMapping(value ="/board/list.do")
 	public String bbsList(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -249,7 +249,7 @@ public class AdminBbsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="/board/bbsPassword.do")
+	@RequestMapping(value ="/board/bbsPassword.do")
 	@ResponseBody
 	public Map<String, Object> bbsPassword(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session
@@ -276,7 +276,7 @@ public class AdminBbsController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/board/form.do")
+	@RequestMapping(value ="/board/form.do")
 	public String bbsform(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -321,7 +321,7 @@ public class AdminBbsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="/board/saveBoard.do")
+	@RequestMapping(value ="/board/saveBoard.do")
 	@ResponseBody
 	public Map<String, Object> saveBoard(@RequestParam Map<String, Object> param
 			,@RequestParam(value="files", required=false) List<MultipartFile> files
@@ -366,7 +366,7 @@ public class AdminBbsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="/board/deleteBoard.do")
+	@RequestMapping(value ="/board/deleteBoard.do")
 	@ResponseBody
 	public Map<String, Object> deleteBoard(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session
@@ -394,7 +394,7 @@ public class AdminBbsController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/board/view.do")
+	@RequestMapping(value ="/board/view.do")
 	public String bbsView(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session
 			, HttpServletRequest request) throws Exception {

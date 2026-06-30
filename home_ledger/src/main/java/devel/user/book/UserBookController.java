@@ -56,7 +56,7 @@ public class UserBookController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="bookList.do")
+	@RequestMapping(value ="bookList.do")
 	public String bookList(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -125,7 +125,7 @@ public class UserBookController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="bookForm.do")
+	@RequestMapping(value ="bookForm.do")
 	public String bookForm(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -151,7 +151,7 @@ public class UserBookController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="saveBook.do")
+	@RequestMapping(value ="saveBook.do")
 	@ResponseBody
 	public Map<String, Object> saveBook(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -173,7 +173,7 @@ public class UserBookController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="deleteBook.do")
+	@RequestMapping(value ="deleteBook.do")
 	@ResponseBody
 	public Map<String, Object> deleteBook(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -195,7 +195,7 @@ public class UserBookController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="updateOverSpendingYn.do")
+	@RequestMapping(value ="updateOverSpendingYn.do")
 	@ResponseBody
 	public Map<String, Object> updateOverSpendingYn(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {

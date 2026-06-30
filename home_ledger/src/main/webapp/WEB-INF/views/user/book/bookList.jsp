@@ -72,6 +72,18 @@
 		$("#bookForm #pageIndex").val(idx);
 		$("#bookForm").submit();
 	}
+
+	//layer 열기
+	function openChartLayer(){
+	    $("#layerDim").addClass("open");
+	    $("#chartLayer").addClass("open");
+	}
+
+	//layer 닫기
+	function closeChartLayer() {
+		 $("#layerDim").removeClass("open");
+		 $("#chartLayer").removeClass("open");
+	}
 </script>
 </head>
 <body class="common-page">
@@ -129,6 +141,7 @@
 			            <button type="button" onclick="fn_reset()" class="btn-reset">초기화</button>
 			        </div>
 			        <div class="search-row-right">
+			            <button type="button" onclick="openChartLayer()" class="btn-color-green">가계부 업로드</button>
 			            <button type="button" onclick="fn_new()" class="btn-search">신규등록</button>
 			        </div>
 
@@ -203,6 +216,103 @@
 			    <jsp:param name="pageIndexName" value="userPageIndex" />
 			</jsp:include>
 	    </div>
+	</div>
+
+	 <!-- dim -->
+	<div id="layerDim" class="layer-dim"></div>
+
+    <!-- 레이어 -->
+	<div id="chartLayer" class="chart-layer">
+		 <button type="button" class="layer-close" onclick="closeChartLayer()">✕</button>
+	    <h3 id="title">가계부 업로드</h3>
+		<form id="adminBbsPassword" name="adminBbsPassword">
+			<table class="form-table">
+	            	<colgroup>
+	            		<col style="width:15%">
+	            		<col style="width:35%">
+	            		<col style="width:15%">
+	            		<col style="width:35%">
+	            	</colgroup>
+	                <tbody class="no-hover">
+	                     <tr>
+	                        <th colspan="4">
+	                        	<span class="required-label"></span> 가계부 업로드는 이전 데이터를 등록하기 위한 기능입니다.</br>
+	                        	<span class="required-label"></span> 등록된 통장/카드를 선택 후 제공되는 양식에 맞게 업로드 해주세요.
+	                        </th>
+	                    </tr>
+	                    <tr>
+	                        <th>카테고리 구분<span class="required-label"></span></th>
+	                        <td>
+	                        	<c:choose>
+	                        		<c:when test="${!empty detail }">
+	                        			<c:forEach var="category" items="${categoryList }">
+	                        				<c:if test="${detail.categoryCode eq category.categoryCode }">
+	                        					<input type="hidden" id="categoryCode" name="categoryCode" value="${category.categoryCode }" />
+	                        					<c:out value="${category.categoryName }"/>
+	                        				</c:if>
+	                        			</c:forEach>
+	                        		</c:when>
+	                        		<c:otherwise>
+										<select id="categoryCode" name="categoryCode">
+							                <option value="">선택</option>
+							                <c:forEach var="category" items="${categoryList }">
+							                	<option value="${category.categoryCode }" ${detail.categoryCode eq category.categoryCode ? 'selected' : ''}>${category.categoryName }</option>
+							                </c:forEach>
+							            </select>
+	                        		</c:otherwise>
+	                        	</c:choose>
+	                        </td>
+	                        <th>소분류 카테고리 구분<span class="required-label"></span></th>
+	                        <td>
+	                        	<select id="ciSeq" name="ciSeq">
+	                        		<option value="">선택</option>
+	                        	</select>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <th>수입/지출 구분<span class="required-label"></span></th>
+	                        <td>
+	                        	<select id="inoutType" name="inoutType">
+	                        		<option value="">선택</option>
+	                        		<option value="I" ${detail.inoutType eq 'I' ? 'selected' : '' }>수입</option>
+	                        		<option value="E" ${detail.inoutType eq 'E' ? 'selected' : '' }>지출</option>
+	                        	</select>
+								<select id="overSpendingYn" name="overSpendingYn" style="display:none">
+	                        		<option value="N" ${detail.overSpendingYn eq 'N' ? 'selected' : '' }>일반소비</option>
+	                        		<option value="Y" ${detail.overSpendingYn eq 'Y' ? 'selected' : '' }>과소비</option>
+	                        	</select>
+	                        	<script>
+	                        		$(document).ready(function(){
+										if($("#inoutType").val() == "E") {
+											$("#overSpendingYn").show();
+										}
+	                        		});
+	                        	</script>
+	                        </td>
+	                        <th>금액<span class="required-label"></span></th>
+	                        <td><input type="text" id="amount" name="amount" class="input-small only_number_comma" value="${detail.amount }" /></td>
+	                    </tr>
+	                    <tr>
+	                        <th>거래일<span class="required-label"></span></th>
+	                        <td><input type="text" id="tranDate" name="tranDate" value="${detail.tranDate }" class="input-small datepicker" readonly/></td>
+	                        <th>비고(적요)</th>
+	                        <td><input type="text" id="remark" name="remark" value="${detail.remark }"/></td>
+	                    </tr>
+	                    <tr>
+	                        <th>등록자</th>
+	                        <td><c:out value="${detail.regId }"/></td>
+	                        <th>등록일시</th>
+	                        <td><c:out value="${detail.regDt }"/></td>
+	                    </tr>
+	                    <tr>
+	                        <th>수정자</th>
+	                        <td><c:out value="${detail.updId }"/></td>
+	                        <th>수정일시</th>
+	                        <td><c:out value="${detail.updDt }"/></td>
+	                    </tr>
+	                </tbody>
+	            </table>
+		</form>
 	</div>
 </body>
 </html>

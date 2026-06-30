@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -49,7 +49,7 @@ public class LoginController {
      * @throws Exception
      * @return : String
      */
-	@GetMapping(value ="/")
+	@RequestMapping(value ="/")
 	public String loginRedirect(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -66,7 +66,7 @@ public class LoginController {
      * @throws Exception
      * @return : String
      */
-	@GetMapping(value ="/login.do")
+	@RequestMapping(value ="/login.do")
 	public String login(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -86,7 +86,7 @@ public class LoginController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/login/actionLogin.do")
+	@RequestMapping(value ="/login/actionLogin.do")
 	public String actionLogin( HttpServletRequest req, HttpServletResponse response
 			, @RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session
@@ -153,7 +153,7 @@ public class LoginController {
      * @throws Exception
      * @return : String
      */
-	@GetMapping(value ="/login/signUp.do")
+	@RequestMapping(value ="/login/signUp.do")
 	public String signUpForm(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -172,7 +172,7 @@ public class LoginController {
      * @throws Exception
      * @return : map
      */
-	@PostMapping(value ="/login/checkId.do")
+	@RequestMapping(value ="/login/checkId.do")
 	@ResponseBody
 	public Map<String, Object> checkId(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -201,7 +201,7 @@ public class LoginController {
      * @throws Exception
      * @return : map
      */
-	@PostMapping(value ="/login/signUpSave.do")
+	@RequestMapping(value ="/login/signUpSave.do")
 	@ResponseBody
 	public Map<String, Object> signUpSave(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -224,7 +224,7 @@ public class LoginController {
      * @throws Exception
      * @return : String
      */
-	@GetMapping(value ="/login/searchId.do")
+	@RequestMapping(value ="/login/searchId.do")
 	public String searchId(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -243,7 +243,7 @@ public class LoginController {
      * @throws Exception
      * @return : map
      */
-	@PostMapping(value ="/login/searchUserId.do")
+	@RequestMapping(value ="/login/searchUserId.do")
 	@ResponseBody
 	public Map<String, Object> searchUserId(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -266,7 +266,7 @@ public class LoginController {
      * @throws Exception
      * @return : map
      */
-	@GetMapping(value ="/login/logout.do")
+	@RequestMapping(value ="/login/logout.do")
 	public String logout(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 		Map<String, Object> result = new HashMap<>();

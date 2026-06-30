@@ -65,7 +65,7 @@ public class EtcController {
      * @throws Exception
      * @return : Map
      */
-	@PostMapping("/imageUpload.do")
+	@RequestMapping("/imageUpload.do")
 	@ResponseBody
 	public Map<String, Object> uploadImage(@RequestParam("upload") MultipartFile file){
 		Map<String, Object> result = new HashMap<>();
@@ -99,7 +99,7 @@ public class EtcController {
      * @throws Exception
      * @return : void
      */
-	@PostMapping(value ="/downloadFile.do")
+	@RequestMapping(value ="/downloadFile.do")
 	public void downloadFileorm(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session, HttpServletResponse response) throws Exception {
 
@@ -153,7 +153,7 @@ public class EtcController {
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="/deleteFile.do")
+	@RequestMapping(value ="/deleteFile.do")
 	@ResponseBody
 	public Map<String, Object> form(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -173,7 +173,7 @@ public class EtcController {
      * @throws Exception
      * @return : String
      */
-	@GetMapping(value ="/memberProfile.do")
+	@RequestMapping(value ="/memberProfile.do")
 	public String memberProfile(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
 
@@ -192,7 +192,7 @@ public class EtcController {
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="/updateProfile.do")
+	@RequestMapping(value ="/updateProfile.do")
 	@ResponseBody
 	public Map<String, Object> updateProfile(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {

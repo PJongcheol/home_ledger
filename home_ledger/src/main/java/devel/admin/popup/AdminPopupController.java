@@ -55,7 +55,7 @@ public class AdminPopupController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/list.do")
+	@RequestMapping(value ="/list.do")
 	public String list(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -99,7 +99,7 @@ public class AdminPopupController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/form.do")
+	@RequestMapping(value ="/form.do")
 	public String form(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -127,7 +127,7 @@ public class AdminPopupController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/savePopup.do")
+	@RequestMapping(value ="/savePopup.do")
 	@ResponseBody
 	public Map<String, Object> savePopup(@RequestParam Map<String, Object> param
 			, @RequestParam(value="files", required=false) List<MultipartFile> files
@@ -170,7 +170,7 @@ public class AdminPopupController extends BaseController {
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="/deletePopup.do")
+	@RequestMapping(value ="/deletePopup.do")
 	@ResponseBody
 	public Map<String, Object> deletePopup(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {

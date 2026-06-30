@@ -52,7 +52,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="accountList.do")
+	@RequestMapping(value ="accountList.do")
 	public String accountList(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -95,7 +95,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="accountForm.do")
+	@RequestMapping(value ="accountForm.do")
 	public String accountForm(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -119,7 +119,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="saveAccount.do")
+	@RequestMapping(value ="saveAccount.do")
 	@ResponseBody
 	public Map<String, Object> saveAccount(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -142,7 +142,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="deleteAccount.do")
+	@RequestMapping(value ="deleteAccount.do")
 	@ResponseBody
 	public Map<String, Object> deleteAccount(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -165,7 +165,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="categoryList.do")
+	@RequestMapping(value ="categoryList.do")
 	public String categoryList(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -190,7 +190,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="categoryForm.do")
+	@RequestMapping(value ="categoryForm.do")
 	public String categoryForm(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -214,7 +214,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="saveCategory.do")
+	@RequestMapping(value ="saveCategory.do")
 	@ResponseBody
 	public Map<String, Object> saveCategory(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -237,7 +237,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="deleteCategory.do")
+	@RequestMapping(value ="deleteCategory.do")
 	@ResponseBody
 	public Map<String, Object> deleteCategory(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -260,7 +260,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="fixedExpenseList.do")
+	@RequestMapping(value ="fixedExpenseList.do")
 	public String fixedExpenseList(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -282,7 +282,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="fixedExpenseForm.do")
+	@RequestMapping(value ="fixedExpenseForm.do")
 	public String fixedExpenseForm(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -309,7 +309,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="selectCategory.do")
+	@RequestMapping(value ="selectCategory.do")
 	@ResponseBody
 	public Map<String, Object> selectCategory(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -332,7 +332,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="saveFixedExpense.do")
+	@RequestMapping(value ="saveFixedExpense.do")
 	@ResponseBody
 	public Map<String, Object> saveFixedExpense(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -355,7 +355,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="deleteFixedExpense.do")
+	@RequestMapping(value ="deleteFixedExpense.do")
 	@ResponseBody
 	public Map<String, Object> deleteFixedExpense(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -378,7 +378,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : String
      */
-	@PostMapping(value ="bookViewConfig.do")
+	@RequestMapping(value ="bookViewConfig.do")
 	public String bookViewConfig(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
 
@@ -402,7 +402,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="addBookViewConfig.do")
+	@RequestMapping(value ="addBookViewConfig.do")
 	@ResponseBody
 	public Map<String, Object> addBookViewConfig(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -425,7 +425,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="orderBookViewConfig.do")
+	@RequestMapping(value ="orderBookViewConfig.do")
 	@ResponseBody
 	public Map<String, Object> orderBookViewConfig(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
@@ -448,7 +448,7 @@ public class UserSettingsController extends BaseController{
      * @throws Exception
      * @return : Map
      */
-	@PostMapping(value ="deleteBookViewConfig.do")
+	@RequestMapping(value ="deleteBookViewConfig.do")
 	@ResponseBody
 	public Map<String, Object> deleteBookViewConfig(@RequestParam Map<String, Object> param
 			, ModelMap model, HttpSession session) throws Exception {
