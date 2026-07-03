@@ -37,7 +37,11 @@
 					  if(data.message == "ok") {
 						  alert("정상적으로 처리되었습니다.");
 						  fn_back();
+					  } else if(data.message == "isNotValid") {
+						  alert("해당 소분류 카테고리는 이미 등록되어 있습니다.");
+						  return false;
 					  }
+
 				  },
 				  error: function(xhr, status, error){
 					  console.log(xhr + ":" + status + ":" + error);

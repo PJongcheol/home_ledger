@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import devel.user.book.mapper.UserBookMapper;
 import devel.user.book.service.UserBookService;
+import devel.user.settings.mapper.UserSettingsMapper;
 
 /**
  * 유저 가계부를 위한 ServiceImpl
@@ -30,6 +31,9 @@ import devel.user.book.service.UserBookService;
 public class UserBookServiceImpl implements UserBookService{
 	@Autowired
 	private UserBookMapper userBookMapper;
+
+	@Autowired
+	private UserSettingsMapper userSettingsMapper;
 
 	/**
 	 * 가계부 총 수입 지출 건수
@@ -111,6 +115,37 @@ public class UserBookServiceImpl implements UserBookService{
 	@Override
 	public void updateOverSpendingYn(Map<String, Object> param) throws Exception {
 		userBookMapper.updateOverSpendingYn(param);
+	}
+
+	/**
+	 * 카테고리 코드 조회
+	 * @param Map
+	 * @return String
+	 * @exception Exception
+	 */
+	@Override
+	public String selectExcelUploadCategoryCode(String param) throws Exception {
+		return userBookMapper.selectExcelUploadCategoryCode(param);
+	}
+
+	/**
+	 * 카테고리 소분류 조회
+	 * @param Map
+	 * @return String
+	 * @exception Exception
+	 */
+	@Override
+	public String selectExcelUploadSubCategoryCode(Map<String, Object> param) throws Exception {
+			String ciSeq = userBookMapper.selectExcelUploadSubCategoryCode(param);
+
+			if(ciSeq == null || "".equals(ciSeq)) {
+				ciSeq = String.valueOf(userSettingsMapper.selectCategorySeq(param));
+				param.put("ciSeq", ciSeq);
+
+				userSettingsMapper.insertCategory(param);
+			}
+
+		return ciSeq;
 	}
 
 	//------------------------  Scheduler   ------------------------

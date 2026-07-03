@@ -640,6 +640,19 @@ tbody tr td {
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    text-decoration: none;
+}
+
+/* 조회 버튼 */
+.btn-color-blue {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    background: #2980b9;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .btn-color-blue:hover {
@@ -1504,4 +1517,27 @@ table tbody tr td[rowspan] {
 .required-label::after {
     content: " *";
     color: red;
+}
+
+.layerBtn {
+	margin-top:10px;
+	text-align:center;
+}
+
+.wrap-loading{
+	position: absolute;
+	z-index: 999;
+	left:0;
+	right:0;
+	top: 0;
+	bottom:0;
+	background: rgba(255,255,255,0.9);
+}
+.wrap-loading div{
+	position: relative;
+	top: 27%;
+	text-align: center;
+}
+.display-none {
+	display:none;
 }

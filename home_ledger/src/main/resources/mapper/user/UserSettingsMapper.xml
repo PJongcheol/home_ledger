@@ -243,6 +243,21 @@
 			DEL_YN = 'N'
 	</select>
 
+	<!-- 카테고리 중복검사 카운트 -->
+	<select id="selectCategoryCnt" parameterType="Map" resultType="int">
+		/* userSettingsMapper.selectCategoryCnt */
+		SELECT
+			COUNT(1)
+		FROM
+			TB_CATEGORY_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			CATEGORY_CODE = #{categoryCode}
+		AND
+			CI_NM = #{ciNm}
+	</select>
+
 	<!-- 카테고리 일련번호 -->
 	<select id="selectCategorySeq" parameterType="Map" resultType="int">
 		/* userSettingsMapper.selectCategorySeq */

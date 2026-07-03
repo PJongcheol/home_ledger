@@ -241,7 +241,7 @@ function fn_detail(mode) {
                 		</c:when>
                 		<c:otherwise>
                 			<tr>
-		                        <th colspan="4">조회된 데이터가 없습니다.</th>
+		                        <td colspan="4">조회된 데이터가 없습니다.</td>
 		                    </tr>
                 		</c:otherwise>
                 	</c:choose>

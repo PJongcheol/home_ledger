@@ -34,10 +34,17 @@ public interface UserBookMapper {
 	// 가계부 과소비 update
 	public void updateOverSpendingYn(Map<String, Object> param);
 
+	// 카테고리 코드 조회
+	public String selectExcelUploadCategoryCode(String param);
+
+	// 카테고리 소분류 조회
+	public String selectExcelUploadSubCategoryCode(Map<String, Object> param);
+
 	//------------------------  Scheduler   ------------------------
 	// 스케줄러 가계부 일련번호
 	public int selectSchedulerBookSeq(Map<String, Object> param);
 
 	// 스케줄러 가계부 저장
 	public void insertSchedulerBook(Map<String, Object> param);
+
 }

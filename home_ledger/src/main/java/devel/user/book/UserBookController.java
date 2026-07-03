@@ -6,19 +6,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import devel.cmmn.base.BaseController;
 import devel.cmmn.etc.service.EtcService;
 import devel.cmmn.login.vo.LoginVO;
 import devel.user.book.service.UserBookService;
 import devel.user.settings.service.UserSettingsService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 /**
@@ -209,5 +216,118 @@ public class UserBookController extends BaseController{
 
 		result.put("message", "ok");
 		return result;
+	}
+
+	/**
+     * 가계부 엑셀 업로드
+     * @Method : uploadExcelBook
+     * @param request
+     * @param response
+     * @param throws
+     * @throws Exception
+     * @return : Map
+     */
+	@RequestMapping(value ="/uploadExcelBook.do")
+	@ResponseBody
+	public Map<String, Object> uploadExcelBook(@RequestParam Map<String, Object> param
+			,@RequestParam(value="file", required=false) MultipartFile file
+			, ModelMap model, HttpSession session, HttpServletRequest request) throws Exception {
+
+		// 로그인 사용자 정보
+    	LoginVO user = (LoginVO) session.getAttribute("LoginVO");
+    	param.put("userId", user.getMemberId());
+
+		Map<String, Object> result = new HashMap<>();
+
+		if(file.isEmpty()) {
+			result.put("message", "none");
+		}
+
+		try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
+			Sheet sheet = workbook.getSheetAt(0);
+
+			int idx = 0;
+
+			HashMap<String, Object> newParam = new HashMap<String,Object>();
+			newParam.put("userId", user.getMemberId());
+			newParam.put("aiSeq", param.get("layerAccount"));
+
+			DataFormatter formatter = new DataFormatter();
+
+			for(Row row : sheet) {
+				if(idx++ < 2) {
+					continue;
+				}
+
+				String tranDate 		= formatter.formatCellValue(row.getCell(0));
+				String amount 			= formatter.formatCellValue(row.getCell(1));
+				String inoutType 		= formatter.formatCellValue(row.getCell(2));
+				String category 		= formatter.formatCellValue(row.getCell(3));
+				String ciNm 			= formatter.formatCellValue(row.getCell(4));
+				String overSpendingYn 	= formatter.formatCellValue(row.getCell(5));
+				String remark 			= formatter.formatCellValue(row.getCell(6));
+
+				// 거래일자 유효성
+				if(tranDate == null || "".equals(tranDate) || !tranDate.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+					continue;
+				}
+
+				// 금액 유효성
+				if(amount == null || "".equals(amount)) {
+					continue;
+				}
+
+				// 수입/지출 타입 유효성
+				if(inoutType == null || "".equals(inoutType) || !("수입".equals(inoutType) || "지출".equals(inoutType))) {
+					continue;
+				} else {
+					inoutType = "수입".equals(inoutType) ? "I" : "E";
+				}
+
+				// 카테고리 유효성
+				if(category == null || "".equals(category)) {
+					continue;
+				}
+
+				// 카테고리 소분류 유효성
+				if(ciNm == null || "".equals(ciNm)) {
+					continue;
+				}
+
+				// 과소비 여부
+				if(overSpendingYn != null && !"".equals(overSpendingYn)) {
+					overSpendingYn = "Y".equals(overSpendingYn) ? "Y" : "N";
+				} else {
+					overSpendingYn = "N";
+				}
+
+				// 해당 카테고리가 있는지 유효성
+				String categoryCode = userBookService.selectExcelUploadCategoryCode(category);
+
+				if(categoryCode == null || "".equals(categoryCode)) {
+					continue;
+				}
+
+				newParam.put("tranDate", tranDate);
+				newParam.put("amount", amount);
+				newParam.put("inoutType", inoutType);
+				newParam.put("categoryCode", categoryCode);
+				newParam.put("ciNm", ciNm);
+				newParam.put("overSpendingYn", overSpendingYn);
+				newParam.put("remark", remark);
+				newParam.put("mode", "I");
+
+				// 카테고리 소분류 조회
+				newParam.put("ciSeq", userBookService.selectExcelUploadSubCategoryCode(newParam));
+
+				// 가계부 저장
+				userBookService.saveBook(newParam);
+			}
+		}
+
+		result.put("message", "ok");
+
+		return result;
+
 	}
 }

@@ -132,6 +132,17 @@ public class UserSettingsServiceImpl implements UserSettingsService {
 	}
 
 	/**
+	 * 카테고리 중복검사 카운트
+	 * @param Map
+	 * @return int
+	 * @exception Exception
+	 */
+	@Override
+	public int selectCategoryCnt(Map<String, Object> param) throws Exception {
+		return userSettingsMapper.selectCategoryCnt(param);
+	}
+
+	/**
 	 * 카테고리 저장
 	 * @param Map
 	 * @return void

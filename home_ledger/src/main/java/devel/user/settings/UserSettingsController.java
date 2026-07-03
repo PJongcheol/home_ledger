@@ -224,9 +224,27 @@ public class UserSettingsController extends BaseController{
 		LoginVO user = (LoginVO) session.getAttribute("LoginVO");
 		param.put("userId", user.getMemberId());
 
-		userSettingsService.saveCategory(param);
+		boolean isValid = true;
 
-		result.put("message", "ok");
+		// 신규 등록인 경우 동일한 소분류 카테고리명이 존재하는지 체크
+		if("I".equals(param.get("mode"))) {
+			int cnt = userSettingsService.selectCategoryCnt(param);
+
+			if(cnt > 0) {
+				isValid = false;
+			}
+		}
+
+		// 유효하면 진행
+		if(isValid) {
+			userSettingsService.saveCategory(param);
+
+			result.put("message", "ok");
+		} else {
+			result.put("message", "isNotValid");
+		}
+
+
 
 		return result;
 	}

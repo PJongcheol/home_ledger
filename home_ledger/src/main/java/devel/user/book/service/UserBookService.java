@@ -76,6 +76,22 @@ public interface UserBookService {
 	 */
 	public void updateOverSpendingYn(Map<String, Object> param) throws Exception;
 
+	/**
+	 * 카테고리 코드 조회
+	 * @param Map
+	 * @return String
+	 * @exception Exception
+	 */
+	public String selectExcelUploadCategoryCode(String param) throws Exception;
+
+	/**
+	 * 카테고리 소분류 조회
+	 * @param Map
+	 * @return String
+	 * @exception Exception
+	 */
+	public String selectExcelUploadSubCategoryCode(Map<String, Object> param) throws Exception;
+
 	//------------------------  Scheduler   ------------------------
 	/**
 	 * 스케줄러 가계부 저장

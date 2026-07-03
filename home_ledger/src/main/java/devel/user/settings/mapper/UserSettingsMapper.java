@@ -37,6 +37,9 @@ public interface UserSettingsMapper {
 	// 카테고리 상세
 	public Map<String, Object> selectCategoryDtl(Map<String, Object> param);
 
+	// 카테고리 중복검사 카운트
+	public int selectCategoryCnt(Map<String, Object> param);
+
 	// 카테고리 일련번호
 	public int selectCategorySeq(Map<String, Object> param);
 

@@ -77,6 +77,14 @@ public interface UserSettingsService {
 	public Map<String, Object> selectCategoryDtl(Map<String, Object> param) throws Exception;
 
 	/**
+	 * 카테고리 중복검사 카운트
+	 * @param Map
+	 * @return int
+	 * @exception Exception
+	 */
+	public int selectCategoryCnt(Map<String, Object> param) throws Exception;
+
+	/**
 	 * 카테고리 저장
 	 * @param Map
 	 * @return void
@@ -187,9 +195,6 @@ public interface UserSettingsService {
 	 * @exception Exception
 	 */
 	public List<Map<String, Object>> selectBookViewList(Map<String, Object> param) throws Exception;
-
-
-
 
 	//------------------------  Scheduler   ------------------------
 	/**
