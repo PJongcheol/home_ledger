@@ -153,7 +153,7 @@
 		    </div>
 
 		    <div class="dev-footer">
-		        © 2026 CMS Admin System
+		        © 2026 TongLog. All Rights Reserved.
 		    </div>
 		</div>
 	</form>
