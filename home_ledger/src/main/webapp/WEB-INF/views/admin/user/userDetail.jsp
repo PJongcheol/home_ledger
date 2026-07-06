@@ -24,6 +24,18 @@
 				return false;
 			}
 
+			// PassWord
+			if($("#memberPw").val() != "") {
+				if($("#memberPw").val().length < 4) {
+					alert("비밀번호는 최소 4자리입니다.");
+					return false;
+				} else if($("#memberPw").val() != $("#memberPw2").val()) {
+					alert("비밀번호가 일치하지 않습니다.");
+					$("#memberPw2").focus();
+					return false;
+				}
+			}
+
 			// 이메일
 			if($("#memberEmail").val().trim() == "") {
 				alert("이메일은 필수입니다.");
@@ -49,12 +61,6 @@
 				return false;
 			} else if($("#memberPhone").val().length < 13) {
 				alert("핸드폰 번호는 13자리 입니다.");
-				return false;
-			}
-
-			// 주소
-			if($("#memberPost").val() == "" || $("#memberAddr").val() == "") {
-				alert("주소는 필수입니다.");
 				return false;
 			}
 
@@ -155,9 +161,9 @@
 
 	                    </tr>
 	                    <tr>
-	                        <th>이름</th>
+	                        <th>이름<span class="required-label"></span></th>
 	                        <td><input type="text" id="memberNm" name="memberNm" value="${detail.memberNm }" maxlength="50"></td>
-	                        <th>마스터코드</th>
+	                        <th>마스터코드<span class="required-label"></span></th>
 	                        <td>
 								<select id="masterCode" name="masterCode">
 									<option value="">선택</option>
@@ -168,13 +174,19 @@
 	                        </td>
 	                    </tr>
 	                    <tr>
-	                        <th>이메일</th>
+	                        <th>비밀번호</th>
+	                        <td><input type="password" id="memberPw" name="memberPw" placeholder="4자리 이상"></td>
+	                        <th>비밀번호 확인</th>
+	                        <td><input type="password" id="memberPw2" name="memberPw2" placeholder="동일한 비밀번호를 입력하세요"></td>
+	                    </tr>
+	                    <tr>
+	                        <th>이메일<span class="required-label"></span></th>
 	                        <td><input type="text" id="memberEmail" name="memberEmail" value="${detail.memberEmail }" maxlength="40"></td>
-	                        <th>생년월일</th>
+	                        <th>생년월일<span class="required-label"></span></th>
 	                        <td><input type="text" class="datepicker" id="memberBrthdy" name="memberBrthdy" value="${detail.memberBrthdy }" readonly></td>
 	                    </tr>
 	                    <tr>
-	                        <th>휴대폰번호</th>
+	                        <th>휴대폰번호<span class="required-label"></span></th>
 	                        <td><input type="text" class="tel" id="memberPhone" name="memberPhone" value="${detail.memberPhone }"></td>
 	                        <th>우편번호</th>
 	                        <td>
@@ -189,7 +201,7 @@
 	                        <td><input type="text" id="memberAddrDetl" name="memberAddrDetl" value="${detail.memberAddrDetl }" maxlength="255"></td>
 	                    </tr>
 	                    <tr>
-	                        <th>승인여부</th>
+	                        <th>승인여부<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="confmYn" name="confmYn">
 									<option value="">선택</option>
@@ -197,7 +209,7 @@
 									<option value="N" ${detail.confmYn eq 'N' ? 'selected' : '' }>미승인</option>
 								</select>
 	                        </td>
-	                        <th>사용여부</th>
+	                        <th>사용여부<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="useYn" name="useYn">
 									<option value="">선택</option>

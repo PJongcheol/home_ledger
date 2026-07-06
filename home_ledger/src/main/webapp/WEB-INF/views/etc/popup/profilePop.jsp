@@ -37,6 +37,18 @@
 			return false;
 		}
 
+		// PassWord
+		if($("#memberPw").val() != "") {
+			if($("#memberPw").val().length < 4) {
+				alert("비밀번호는 최소 4자리입니다.");
+				return false;
+			} else if($("#memberPw").val() != $("#memberPw2").val()) {
+				alert("비밀번호가 일치하지 않습니다.");
+				$("#memberPw2").focus();
+				return false;
+			}
+		}
+
 		// Email
 		if($("#memberEmail").val() == "") {
 			alert("이메일은 필수입니다.");
@@ -62,12 +74,6 @@
 			return false;
 		} else if($("#memberPhone").val().length < 13) {
 			alert("핸드폰 번호는 13자리 입니다.");
-			return false;
-		}
-
-		// Addr
-		if($("#memberPost").val() == "" || $("#memberAddr").val() == "") {
-			alert("주소는 필수입니다.");
 			return false;
 		}
 
@@ -114,16 +120,22 @@
 	            <label for="memberId">아이디</label>
 	            <input type="text" id="id" name="id" value="${detail.memberId }" readonly/>
 
-	            <label for="memberNm">이름</label>
+	            <label for="memberPw">비밀번호</label>
+	            <input type="password" id="memberPw" name="memberPw" placeholder="4자리 이상" />
+
+	            <label for="memberPw2">비밀번호 확인</label>
+	            <input type="password" id="memberPw2" name="memberPw2" placeholder="동일한 비밀번호를 입력하세요"/>
+
+	            <label for="memberNm">이름<span class="required-label"></span></label>
 	            <input type="text" id="memberNm" name="memberNm" placeholder="이름을 입력하세요" value="${detail.memberNm}" maxLength="50"/>
 
-	            <label for="email">이메일</label>
+	            <label for="email">이메일<span class="required-label"></span></label>
 	            <input type="text" id="memberEmail" name="memberEmail" placeholder="ex)xxxx@xxx.xxx 형식" value="${detail.memberEmail }" maxLength="40"/>
 
-	            <label for="memberBrthdy">생년월일</label>
+	            <label for="memberBrthdy">생년월일<span class="required-label"></span></label>
 	            <input type="text" class="datepicker" id="memberBrthdy" name="memberBrthdy" value="${detail.memberBrthdy}" maxLength="20" readonly/>
 
-	            <label for="memberPhone">핸드폰번호</label>
+	            <label for="memberPhone">핸드폰번호<span class="required-label"></span></label>
 	            <input type="text" class="tel" id="memberPhone" name="memberPhone" value="${detail.memberPhone}" placeholder="핸드폰 번호를 입력하세요"/>
 
 	            <label for="memberPost">우편번호</label>

@@ -215,13 +215,13 @@
 	                <tbody class="no-hover">
 	                	<c:if test="${field.NTT_SJ.useYn eq 'Y' && field.NTT_SJ.detailYn eq 'Y' }">
 		                    <tr>
-		                        <th>게시글 제목</th>
+		                        <th>게시글 제목<span class="required-label"></span></th>
 		                        <td colspan="3"><input type="text" id="nttSj" name="nttSj" value="${detail.nttSj }" maxlength="255"></td>
 		                    </tr>
 	                    </c:if>
 	                    <c:if test="${field.OTHBC_YN.useYn eq 'Y' && field.OTHBC_YN.detailYn eq 'Y' }">
 		                    <tr>
-		                        <th>비밀글 여부</th>
+		                        <th>비밀글 여부<span class="required-label"></span></th>
 		                        <td>
 		                        	<select id="secretYn" name="secretYn">
 		                        		<option value="">선택</option>
@@ -292,7 +292,7 @@
 		                    </tr>
 	                    </c:if>
 	                    <tr>
-	                    	<th>사이트 코드</th>
+	                    	<th>사이트 코드<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="siteCode" name="siteCode">
 	                        		<option value="">선택</option>
@@ -300,7 +300,7 @@
 	                        		<option value="user" ${detail.siteCode eq 'user' ? 'selected' : '' }>User</option>
 	                        	</select>
 	                        </td>
-	                        <th>사용여부</th>
+	                        <th>사용여부<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="useYn" name="useYn">
 	                        		<option value="">선택</option>

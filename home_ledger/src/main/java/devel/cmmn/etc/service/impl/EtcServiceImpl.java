@@ -3,6 +3,7 @@ package devel.cmmn.etc.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +51,12 @@ public class EtcServiceImpl implements EtcService{
      */
 	@Override
 	public void updateProfile(Map<String, Object> param) throws Exception {
+		// 패스워드 단방향 해시 - SHA256
+		if(param.get("memberPw") != null && !"".equals(param.get("memberPw"))) {
+			String pw = param.get("memberPw").toString();
+			param.put("memberPw", DigestUtils.sha256Hex(pw));
+		}
+
 		etcMapper.updateProfile(param);
 	}
 

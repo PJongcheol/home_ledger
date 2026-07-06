@@ -114,13 +114,6 @@
 				return false;
 			}
 
-			// 금지어
-			if($("#prhibtWrd").val().trim() == "") {
-				alert("금지어는 필수입니다.");
-				$("#prhibtWrd").focus();
-				return false;
-			}
-
 			// 필드 데이터 Json 작업 (게시판 유형이 기본인 경우에만)
 			if(bbsType == "DEFAULT") {
 				$("tr[id^=tr]").each(function(i, v){
@@ -220,11 +213,11 @@
 	            	</colgroup>
 	                <tbody class="no-hover">
 	                    <tr>
-							<th>게시판명</th>
+							<th>게시판명<span class="required-label"></span></th>
 	                        <td colspan="3"><input type="text" id="bbsNm" name="bbsNm" value="${detail.bbsNm }" maxlength="150"></td>
 	                    </tr>
 	                    <tr>
-	                    	<th>사이트구분</th>
+	                    	<th>사이트구분<span class="required-label"></span></th>
 	                        <td>
 								<select id="siteCode" name="siteCode">
 									<option value="">선택</option>
@@ -232,7 +225,7 @@
 									<option value="user" ${detail.siteCode eq 'user' ? 'selected' : '' }>user</option>
 								</select>
 							</td>
-	                        <th>페이지목록</th>
+	                        <th>페이지목록<span class="required-label"></span></th>
 	                        <td>
 								<select id="pageListCo" name="pageListCo">
 									<option value="">선택</option>
@@ -254,7 +247,7 @@
 <%-- 									<option value="N" ${detail.viewerYn eq 'N' ? 'selected' : '' }>미사용</option> --%>
 <!-- 								</select> -->
 <!-- 	                        </td> -->
-	                        <th>에디터 사용여부</th>
+	                        <th>에디터 사용여부<span class="required-label"></span></th>
 	                        <td>
 								<select id="editrYn" name="editrYn">
 									<option value="">선택</option>
@@ -262,7 +255,7 @@
 									<option value="N" ${detail.editrYn eq 'N' ? 'selected' : '' }>미사용</option>
 								</select>
 	                        </td>
-	                        <th>게시판유형</th>
+	                        <th>게시판유형<span class="required-label"></span></th>
 	                        <td>
 								<select id="bbsType" name="bbsType">
 									<option value="">선택</option>
@@ -272,7 +265,7 @@
 	                        </td>
 	                    </tr>
 	                    <tr>
-	                        <th>사용여부</th>
+	                        <th>사용여부<span class="required-label"></span></th>
 	                        <td>
 								<select id="useYn" name="useYn">
 									<option value="">선택</option>
@@ -280,7 +273,7 @@
 									<option value="N" ${detail.useYn eq 'N' ? 'selected' : '' }>미사용</option>
 								</select>
 	                        </td>
-	                        <th>첨부파일사용</th>
+	                        <th>첨부파일사용<span class="required-label"></span></th>
 	                        <td>
 								<select id="fileAtchYn" name="fileAtchYn">
 									<option value="">선택</option>
@@ -315,9 +308,9 @@
 <!-- 	                    </tr> -->
 	                    <tr>
 
-	                        <th>파일제한용량</th>
+	                        <th>파일제한용량<span class="required-label"></span></th>
 							<td><input type="text" id="fileLmttSize" name="fileLmttSize" value="${detail.fileLmttSize }" maxlength="20" placeholder="MB"></td>
-							<th>파일확장자필터</th>
+							<th>파일확장자필터<span class="required-label"></span></th>
 	                        <td><input type="text" id="fileExtFlter" name="fileExtFlter" value="${detail.fileExtFlter }" maxlength="255" placeholder="ex) jpg,jpeg,png"></td>
 	                    </tr>
 	                    <tr>

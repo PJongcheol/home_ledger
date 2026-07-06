@@ -87,6 +87,27 @@
 				return false;
 			}
 
+			// 게시시작일
+			if($("#beginDe").val() == "") {
+				alert("게시시작일은 필수입니다.");
+				$("#beginDe").focus();
+				return false;
+			}
+
+			// 게시종료일
+			if($("#endDe").val() == "") {
+				alert("게시종료일은 필수입니다.");
+				$("#endDe").focus();
+				return false;
+			}
+
+			// 사용여부
+			if($("#useYn").val() == "") {
+				alert("사용여부는 필수입니다.");
+				$("#useYn").focus();
+				return false;
+			}
+
 			$("#popupCn").val(editor.getData());
 
 			var formData = new FormData($("#adminPopupDetailForm")[0]);
@@ -166,9 +187,9 @@
 	            	</colgroup>
 	                <tbody class="no-hover">
 	                    <tr>
-	                        <th>팝업 제목</th>
+	                        <th>팝업 제목<span class="required-label"></span></th>
 	                        <td><input type="text" id="popupSj" name="popupSj" value="${detail.popupSj }" maxlength="255"></td>
-	                        <th>팝업 화면(사이트 구분)</th>
+	                        <th>팝업 화면(사이트 구분)<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="siteCode" name="siteCode">
 	                        		<option value="">선택</option>
@@ -178,7 +199,7 @@
 	                        </td>
 	                    </tr>
 	                    <tr>
-	                    	<th>팝업 타입</th>
+	                    	<th>팝업 타입<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="popupTy" name="popupTy">
 	                        		<option value="">선택</option>
@@ -186,7 +207,7 @@
 	                        		<option value="C" ${detail.popupTy eq 'C' ? 'selected' : '' }>에디터기반입력형</option>
 	                        	</select>
 	                        </td>
-	                    	<th>팝업 구분</th>
+	                    	<th>팝업 구분<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="popupSe" name="popupSe">
 	                        		<option value="">선택</option>
@@ -224,24 +245,24 @@
 	                        <td colspan="3"><textarea id="popupCn" name="popupCn" class="commonCn">${detail.popupCn}</textarea></td>
 	                    </tr>
 	                    <tr>
-	                        <th>팝업 가로위치</th>
+	                        <th>팝업 가로위치<span class="required-label"></span></th>
 	                        <td><input type="text" id="popupWidthLc" name="popupWidthLc" value="${detail.popupWidthLc }" class="only_number" maxlength="20" placeholder="px"></td>
-	                        <th>팝업 세로위치</th>
+	                        <th>팝업 세로위치<span class="required-label"></span></th>
 	                        <td><input type="text" id="popupHeightLc" name="popupHeightLc" value="${detail.popupHeightLc }" class="only_number" maxlength="20" placeholder="px"></td>
 	                    </tr>
 	                    <tr>
-	                        <th>팝업 Width</th>
+	                        <th>팝업 Width<span class="required-label"></span></th>
 	                        <td><input type="text" id="popupWidth" name="popupWidth" value="${detail.popupWidth }" class="only_number" maxlength="20" placeholder="px"></td>
-	                        <th>팝업 Height</th>
+	                        <th>팝업 Height<span class="required-label"></span></th>
 	                        <td><input type="text" id="popupHeight" name="popupHeight" value="${detail.popupHeight }" class="only_number" maxlength="20" placeholder="px"></td>
 	                    </tr>
 	                    <tr>
-	                        <th>게시일</th>
+	                        <th>게시일<span class="required-label"></span></th>
 	                        <td>
 	                        	<input type="text" class="half-width datepicker" id="bgndeDe" name="bgndeDe" value="${detail.bgndeDe }" placeholder="게시시작일" readonly>
 	                        	<input type="text" class="half-width datepicker" id="endDe" name="endDe" value="${detail.endDe }" placeholder="게시종료일" readonly>
 	                        </td>
-	                        <th>사용여부</th>
+	                        <th>사용여부<span class="required-label"></span></th>
 	                        <td>
 	                        	<select id="useYn" name="useYn">
 	                        		<option value="">선택</option>
