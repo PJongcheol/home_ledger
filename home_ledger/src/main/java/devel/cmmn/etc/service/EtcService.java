@@ -74,4 +74,14 @@ public interface EtcService {
      * @return : List
      */
 	public List<Map<String, Object>> selectYearList() throws Exception;
+
+	/**
+     * 년월 목록 조회
+     * @Method : selectYearMonthList
+     * @throws Exception
+     * @return : List
+     */
+	public List<Map<String, Object>> selectYearMonthList() throws Exception;
+
+
 }

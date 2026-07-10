@@ -266,7 +266,7 @@
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="10">데이터가 존재하지 않습니다.</td>
+								<td colspan="${bookView.size()}">데이터가 존재하지 않습니다.</td>
 							</tr>
 						</c:otherwise>
 	            	</c:choose>
@@ -285,6 +285,12 @@
 	<div id="chartLayer" class="chart-layer">
 		 <button type="button" class="layer-close" onclick="closeChartLayer()">✕</button>
 	    <h3 id="title">가계부 업로드</h3>
+	    <div class="info-box">
+		    <ul>
+		        <li>가계부 업로드는 이전 데이터를 등록하기 위한 기능입니다.</li>
+		        <li>등록된 통장/카드를 선택 후 제공되는 양식에 맞게 업로드 해주세요.</li>
+		    </ul>
+		</div>
 		<form id="userBookLayerForm" name="userBookLayerForm">
 			<table class="form-table">
             	<colgroup>
@@ -294,12 +300,6 @@
             		<col style="width:35%">
             	</colgroup>
                 <tbody class="no-hover">
-                     <tr>
-                        <th colspan="4">
-                        	<span class="required-label"></span> 가계부 업로드는 이전 데이터를 등록하기 위한 기능입니다.</br>
-                        	<span class="required-label"></span> 등록된 통장/카드를 선택 후 제공되는 양식에 맞게 업로드 해주세요.
-                        </th>
-                    </tr>
                     <tr>
                         <th>양식</th>
                         <td colspan="3"><a href="/file/bookExcelTemplate.xlsx" class="btn-color-green" download="가계부 양식.xlsx">다운로드</a></td>

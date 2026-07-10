@@ -148,6 +148,39 @@ public class UserBookServiceImpl implements UserBookService{
 		return ciSeq;
 	}
 
+	/**
+	 * 카드 사용 내역 총 지출 건수 조회
+	 * @param Map
+	 * @return int
+	 * @exception Exception
+	 */
+	@Override
+	public Map<String ,Object> selectCardTotalAmount(Map<String, Object> param) throws Exception {
+		return userBookMapper.selectCardTotalAmount(param);
+	}
+
+	/**
+	 * 카드 사용 목록 카운트
+	 * @param Map
+	 * @return int
+	 * @exception Exception
+	 */
+	@Override
+	public int selectCardTotalCount(Map<String, Object> param) throws Exception {
+		return userBookMapper.selectCardTotalCount(param);
+	}
+
+	/**
+	 * 카드 사용 목록
+	 * @param Map
+	 * @return List
+	 * @exception Exception
+	 */
+	@Override
+	public List<Map<String, Object>> selectCardList(Map<String, Object> param) throws Exception {
+		return userBookMapper.selectCardList(param);
+	}
+
 	//------------------------  Scheduler   ------------------------
 	/**
 	 * 스케줄러 가계부 저장

@@ -17,6 +17,10 @@
 			A.MEMBER_ID = B.MEMBER_ID
 		AND
 			A.AI_SEQ = B.AI_SEQ
+		AND
+			B.USE_YN = 'Y'
+		AND
+			B.DEL_YN = 'N'
 		WHERE
 			A.MEMBER_ID = #{userId}
 		AND
@@ -51,6 +55,10 @@
 			A.MEMBER_ID = B.MEMBER_ID
 		AND
 			A.AI_SEQ = B.AI_SEQ
+		AND
+			B.USE_YN = 'Y'
+		AND
+			B.DEL_YN = 'N'
 		WHERE
 			A.MEMBER_ID = #{userId}
 		AND
@@ -99,7 +107,6 @@
 				ELSE (SELECT CC.CARD_NAME FROM CARD_CODE CC WHERE CC.CARD_CODE = B.AI_CODE)
 			 END 							 		AS aiCode
 			,CASE
-				WHEN B.AI_SE = 'B' THEN '통장'
 				WHEN B.CARD_TYPE = 'C' THEN '신용'
 				ELSE '체크'
 			 END									AS cardType
@@ -111,6 +118,10 @@
 			A.MEMBER_ID = B.MEMBER_ID
 		AND
 			A.AI_SEQ = B.AI_SEQ
+		AND
+			B.USE_YN = 'Y'
+		AND
+			B.DEL_YN = 'N'
 		WHERE
 			A.MEMBER_ID = #{userId}
 		AND
@@ -270,6 +281,32 @@
 			HLI_SEQ = #{hliSeq}
 	</update>
 
+	<!-- 카테고리 코드 조회 -->
+	<select id="selectExcelUploadCategoryCode" parameterType="String" resultType="String">
+		/* UserBookMapper.selectExcelUploadCategoryCode */
+		SELECT
+			CATEGORY_CODE
+		FROM
+			CATEGORY_CODE
+		WHERE
+			CATEGORY_NAME = #{value}
+	</select>
+
+	<!-- 카테고리 소분류 조회 -->
+	<select id="selectExcelUploadSubCategoryCode" parameterType="Map" resultType="String">
+		/* UserBookMapper.selectExcelUploadSubCategoryCode */
+		SELECT
+			CI_SEQ
+		FROM
+			TB_CATEGORY_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			CATEGORY_CODE = #{categoryCode}
+		AND
+			CI_NM = #{ciNm}
+	</select>
+
 	<!--                   Scheduler                    -->
 	<!-- 스케줄러 가계부 일련번호 -->
 	<select id="selectSchedulerBookSeq" parameterType="Map" resultType="int">
@@ -320,29 +357,221 @@
 		)
 	</insert>
 
-	<!-- 카테고리 코드 조회 -->
-	<select id="selectExcelUploadCategoryCode" parameterType="String" resultType="String">
-		/* UserBookMapper.selectExcelUploadCategoryCode */
+	<!-- 카드 사용 내역 총 지출 건수 -->
+	<select id="selectCardTotalAmount" parameterType="Map" resultType="Map">
+		/* UserBookMapper.selectCardTotalAmount */
+		WITH CARD_PERIOD AS (
+		    SELECT
+		        CARD.MEMBER_ID,
+		        CARD.AI_SEQ,
+			    CONCAT(
+			        CASE
+			            WHEN CARD.SPEND_BGN_MT_SE = '1' THEN DATE_FORMAT(DATE_SUB(CONCAT(#{yearMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')
+			            WHEN CARD.SPEND_BGN_MT_SE = '2' THEN #{yearMonth}
+			        END,
+			        '-',
+			        LPAD(CARD.SPEND_BGN_DAY, 2, '0')
+			    ) AS START_DATE,
+			    CONCAT(
+			        CASE
+			            WHEN CARD.SPEND_END_MT_SE = '1' THEN DATE_FORMAT(DATE_SUB(CONCAT(#{yearMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')
+			            WHEN CARD.SPEND_END_MT_SE = '2' THEN #{yearMonth}
+			        END,
+			        '-',
+			        LPAD(CARD.SPEND_END_DAY, 2, '0')
+			    ) AS END_DATE
+		    FROM
+		    	TB_ACCOUNT_INFO CARD
+		    WHERE
+		    	CARD.MEMBER_ID = #{userId}
+		    AND
+		    	CARD.AI_SE = 'C'
+		    AND
+		    	CARD.USE_YN = 'Y'
+		    AND
+		    	CARD.DEL_YN = 'N'
+		)
 		SELECT
-			CATEGORY_CODE
+			 FORMAT(SUM(CASE WHEN A.INOUT_TYPE = 'E' THEN A.AMOUNT ELSE 0 END), 0) AS expendituretotalamount
+			,FORMAT(COUNT(1), 0) AS cnt
 		FROM
-			CATEGORY_CODE
+			TB_HOME_LEDGER_INFO A
+		LEFT JOIN
+			CARD_PERIOD B
+		ON
+			A.MEMBER_ID = B.MEMBER_ID
+		AND
+			A.AI_SEQ = B.AI_SEQ
 		WHERE
-			CATEGORY_NAME = #{value}
+			A.MEMBER_ID = #{userId}
+		AND
+			A.INOUT_TYPE = 'E'
+		AND
+			A.DEL_YN = 'N'
+		AND
+			A.TRAN_DATE BETWEEN B.START_DATE AND B.END_DATE
+		<if test="osYn != null and osYn != ''">
+			AND A.OVER_SPENDING_YN = #{osYn}
+		</if>
+		<if test="aiSeq != null and aiSeq != ''">
+			AND A.AI_SEQ = #{aiSeq}
+		</if>
 	</select>
 
-	<!-- 카테고리 소분류 조회 -->
-	<select id="selectExcelUploadSubCategoryCode" parameterType="Map" resultType="String">
-		/* UserBookMapper.selectExcelUploadSubCategoryCode */
+	<!-- 카드 사용 내역 카운트 -->
+	<select id="selectCardTotalCount" parameterType="Map" resultType="int">
+		/* UserBookMapper.selectCardTotalCount */
+		WITH CARD_PERIOD AS (
+		    SELECT
+		        CARD.MEMBER_ID,
+		        CARD.AI_SEQ,
+		        CARD.AI_NM,
+			    CONCAT(
+			        CASE
+			            WHEN CARD.SPEND_BGN_MT_SE = '1' THEN DATE_FORMAT(DATE_SUB(CONCAT(#{yearMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')
+			            WHEN CARD.SPEND_BGN_MT_SE = '2' THEN #{yearMonth}
+			        END,
+			        '-',
+			        LPAD(CARD.SPEND_BGN_DAY, 2, '0')
+			    ) AS START_DATE,
+			    CONCAT(
+			        CASE
+			            WHEN CARD.SPEND_END_MT_SE = '1' THEN DATE_FORMAT(DATE_SUB(CONCAT(#{yearMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')
+			            WHEN CARD.SPEND_END_MT_SE = '2' THEN #{yearMonth}
+			        END,
+			        '-',
+			        LPAD(CARD.SPEND_END_DAY, 2, '0')
+			    ) AS END_DATE
+		    FROM
+		    	TB_ACCOUNT_INFO CARD
+		    WHERE
+		    	CARD.MEMBER_ID = #{userId}
+		    AND
+		    	CARD.AI_SE = 'C'
+		    AND
+		    	CARD.USE_YN = 'Y'
+		    AND
+		    	CARD.DEL_YN = 'N'
+		)
 		SELECT
-			CI_SEQ
+			COUNT(1)
 		FROM
-			TB_CATEGORY_INFO
+			TB_HOME_LEDGER_INFO A
+		LEFT JOIN
+			CARD_PERIOD B
+		ON
+			A.MEMBER_ID = B.MEMBER_ID
+		AND
+			A.AI_SEQ = B.AI_SEQ
 		WHERE
-			MEMBER_ID = #{userId}
+			A.MEMBER_ID = #{userId}
 		AND
-			CATEGORY_CODE = #{categoryCode}
+			A.INOUT_TYPE = 'E'
 		AND
-			CI_NM = #{ciNm}
+			A.DEL_YN = 'N'
+		AND
+			A.TRAN_DATE BETWEEN B.START_DATE AND B.END_DATE
+		<if test="osYn != null and osYn != ''">
+			AND A.OVER_SPENDING_YN = #{osYn}
+		</if>
+		<if test="aiSe != null and aiSe != ''">
+			AND B.AI_SE = #{aiSe}
+		</if>
+		<if test="aiSeq != null and aiSeq != ''">
+			AND A.AI_SEQ = #{aiSeq}
+		</if>
+	</select>
+
+	<!-- 카드 사용 내역 -->
+	<select id="selectCardList" parameterType="Map" resultType="Map">
+		/* UserBookMapper.selectCardList */
+		WITH CARD_PERIOD AS (
+		    SELECT
+		        CARD.MEMBER_ID,
+		        CARD.AI_SEQ,
+		        CARD.AI_NM,
+		        CARD.AI_SE,
+		        CARD.AI_CODE,
+		        CARD.CARD_TYPE,
+			    CONCAT(
+			        CASE
+			            WHEN CARD.SPEND_BGN_MT_SE = '1' THEN DATE_FORMAT(DATE_SUB(CONCAT(#{yearMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')
+			            WHEN CARD.SPEND_BGN_MT_SE = '2' THEN #{yearMonth}
+			        END,
+			        '-',
+			        LPAD(CARD.SPEND_BGN_DAY, 2, '0')
+			    ) AS START_DATE,
+			    CONCAT(
+			        CASE
+			            WHEN CARD.SPEND_END_MT_SE = '1' THEN DATE_FORMAT(DATE_SUB(CONCAT(#{yearMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m')
+			            WHEN CARD.SPEND_END_MT_SE = '2' THEN #{yearMonth}
+			        END,
+			        '-',
+			        LPAD(CARD.SPEND_END_DAY, 2, '0')
+			    ) AS END_DATE
+		    FROM
+		    	TB_ACCOUNT_INFO CARD
+		    WHERE
+		    	CARD.MEMBER_ID = #{userId}
+		    AND
+		    	CARD.AI_SE = 'C'
+		    AND
+		    	CARD.USE_YN = 'Y'
+		    AND
+		    	CARD.DEL_YN = 'N'
+		)
+		SELECT
+			 A.AI_SEQ							 	AS aiSeq
+			,A.HLI_SEQ						 		AS hliSeq
+			,A.CATEGORY_CODE					 	AS categoryCode
+			,A.CI_SEQ							 	AS ciSeq
+			,FORMAT(A.AMOUNT, 0)					AS amount
+			,A.TRAN_DATE						 	AS tranDate
+			,A.OVER_SPENDING_YN						AS overSpendingYn
+			,A.REMARK							 	AS remark
+			,DATE_FORMAT(A.REG_DT, '%Y-%m-%d') 		AS regDt
+			,B.AI_NM								AS aiNm
+			,CASE
+				WHEN A.INOUT_TYPE = 'I' THEN '수입'
+				ELSE '지출'
+		 	 END									AS inoutType
+			,CASE
+				WHEN B.AI_SE = 'B' THEN '통장'
+				ELSE '카드'
+		 	 END									AS aiSe
+		 	,CASE
+				WHEN B.AI_SE = 'B' THEN (SELECT BK.BANK_NAME FROM BANK_CODE BK WHERE BK.BANK_CODE = B.AI_CODE)
+				ELSE (SELECT CC.CARD_NAME FROM CARD_CODE CC WHERE CC.CARD_CODE = B.AI_CODE)
+			 END 							 		AS aiCode
+			,CASE
+				WHEN B.CARD_TYPE = 'C' THEN '신용'
+				ELSE '체크'
+			 END									AS cardType
+		FROM
+			TB_HOME_LEDGER_INFO A
+		LEFT JOIN
+			CARD_PERIOD B
+		ON
+			A.MEMBER_ID = B.MEMBER_ID
+		AND
+			A.AI_SEQ = B.AI_SEQ
+		WHERE
+			A.MEMBER_ID = #{userId}
+		AND
+			A.INOUT_TYPE = 'E'
+		AND
+			A.DEL_YN = 'N'
+		AND
+			A.TRAN_DATE BETWEEN B.START_DATE AND B.END_DATE
+		<if test="osYn != null and osYn != ''">
+			AND A.OVER_SPENDING_YN = #{osYn}
+		</if>
+		<if test="aiSeq != null and aiSeq != ''">
+			AND A.AI_SEQ = #{aiSeq}
+		</if>
+		ORDER BY
+			A.TRAN_DATE DESC, A.REG_DT DESC
+		LIMIT
+			#{offset}, #{pageSize}
 	</select>
 </mapper>

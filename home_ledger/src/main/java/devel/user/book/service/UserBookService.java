@@ -92,6 +92,30 @@ public interface UserBookService {
 	 */
 	public String selectExcelUploadSubCategoryCode(Map<String, Object> param) throws Exception;
 
+	/**
+	 * 카드 사용 내역 총 지출 건수 조회
+	 * @param Map
+	 * @return int
+	 * @exception Exception
+	 */
+	public Map<String ,Object> selectCardTotalAmount(Map<String, Object> param) throws Exception;
+
+	/**
+	 * 카드 사용 목록 카운트
+	 * @param Map
+	 * @return int
+	 * @exception Exception
+	 */
+	public int selectCardTotalCount(Map<String, Object> param) throws Exception;
+
+	/**
+	 * 카드 사용 목록
+	 * @param Map
+	 * @return List
+	 * @exception Exception
+	 */
+	public List<Map<String, Object>> selectCardList(Map<String, Object> param) throws Exception;
+
 	//------------------------  Scheduler   ------------------------
 	/**
 	 * 스케줄러 가계부 저장

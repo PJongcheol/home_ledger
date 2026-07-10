@@ -40,6 +40,15 @@ public interface UserBookMapper {
 	// 카테고리 소분류 조회
 	public String selectExcelUploadSubCategoryCode(Map<String, Object> param);
 
+	// 카드 사용 내역 총 지출 건수 조회
+	public Map<String ,Object> selectCardTotalAmount(Map<String, Object> param);
+
+	// 카드 사용 목록 카운트
+	public int selectCardTotalCount(Map<String, Object> param);
+
+	// 카드 사용 목록
+	public List<Map<String, Object>> selectCardList(Map<String, Object> param);
+
 	//------------------------  Scheduler   ------------------------
 	// 스케줄러 가계부 일련번호
 	public int selectSchedulerBookSeq(Map<String, Object> param);

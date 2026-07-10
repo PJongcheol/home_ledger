@@ -1541,3 +1541,39 @@ table tbody tr td[rowspan] {
 .display-none {
 	display:none;
 }
+
+.thead-left {
+	text-align:left;
+}
+
+.text-color-red {
+	color:red;
+}
+.info-box {
+    margin-bottom: 18px;
+    padding: 16px 20px;
+
+    background: #f8fbff;
+    border: 1px solid #d6eaff;
+    border-left: 5px solid #3498db;
+
+    border-radius: 8px;
+}
+
+.info-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.info-box ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.info-box li {
+    line-height: 1.8;
+    color: #555;
+    font-size: 14px;
+}

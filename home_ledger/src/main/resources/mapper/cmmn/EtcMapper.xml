@@ -87,6 +87,10 @@
 		FROM
 			TB_ACCOUNT_INFO
 		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			USE_YN = 'Y'
+		AND
 			DEL_YN = 'N'
 		ORDER BY
 			AI_SE DESC, AI_SEQ
@@ -101,5 +105,18 @@
 			DUMMY_YEAR
 		ORDER BY
 			DUMMY_YEAR
+	</select>
+
+	<!-- 년도 목록 조회 -->
+	<select id="selectYearMonthList" resultType="Map">
+		/* EtcMapper.selectYearMonthList */
+		SELECT
+			A.YEAR_MONTH AS yearMonth
+		FROM
+			DUMMY_DATE A
+		WHERE
+			A.YEAR_MONTH BETWEEN DATE_SUB(DATE_FORMAT(now(), '%Y-%m-%d'), INTERVAL 200 MONTH) AND DATE_FORMAT(now(), '%Y-%m-%d')
+		ORDER BY
+			A.YEAR_MONTH
 	</select>
 </mapper>

@@ -119,7 +119,7 @@ public class UserBookController extends BaseController{
 		model.addAttribute("bookView", userSettingsService.selectBookViewList(param));
 
 		// 통장/카드 목록
-		model.addAttribute("accountList",  userSettingsService.selectFiexedExpenseAccountList(param));
+		model.addAttribute("accountList", etcService.selectAccountList(param));
 
 		model.addAttribute("holder", param);
 
@@ -329,5 +329,67 @@ public class UserBookController extends BaseController{
 
 		return result;
 
+	}
+
+	/**
+     * 카드 사용 목록
+     * @Method : cardList
+     * @throws Exception
+     * @return : String
+     */
+	@RequestMapping(value ="cardList.do")
+	public String cardList(@RequestParam Map<String, Object> param
+			, ModelMap model, HttpSession session) throws Exception {
+
+		LoginVO user = (LoginVO) session.getAttribute("LoginVO");
+		param.put("userId", user.getMemberId());
+
+		LocalDate date = LocalDate.now();
+		String yearMonth = date.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+
+		if(param.get("yearMonth") == null || "".equals(param.get("yearMonth"))) {
+			param.put("yearMonth", yearMonth);
+		}
+
+		// 페이지 값이 없다면
+		if(param.get("pageIndex") == null || "".equals(param.get("pageIndex"))) {
+			param.put("pageIndex", 1);
+			param.put("pageSize", 10);
+		} else {
+			param.put("pageIndex", Integer.parseInt(param.get("pageIndex").toString()));
+			param.put("pageSize", Integer.parseInt(param.get("pageSize").toString()));
+		}
+
+		// 카드 사용 내역 총 지출 건수 조회
+		model.addAttribute("total", userBookService.selectCardTotalAmount(param));
+
+		// Limit을 위해 계산
+		int offset = (Integer.parseInt(param.get("pageIndex").toString()) - 1) * 10;
+		param.put("offset", offset);
+
+		// 카드 사용 목록 카운트
+		int totalCount = userBookService.selectCardTotalCount(param);
+		param.put("totalCount", totalCount);
+
+		// 페이지 수
+		int totalPage = (int) Math.ceil((double) totalCount / Integer.parseInt(param.get("pageSize").toString()));
+		param.put("totalPage", totalPage);
+
+		// 년월 목록 조회
+		model.addAttribute("yearMonthList", etcService.selectYearMonthList());
+
+		// 카드 사용 목록 조회
+		List<Map<String, Object>> list = userBookService.selectCardList(param);
+		model.addAttribute("list", list);
+
+		// 가계부 목록 관리
+		model.addAttribute("bookView", userSettingsService.selectBookViewList(param));
+
+		// 통장/카드 목록
+		model.addAttribute("accountList", etcService.selectAccountList(param));
+
+		model.addAttribute("holder", param);
+
+		return userLayout(model, "/WEB-INF/views/user/book/cardList");
 	}
 }

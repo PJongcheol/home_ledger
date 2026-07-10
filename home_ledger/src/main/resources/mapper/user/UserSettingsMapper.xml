@@ -169,7 +169,7 @@
 			AI_SEQ = #{aiSeq}
 	</update>
 
-	<!-- 통장/카드 수정 -->
+	<!-- 통장/카드 삭제 -->
 	<update id="deleteAccount" parameterType="Map">
 		/* userSettingsMapper.deleteAccount */
 		UPDATE TB_ACCOUNT_INFO
@@ -350,6 +350,8 @@
 			TB_ACCOUNT_INFO A
 		WHERE
 			A.MEMBER_ID = #{userId}
+		AND
+			A.USE_YN = 'Y'
 		AND
 			A.DEL_YN = 'N'
 		ORDER BY

@@ -123,6 +123,10 @@
 			A.MEMBER_ID = B.MEMBER_ID
 		AND
 			A.AI_SEQ = B.AI_SEQ
+		AND
+			B.USE_YN = 'Y'
+		AND
+			B.DEL_YN = 'N'
 		LEFT JOIN
 			CATEGORY_CODE C
 		ON
@@ -175,6 +179,10 @@
 			A.MEMBER_ID = B.MEMBER_ID
 		AND
 			A.AI_SEQ = B.AI_SEQ
+		AND
+			B.USE_YN = 'Y'
+		AND
+			B.DEL_YN = 'N'
 		WHERE
 			A.MEMBER_ID = #{userId}
 		AND
@@ -221,6 +229,10 @@
 			A.MEMBER_ID = B.MEMBER_ID
 		AND
 			A.AI_SEQ = B.AI_SEQ
+		AND
+			B.USE_YN = 'Y'
+		AND
+			B.DEL_YN = 'N'
 		WHERE
 			A.MEMBER_ID = #{userId}
 		AND

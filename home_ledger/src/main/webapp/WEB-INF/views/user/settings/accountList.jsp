@@ -146,14 +146,14 @@
 									<td>
 										<c:choose>
 											<c:when test="${item.spendBgnMtSe eq '1'}">전월</c:when>
-											<c:when test="${item.spendBgnMtSe eq '2'}">전전월</c:when>
+											<c:when test="${item.spendBgnMtSe eq '2'}">당월</c:when>
 										</c:choose>
 									</td>
 									<td><c:out value="${item.spendBgnDay }"/></td>
 									<td>
 										<c:choose>
 											<c:when test="${item.spendEndMtSe eq '1'}">전월</c:when>
-											<c:when test="${item.spendEndMtSe eq '2'}">전전월</c:when>
+											<c:when test="${item.spendEndMtSe eq '2'}">당월</c:when>
 										</c:choose>
 									</td>
 									<td><c:out value="${item.spendEndDay }"/></td>

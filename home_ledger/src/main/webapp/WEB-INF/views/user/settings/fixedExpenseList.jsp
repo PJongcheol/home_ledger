@@ -39,13 +39,21 @@
 </head>
 <body class="common-page">
 	<div class="menu-container">
-	    <h2>고정지출 관리</h2>
+	    <h2>고정 수입/지출 관리</h2>
 	    <div class="common_section">
 	    	<form id="fixedExpenseDetailForm" name="fixedExpenseDetailForm" method="post" action="/user/settings/fixedExpenseForm.do">
 	    		<input type="hidden" id="aiSeq" name="aiSeq" />
 	    		<input type="hidden" id="feiSeq" name="feiSeq" />
 	    	</form>
 	        <form id="fixedExpenseForm" name="fixedExpenseForm" method="post" action="/user/settings/fixedExpenseList.do">
+			    <div class="info-box">
+				    <ul>
+				        <li>해당 기능은 고정 수입/지출을 등록된 일자에 가계부 자동 등록 기능입니다.</li>
+				        <li><span class="text-color-red">단, 등록일이 지난 경우에는 익월부터 자동 등록됩니다.</span></li>
+				        <li>ex) <span class="text-color-red">2026/07/07</span>에 수익 / 300,000 / 8일로 등록 시 <span class="text-color-red">2026/07/08 오전 2시</span>에 자동으로 등록됩니다.</li>
+				        <li>ex) <span class="text-color-red">2026/07/10</span>에 수익 / 300,000 / 8일로 등록 시 <span class="text-color-red">2026/08/08 오전 2시</span>에 자동으로 등록됩니다.</li>
+				    </ul>
+				</div>
 			    <div class="search-box">
 <!-- 					<div class="search-row"> -->
 <!-- 			            <select id="categoryCode" name="categoryCode"> -->

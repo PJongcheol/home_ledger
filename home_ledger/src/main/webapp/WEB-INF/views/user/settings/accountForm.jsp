@@ -222,7 +222,7 @@
 	                        	<select id="spendBgnMtSe" name="spendBgnMtSe">
 									<option value="">선택</option>
 									<option value="1" ${detail.spendBgnMtSe eq '1' ? 'selected' : '' }>전월</option>
-									<option value="2" ${detail.spendBgnMtSe eq '2' ? 'selected' : '' }>전전월</option>
+									<option value="2" ${detail.spendBgnMtSe eq '2' ? 'selected' : '' }>당월</option>
 								</select>
 								<select id="spendBgnDay" name="spendBgnDay">
 									<option value="">선택</option>
@@ -236,7 +236,7 @@
 	                        	<select id="spendEndMtSe" name="spendEndMtSe">
 									<option value="">선택</option>
 									<option value="1" ${detail.spendEndMtSe eq '1' ? 'selected' : '' }>전월</option>
-									<option value="2" ${detail.spendEndMtSe eq '2' ? 'selected' : '' }>전전월</option>
+									<option value="2" ${detail.spendEndMtSe eq '2' ? 'selected' : '' }>당월</option>
 								</select>
 								<select id="spendEndDay" name="spendEndDay">
 									<option value="">선택</option>
