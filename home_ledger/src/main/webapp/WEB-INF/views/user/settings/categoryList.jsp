@@ -41,6 +41,12 @@
 	<div class="menu-container">
 	    <h2>카테고리 관리</h2>
 	    <div class="common_section">
+	    	<div class="info-box">
+			    <ul>
+			        <li>기본적으로 제공되는 카테고리는 정해져 있으며, 소분류 카테고리를 신규 등록하여 설정할 수 있습니다.</li>
+			        <li>동일한 소분류 카테고리는 등록할 수 없습니다.</li>
+			    </ul>
+			</div>
 	    	<form id="categoryDetailForm" name="categoryDetailForm" method="post" action="/user/settings/categoryForm.do">
 	    		<input type="hidden" id="ciSeq" name="ciSeq" />
 	    		<input type="hidden" id="categoryCode" name="categoryCode" />

@@ -165,6 +165,13 @@
 	<div class="menu-container">
 	    <h2>가계부 목록 관리</h2>
 	    <div class="common_section">
+	    	<div class="info-box">
+			    <ul>
+			        <li>가계부와 카드사용내역의 보여지는 항목을 설정할 수 있습니다.</li>
+			        <li>기본으로 모든 항목이 추가되어 있으며, 기호에 맞게 정렬 및 삭제할 수 있습니다.</li>
+			        <li>카드/통장명, 거래익자, 금액, 처리는 사용 가능 목록으로 삭제할 수 없으며, 정렬은 가능합니다.</li>
+			    </ul>
+			</div>
 	        <div class="account-move-layout">
 			    <div class="account-box">
 			        <h3>사용 가능 목록</h3>

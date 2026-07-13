@@ -150,6 +150,13 @@
 	<div class="menu-container">
 	    <h2>가계부</h2>
 	    <div class="common_section">
+	    	<div class="info-box">
+			    <ul>
+			        <li>통장/카드의 수입/치출 내역을 등록하는 가계부 페이지입니다.</li>
+			        <li>목록 화면에서 지출에 대한 과소비 체크 시 자동으로 과소비로 수정되며,</li>
+			        <li>가지고 계신 이전 가계부 데이터를 가계부 엑셀 업로드를 통하여 한번에 데이터를 입력할 수 있습니다</li>
+			    </ul>
+			</div>
 	    	<form id="bookDetailForm" name="bookDetailForm" method="post" action="/user/book/bookForm.do">
 	    		<input type="hidden" id="aiSeq" name="aiSeq" />
 	    		<input type="hidden" id="hliSeq" name="hliSeq" />

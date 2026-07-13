@@ -497,6 +497,12 @@ function chart3Layer(date, inoutType) {
 	<div class="menu-container">
 	    <h2>통계 (Analytics)</h2>
 	    <div class="common_section">
+	    	<div class="info-box">
+			    <ul>
+			        <li>가계부에 등록된 데이터들의 통계 페이지입니다.</li>
+			        <li>차트(바)를 클릭 시 해당 일자의 상세 데이터가 레이어 팝업으로 보여집니다.</li>
+			    </ul>
+			</div>
 	        <form id="statForm" method="post" action="/user/stat/statList.do">
 	            <input type="hidden" id="pageIndex" name="pageIndex" value="${holder.pageIndex}"/>
 

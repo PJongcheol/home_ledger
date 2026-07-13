@@ -50,6 +50,12 @@
 	<div class="menu-container">
 	    <h2>통장/카드 관리</h2>
 	    <div class="common_section">
+	    	<div class="info-box">
+			    <ul>
+			        <li>가계부에서 사용되는 통장/카드를 등록할 수 있습니다.</li>
+			        <li>카드인 경우 소비 기간 시작일 ~ 종료일을 선택해야 하며, 해당 시작일~종료일은 카드 사용 내역에서 사용됩니다.</li>
+			    </ul>
+			</div>
 	    	<form id="accountDetailForm" name="accountDetailForm" method="post" action="/user/settings/accountForm.do">
 	    		<input type="hidden" id="aiSeq" name="aiSeq" />
 	    	</form>
