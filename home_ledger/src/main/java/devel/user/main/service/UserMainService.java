@@ -31,7 +31,7 @@ public interface UserMainService {
 	/**
 	 * 해당월 카테고리별 지출 조회
 	 * @param Map
-	 * @return Map
+	 * @return List
 	 * @exception Exception
 	 */
 	public List<Map<String, Object>> selectMainCategoryList(Map<String, Object> param) throws Exception;
@@ -39,7 +39,7 @@ public interface UserMainService {
 	/**
 	 * 해당월 과소비 체크 금액 조회
 	 * @param Map
-	 * @return Map
+	 * @return List
 	 * @exception Exception
 	 */
 	public List<Map<String, Object>> selectMainSpendingList(Map<String, Object> param) throws Exception;
@@ -47,8 +47,16 @@ public interface UserMainService {
 	/**
 	 * 해당월 통장/카드 수입/지출 금액 조회
 	 * @param Map
-	 * @return Map
+	 * @return List
 	 * @exception Exception
 	 */
 	public List<Map<String, Object>> selectMainAccountAmountList(Map<String, Object> param) throws Exception;
+
+	/**
+	 * 총 적금 목표 달성률 조회
+	 * @param Map
+	 * @return Map
+	 * @exception Exception
+	 */
+	public Map<String, Object> selectSavingGoalLate(Map<String, Object> param) throws Exception;
 }

@@ -1577,3 +1577,146 @@ table tbody tr td[rowspan] {
     color: #555;
     font-size: 14px;
 }
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    justify-content: center; /* 테이블 셀 안에서 가운데 정렬 */
+}
+
+/* 프로그레스 바 배경 (회색 길) */
+.progress-bar-wrap {
+    flex: 1;
+    min-width: 80px;
+    height: 10px;
+    background: #eef1f4;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* 프로그레스 바 실질적 게이지 (채워지는 영역) */
+.progress-bar {
+    height: 100%;
+    /* 기존 파란색 그라디언트 테마와 통일 */
+    background: linear-gradient(90deg, #3498db, #2980b9);
+    border-radius: 20px;
+    transition: width 0.5s ease-in-out; /* 로드될 때 부드럽게 채워짐 */
+}
+
+/* 퍼센트 텍스트 스타일 */
+.progress-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2c3e50;
+    min-width: 45px;
+    text-align: right;
+}
+.pig {
+    position: relative;
+    width: 200px;
+    margin: 20px auto;
+}
+.pig-svg { width: 100%; display: block; overflow: visible; }
+.pig-body { fill: #fdeef3; }
+.pig-outline { stroke: #e88bb0; stroke-width: 6; }
+.pig-water-fill { fill: #f4a7c3; opacity: 0.45; }
+.pig-wave { fill: #f4a7c3; opacity: 0.9; }
+
+#pigWaterGroup {
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pig-percent-label {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 22px;
+    font-weight: 600;
+    color: #2c3e50;
+    pointer-events: none;
+}
+.pig-goal-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 30px;
+}
+
+.pig-goal-layout .pig {
+    width: 240px;        /* 180px → 240px, 그림 영역 확대 */
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.pig-goal-info {
+    flex: 0 1 220px;      /* flex: 1 → 고정 기준값으로, 정보 영역 축소 */
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.goal-info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.goal-info-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.goal-info-icon svg { width: 18px; height: 18px; }
+
+.goal-info-icon.target { background: #eaf1fd; color: #3498db; }
+.goal-info-icon.saved  { background: #eafaf0; color: #2ecc71; }
+.goal-info-icon.remain { background: #fdeef0; color: #e74c3c; }
+.goal-info-icon.date  { background: #eaf1fd; color: #3498db; }
+.goal-info-icon.days  { background: #fff6e0; color: #e67e22; }
+.goal-info-icon.wallet{ background: #fdeef0; color: #e74c3c; }
+
+.goal-info-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.goal-info-label {
+    font-size: 13px;
+    color: #777;
+}
+
+.goal-info-value {
+    font-size: 17px;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.goal-info-value em {
+    font-size: 13px;
+    font-weight: 500;
+    font-style: normal;
+    color: #777;
+    margin-left: 2px;
+}
+
+.goal-info-message {
+    margin-top: 4px;
+    padding: 12px 14px;
+    background: #eaf1fd;
+    color: #3498db;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 1.5;
+}

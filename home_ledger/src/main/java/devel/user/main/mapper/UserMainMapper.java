@@ -18,4 +18,7 @@ public interface UserMainMapper {
 
 	// 해당월 통장/카드 수입/지출 금액 조회
 	public List<Map<String, Object>> selectMainAccountAmountList(Map<String, Object> param);
+
+	// 총 적금 목표 달성률 조회
+	public Map<String, Object> selectSavingGoalLate(Map<String, Object> param);
 }

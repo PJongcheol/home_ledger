@@ -101,6 +101,9 @@ public class UserMainController extends BaseController{
 		// 해당월 통장/카드 수입/지출 금액 조회
 		model.addAttribute("accountAmountList", userMainService.selectMainAccountAmountList(param));
 
+		// 총 적금 목표 달성률 조회
+		model.addAttribute("savingGoalLate", userMainService.selectSavingGoalLate(param));
+
 		return userLayout(model, "/WEB-INF/views/user/main/index");
 
 	}

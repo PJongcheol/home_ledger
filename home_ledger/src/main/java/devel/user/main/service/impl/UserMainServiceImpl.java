@@ -1,5 +1,7 @@
 package devel.user.main.service.impl;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +66,7 @@ public class UserMainServiceImpl implements UserMainService {
 	/**
 	 * 해당월 카테고리별 지출 조회
 	 * @param Map
-	 * @return Map
+	 * @return List
 	 * @exception Exception
 	 */
 	@Override
@@ -75,7 +77,7 @@ public class UserMainServiceImpl implements UserMainService {
 	/**
 	 * 해당월 과소비 체크 금액 조회
 	 * @param Map
-	 * @return Map
+	 * @return List
 	 * @exception Exception
 	 */
 	@Override
@@ -86,11 +88,40 @@ public class UserMainServiceImpl implements UserMainService {
 	/**
 	 * 해당월 통장/카드 수입/지출 금액 조회
 	 * @param Map
-	 * @return Map
+	 * @return List
 	 * @exception Exception
 	 */
 	@Override
 	public List<Map<String, Object>> selectMainAccountAmountList(Map<String, Object> param) throws Exception {
 		return userMainMapper.selectMainAccountAmountList(param);
+	}
+
+	/**
+	 * 총 적금 목표 달성률 조회
+	 * @param Map
+	 * @return Map
+	 * @exception Exception
+	 */
+	@Override
+	public Map<String, Object> selectSavingGoalLate(Map<String, Object> param) throws Exception {
+		Map<String, Object> map = userMainMapper.selectSavingGoalLate(param);
+
+		// 남은 납입금액과 일수, 달성률 계산
+		if(map != null) {
+			LocalDate now = LocalDate.now();
+			LocalDate endDe = LocalDate.parse(map.get("endDe").toString());
+
+			int siTotalAmount = Integer.parseInt(map.get("siTotalAmount").toString());
+			int payAmount = Integer.parseInt(map.get("payAmount").toString());
+			int remainingAmount = siTotalAmount - payAmount;
+			int percent = (payAmount  * 100) / siTotalAmount;
+			int reaminDays = (int) ChronoUnit.DAYS.between(now, endDe);
+
+			map.put("remainingAmount", remainingAmount);
+			map.put("percent", percent);
+			map.put("reaminDays", reaminDays);
+		}
+
+		return map;
 	}
 }

@@ -108,4 +108,19 @@
 		ORDER BY
 			A.AI_SEQ
 	</select>
+
+	<!-- 총 적금 목표 달성률 조회 -->
+	<select id="selectSavingGoalLate" parameterType="Map" resultType="Map">
+		/* UserMainMapper.selectSavingGoalLate */
+		SELECT
+		 	 SUM(SI_TOTAL_AMOUNT) AS siTotalAmount
+			,SUM((MONTHLY_PAYMENT_AMOUNT * PAY_CNT)) AS payAmount
+			,MAX(END_DE) AS endDe
+		FROM
+			TB_SAVING_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			DEL_YN = 'N'
+	</select>
 </mapper>
