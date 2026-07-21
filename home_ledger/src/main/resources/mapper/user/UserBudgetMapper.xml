@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="devel.user.budget.mapper.UserBudgetMapper">
+
+	<!-- 예산 년월 목록 조회 -->
+	<select id="selectBudgetYearMonthList" parameterType="Map" resultType="Map">
+		/* UserBudgetMapper.selectBudgetYearMonthList */
+		WITH TB_YEAR_MONTH AS (
+			SELECT
+				 CD.YEAR_MONTH
+				,#{userId} AS MEMBER_ID
+			FROM
+				DUMMY_DATE CD
+		)
+		SELECT
+			 A.YEAR_MONTH				AS yearMonth
+			,B.BI_SEQ					AS biSeq
+			,FORMAT(B.BEAU_AMOUNT, 0)	AS beauAmount
+			,FORMAT(B.EDU_AMOUNT, 0)	AS eduAmount
+			,FORMAT(B.ETC_AMOUNT, 0)	AS etcAmount
+			,FORMAT(B.EVENT_AMOUNT, 0)	AS eventAmount
+			,FORMAT(B.FOOD_AMOUNT, 0)	AS foodAmount
+			,FORMAT(B.HEAL_AMOUNT, 0)	AS healAmount
+			,FORMAT(B.HOME_AMOUNT, 0)	AS homeAmount
+			,FORMAT(B.TRAN_AMOUNT, 0)	AS tranAmount
+		FROM
+			TB_YEAR_MONTH A
+		LEFT JOIN
+			TB_BUDGET_INFO B
+		ON
+			A.MEMBER_ID = B.MEMBER_ID
+		AND
+			A.YEAR_MONTH = B.BI_YEAR_MONTH
+		AND
+			B.DEL_YN = 'N'
+		WHERE
+			LEFT(A.YEAR_MONTH, '4') = #{year}
+		ORDER BY
+			A.YEAR_MONTH
+	</select>
+
+	<!-- 예산 상세 조회 -->
+	<select id="selectBudgetDtl" parameterType="Map" resultType="Map">
+		/* UserBudgetMapper.selectBudgetDtl */
+		SELECT
+			 BI_SEQ					AS biSeq
+			,FORMAT(BEAU_AMOUNT, 0)	AS beauAmount
+			,FORMAT(EDU_AMOUNT, 0)	AS eduAmount
+			,FORMAT(ETC_AMOUNT, 0)	AS etcAmount
+			,FORMAT(EVENT_AMOUNT, 0)AS eventAmount
+			,FORMAT(FOOD_AMOUNT, 0)	AS foodAmount
+			,FORMAT(HEAL_AMOUNT, 0)	AS healAmount
+			,FORMAT(HOME_AMOUNT, 0)	AS homeAmount
+			,FORMAT(TRAN_AMOUNT, 0)	AS tranAmount
+		FROM
+			TB_BUDGET_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			BI_SEQ = #{biSeq}
+	</select>
+
+	<!-- 예산 일련번호 조회 -->
+	<select id="selectBudgetSeq" parameterType="Map" resultType="int">
+		/* UserBudgetMapper.selectBudgetSeq */
+		SELECT
+			IFNULL(MAX(BI_SEQ), 0) + 1
+		FROM
+			TB_BUDGET_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+	</select>
+
+	<!-- 예산 저장 -->
+	<insert id="insertBudget" parameterType="Map">
+		/* UserBudgetMapper.insertBudget */
+		INSERT INTO TB_BUDGET_INFO (
+			 MEMBER_ID
+			,BI_SEQ
+			,BI_YEAR_MONTH
+			,BEAU_AMOUNT
+			,EDU_AMOUNT
+			,ETC_AMOUNT
+			,EVENT_AMOUNT
+			,FOOD_AMOUNT
+			,HEAL_AMOUNT
+			,HOME_AMOUNT
+			,TRAN_AMOUNT
+			,DEL_YN
+			,REG_ID
+			,REG_DT
+			,UPD_ID
+			,UPD_DT
+		) VALUES (
+			 #{userId}
+			,#{biSeq}
+			,#{biYearMonth}
+			,REPLACE(#{beauAmount}, ',', '')
+			,REPLACE(#{eduAmount}, ',', '')
+			,REPLACE(#{etcAmount}, ',', '')
+			,REPLACE(#{eventAmount}, ',', '')
+			,REPLACE(#{foodAmount}, ',', '')
+			,REPLACE(#{healAmount}, ',', '')
+			,REPLACE(#{homeAmount}, ',', '')
+			,REPLACE(#{tranAmount}, ',', '')
+			,'N'
+			,#{userId}
+			,now()
+			,#{userId}
+			,now()
+		)
+	</insert>
+
+	<!-- 예산 수정 -->
+	<update id="updateBudget" parameterType="Map">
+		/* UserBudgetMapper.updateBudget */
+		UPDATE
+			TB_BUDGET_INFO
+		SET
+			 BEAU_AMOUNT 	= REPLACE(#{beauAmount}, ',', '')
+			,EDU_AMOUNT 	= REPLACE(#{eduAmount}, ',', '')
+			,ETC_AMOUNT 	= REPLACE(#{etcAmount}, ',', '')
+			,EVENT_AMOUNT 	= REPLACE(#{eventAmount}, ',', '')
+			,FOOD_AMOUNT 	= REPLACE(#{foodAmount}, ',', '')
+			,HEAL_AMOUNT 	= REPLACE(#{healAmount}, ',', '')
+			,HOME_AMOUNT 	= REPLACE(#{homeAmount}, ',', '')
+			,TRAN_AMOUNT 	= REPLACE(#{tranAmount}, ',', '')
+			,UPD_ID 		= #{userId}
+			,UPD_DT			= now()
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			BI_SEQ = #{biSeq}
+	</update>
+
+	<!-- 예산 삭제 -->
+	<update id="deleteBudget" parameterType="Map">
+		/* UserBudgetMapper.deleteBudget */
+		UPDATE
+			TB_BUDGET_INFO
+		SET
+			 DEL_YN	= 'Y'
+			,UPD_ID = #{userId}
+			,UPD_DT	= now()
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			BI_SEQ = #{biSeq}
+	</update>
+
+	<!-- 전월 예산 조회 -->
+	<select id="selectPrevBudgetDtl" parameterType="Map" resultType="Map">
+		/* UserBudgetMapper.selectPrevBudgetDtl */
+		SELECT
+			 BI_SEQ			AS biSeq
+			,BEAU_AMOUNT	AS beauAmount
+			,EDU_AMOUNT		AS eduAmount
+			,ETC_AMOUNT		AS etcAmount
+			,EVENT_AMOUNT 	AS eventAmount
+			,FOOD_AMOUNT 	AS foodAmount
+			,HEAL_AMOUNT 	AS healAmount
+			,HOME_AMOUNT 	AS homeAmount
+			,TRAN_AMOUNT 	AS tranAmount
+		FROM
+			TB_BUDGET_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			BI_YEAR_MONTH = #{prevYearMonth}
+		AND
+			DEL_YN = 'N'
+	</select>
+
+	<!-- 예산 목록 조회 -->
+	<select id="selectBudgetList" parameterType="Map" resultType="Map">
+		/* UserBudgetMapper.selectCategoryList */
+		WITH TB_CATEGORY_BUDGET_INFO AS (
+			SELECT
+				 CD.CATEGORY_CODE
+				,CD.CATEGORY_NAME
+				,#{userId} AS MEMBER_ID
+				,#{yearMonth} AS BI_YEAR_MONTH
+			FROM
+				CATEGORY_CODE CD
+		)
+		SELECT
+			 A.CATEGORY_CODE AS categoryCode
+			,A.CATEGORY_NAME AS categoryName
+			,CASE
+				WHEN A.CATEGORY_CODE  = 'BEAU' THEN B.BEAU_AMOUNT
+				WHEN A.CATEGORY_CODE  = 'EDU' THEN B.EDU_AMOUNT
+				WHEN A.CATEGORY_CODE  = 'ETC' THEN B.ETC_AMOUNT
+				WHEN A.CATEGORY_CODE  = 'EVENT' THEN B.EVENT_AMOUNT
+				WHEN A.CATEGORY_CODE  = 'FOOD' THEN B.FOOD_AMOUNT
+				WHEN A.CATEGORY_CODE  = 'HEAL' THEN B.HEAL_AMOUNT
+				WHEN A.CATEGORY_CODE  = 'HOME' THEN B.HOME_AMOUNT
+				ELSE B.TRAN_AMOUNT
+			 END AS budget
+			,SUM(C.AMOUNT) amount
+		FROM
+			TB_CATEGORY_BUDGET_INFO A
+		LEFT JOIN
+			TB_BUDGET_INFO B
+		ON
+			A.MEMBER_ID = B.MEMBER_ID
+		AND
+			A.BI_YEAR_MONTH = B.BI_YEAR_MONTH
+		AND
+			B.DEL_YN = 'N'
+		LEFT JOIN
+			TB_HOME_LEDGER_INFO C
+		ON
+			A.MEMBER_ID = C.MEMBER_ID
+		AND
+			A.CATEGORY_CODE = C.CATEGORY_CODE
+		AND
+			DATE_FORMAT(C.TRAN_DATE, '%Y-%m') = #{yearMonth}
+		AND
+			C.DEL_YN = 'N'
+		GROUP BY
+			A.CATEGORY_CODE
+		ORDER BY
+			A.CATEGORY_CODE
+	</select>
+
+	<!-- 카테고리 목록 조회 -->
+	<select id="selectSubCategoryList" parameterType="Map" resultType="Map">
+		/* UserBudgetMapper.selectSubCategoryList */
+		SELECT
+			 CATEGORY_CODE					 AS categoryCode
+			,CI_SEQ 						 AS ciSeq
+			,CI_NM  						 AS ciNm
+			,DATE_FORMAT(REG_DT, '%Y-%m-%d') AS regDt
+		FROM
+			TB_CATEGORY_INFO
+		WHERE
+			MEMBER_ID = #{userId}
+		AND
+			CATEGORY_CODE = #{categoryCode}
+		AND
+			DEL_YN = 'N'
+		ORDER BY
+			CI_SEQ
+	</select>
+</mapper>
