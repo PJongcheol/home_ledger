@@ -23,11 +23,19 @@
 				alert("적금 시작일은 필수입니다.");
 				$("#beginDe").focus();
 				return false;
+			} else if($("#beginDe").val().length != 10) {
+				alert("형식은 0000-00-00입니다.");
+				$("#beginDe").focus();
+				return false;
 			}
 
 			// 적금 만료일
 			if($("#endDe").val().trim() == "") {
 				alert("적금 만료일은 필수입니다.");
+				$("#endDe").focus();
+				return false;
+			} else if($("#endDe").val().length != 10) {
+				alert("형식은 0000-00-00입니다.");
 				$("#endDe").focus();
 				return false;
 			}
@@ -127,9 +135,9 @@
 	                    </tr>
 	                    <tr>
 	                    	<th>적금 시작일<span class="required-label"></span></th>
-	                        <td><input type="text" id="beginDe" name="beginDe" value="${detail.beginDe }" class="input-small datepicker" readonly></td>
+	                        <td><input type="text" id="beginDe" name="beginDe" value="${detail.beginDe }" class="only_date input-small datepicker" maxlength="10"></td>
 	                        <th>적금 만료일<span class="required-label"></span></th>
-	                        <td><input type="text" id="endDe" name="endDe" value="${detail.endDe }" class="input-small datepicker" readonly></td>
+	                        <td><input type="text" id="endDe" name="endDe" value="${detail.endDe }" class="only_date input-small datepicker" maxlength="10"></td>
 	                    </tr>
 	                    <tr>
 	                    	<th>적금 목표 금액<span class="required-label"></span></th>

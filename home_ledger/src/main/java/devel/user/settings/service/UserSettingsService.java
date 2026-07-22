@@ -189,6 +189,14 @@ public interface UserSettingsService {
 	public void deleteBookViewConfig(Map<String, Object> param) throws Exception;
 
 	/**
+	 * 신규 유저 가계부 목록 추가
+	 * @param Map
+	 * @return void
+	 * @exception Exception
+	 */
+	public void addSignUpBookViewConfig(Map<String, Object> param);
+
+	/**
 	 * 가계부 목록 관리
 	 * @param Map
 	 * @return List

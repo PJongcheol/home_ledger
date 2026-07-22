@@ -58,6 +58,25 @@ $(function () {
 		$(this).val(value);
 	});
 
+	$(".only_date").on("input", function () {
+	    let value = $(this).val();
+
+	    // 숫자만 남김
+	    value = value.replace(/\D/g, "");
+
+	    // 최대 8자리(YYYYMMDD)
+	    value = value.substring(0, 8);
+
+	    // YYYY-MM-DD 형식
+	    if (value.length > 4 && value.length <= 6) {
+	        value = value.replace(/(\d{4})(\d+)/, "$1-$2");
+	    } else if (value.length > 6) {
+	        value = value.replace(/(\d{4})(\d{2})(\d+)/, "$1-$2-$3");
+	    }
+
+	    $(this).val(value);
+	});
+
 	// 숫자 자동 변환 콤마
 	$(".only_number_comma").on("input", function(){
 		var value = $(this).val();

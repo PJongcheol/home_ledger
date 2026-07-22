@@ -88,15 +88,23 @@
 			}
 
 			// 게시시작일
-			if($("#beginDe").val() == "") {
+			if($("#bgndeDe").val() == "") {
 				alert("게시시작일은 필수입니다.");
-				$("#beginDe").focus();
+				$("#bgndeDe").focus();
+				return false;
+			} else if($("#bgndeDe").val().length != 10) {
+				alert("형식은 0000-00-00입니다.");
+				$("#bgndeDe").focus();
 				return false;
 			}
 
 			// 게시종료일
 			if($("#endDe").val() == "") {
 				alert("게시종료일은 필수입니다.");
+				$("#endDe").focus();
+				return false;
+			} else if($("#endDe").val().length != 10) {
+				alert("형식은 0000-00-00입니다.");
 				$("#endDe").focus();
 				return false;
 			}
@@ -259,8 +267,8 @@
 	                    <tr>
 	                        <th>게시일<span class="required-label"></span></th>
 	                        <td>
-	                        	<input type="text" class="half-width datepicker" id="bgndeDe" name="bgndeDe" value="${detail.bgndeDe }" placeholder="게시시작일" readonly>
-	                        	<input type="text" class="half-width datepicker" id="endDe" name="endDe" value="${detail.endDe }" placeholder="게시종료일" readonly>
+	                        	<input type="text" class="only_date half-width datepicker" id="bgndeDe" name="bgndeDe" value="${detail.bgndeDe }" placeholder="게시시작일" maxlength="10">
+	                        	<input type="text" class="only_date half-width datepicker" id="endDe" name="endDe" value="${detail.endDe }" placeholder="게시종료일" maxlength="10">
 	                        </td>
 	                        <th>사용여부<span class="required-label"></span></th>
 	                        <td>

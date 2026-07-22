@@ -52,6 +52,10 @@
 				alert("생년월일은 필수입니다.");
 				$("#memberBrthdy").focus();
 				return false;
+			} else if($("#memberBrthdy").val().length != 10) {
+				alert("형식은 0000-00-00입니다.");
+				$("#memberBrthdy").focus();
+				return false;
 			}
 
 			// 휴대폰번호
@@ -183,7 +187,7 @@
 	                        <th>이메일<span class="required-label"></span></th>
 	                        <td><input type="text" id="memberEmail" name="memberEmail" value="${detail.memberEmail }" maxlength="40"></td>
 	                        <th>생년월일<span class="required-label"></span></th>
-	                        <td><input type="text" class="datepicker" id="memberBrthdy" name="memberBrthdy" value="${detail.memberBrthdy }" readonly></td>
+	                        <td><input type="text" class="only_date datepicker" id="memberBrthdy" name="memberBrthdy" value="${detail.memberBrthdy }" maxlength="10"></td>
 	                    </tr>
 	                    <tr>
 	                        <th>휴대폰번호<span class="required-label"></span></th>

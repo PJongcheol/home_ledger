@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import devel.cmmn.base.BaseController;
 import devel.cmmn.login.service.LoginService;
 import devel.cmmn.login.vo.LoginVO;
+import devel.user.settings.service.UserSettingsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -45,6 +45,9 @@ import jakarta.servlet.http.HttpServletResponse;
 public class SocialLoginController extends BaseController{
 	@Autowired
 	LoginService loginService;
+
+	@Autowired
+	UserSettingsService userSettingsService;
 
 	@Value("${kakao.rest.api.key}")
 	private String kakaoRestApiKey;
@@ -72,7 +75,7 @@ public class SocialLoginController extends BaseController{
 		int serverPort = request.getServerPort();
 		String contextPath = request.getContextPath();
 
-		String baseUrl = scheme + "://" + serverName + ":" + serverPort + contextPath;
+		String baseUrl = scheme + "://" + serverName + contextPath;
 
 		String redirectUri = baseUrl + "/api/social/login/snsAuth.do";
 
@@ -112,7 +115,7 @@ public class SocialLoginController extends BaseController{
 		int serverPort = request.getServerPort();
 		String contextPath = request.getContextPath();
 
-		String baseUrl = scheme + "://" + serverName + ":" + serverPort + contextPath;
+		String baseUrl = scheme + "://" + serverName + contextPath;
 
 		String redirectUri= baseUrl + "/api/social/login/snsAuth.do";
 
@@ -211,6 +214,10 @@ public class SocialLoginController extends BaseController{
 				loginService.insertSnsMember(userMap);
 
 				loginInfo = loginService.selectSnsMember(userInfo.get("id").toString());
+
+				userMap.put("userId", id);
+
+				userSettingsService.addSignUpBookViewConfig(userMap);
 			}
 
 		} else if("naver".equals(state)) { // 네이버
@@ -243,6 +250,10 @@ public class SocialLoginController extends BaseController{
 				loginService.insertSnsMember(userMap);
 
 				loginInfo = loginService.selectSnsMember(user.get("id").toString());
+
+				userMap.put("userId", id);
+
+				userSettingsService.addSignUpBookViewConfig(userMap);
 			}
 		}
 

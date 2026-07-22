@@ -50,9 +50,9 @@
 				<input type="hidden" id="pageSize" name="pageSize" value="${holder.pageSize }"/>
 			    <div class="search-box">
 					<div class="search-row">
-			            <input type="text" class="datepicker" id="startDate" name="startDate" value="${holder.startDate }" placeholder="로그인 시작일시" readonly>
+			            <input type="text" class="only_date datepicker" id="startDate" name="startDate" value="${holder.startDate }" placeholder="로그인 시작일시" maxlength="10">
 			            ~
-			            <input type="text" class="datepicker" id="endDate" name="endDate" value="${holder.endDate }" placeholder="로그인 종료일시" readonly>
+			            <input type="text" class="only_date datepicker" id="endDate" name="endDate" value="${holder.endDate }" placeholder="로그인 종료일시" maxlength="10">
 			        </div>
 			        <div class="search-row">
 			            <input type="text" id="memberId" name="memberId" value="${holder.memberId}" placeholder="회원ID를 입력해주세요.">

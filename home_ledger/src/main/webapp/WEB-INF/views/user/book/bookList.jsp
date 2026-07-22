@@ -166,8 +166,8 @@
 				<input type="hidden" id="pageSize" name="pageSize" value="${holder.pageSize }"/>
 			    <div class="search-box">
 					<div class="search-row">
-			            <input type="text" id="beginDe" name="beginDe" value="${holder.beginDe}" class="search-input-small datepicker" placeholder="시작일" readonly> ~
-			            <input type="text" id="endDe" name="endDe" value="${holder.endDe}" class="search-input-small datepicker" placeholder="종료일" readonly>
+			            <input type="text" id="beginDe" name="beginDe" value="${holder.beginDe}" class="only_date search-input-small datepicker" placeholder="시작일" maxlength="10"> ~
+			            <input type="text" id="endDe" name="endDe" value="${holder.endDe}" class="only_date search-input-small datepicker" placeholder="종료일" maxlength="10">
 			        </div>
 
 					<div class="search-row">

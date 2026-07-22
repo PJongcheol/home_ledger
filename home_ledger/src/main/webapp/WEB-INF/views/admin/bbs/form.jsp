@@ -286,8 +286,8 @@
 		                    <tr>
 		                    	<th>게시일</th>
 		                        <td>
-		                        	<input type="text" class="half-width datepicker" id="bgnde" name="bgnde" value="${detail.bgnde }" placeholder="게시시작일" readonly>
-		                        	<input type="text" class="half-width datepicker" id="endde" name="endde" value="${detail.endde }" placeholder="게시종료일" readonly>
+		                        	<input type="text" class="only_date half-width datepicker" id="bgnde" name="bgnde" value="${detail.bgnde }" placeholder="게시시작일" maxlength="10">
+		                        	<input type="text" class="only_date half-width datepicker" id="endde" name="endde" value="${detail.endde }" placeholder="게시종료일" maxlength="10">
 		                        </td>
 		                    </tr>
 	                    </c:if>

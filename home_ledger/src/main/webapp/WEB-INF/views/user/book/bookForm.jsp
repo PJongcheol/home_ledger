@@ -115,6 +115,10 @@
 				alert("거래일은 필수입니다.");
 				$("#tranDate").focus();
 				return false;
+			} else if($("#tranDate").val().length != 10) {
+				alert("형식은 0000-00-00입니다.");
+				$("#tranDate").focus();
+				return false;
 			}
 
 
@@ -270,7 +274,7 @@
 	                    </tr>
 	                    <tr>
 	                        <th>거래일<span class="required-label"></span></th>
-	                        <td><input type="text" id="tranDate" name="tranDate" value="${detail.tranDate }" class="input-small datepicker" readonly/></td>
+	                        <td><input type="text" id="tranDate" name="tranDate" value="${detail.tranDate }" class="only_date input-small datepicker" maxlength="10"/></td>
 	                        <th>비고(적요)</th>
 	                        <td><input type="text" id="remark" name="remark" value="${detail.remark }"/></td>
 	                    </tr>

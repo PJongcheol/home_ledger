@@ -316,6 +316,17 @@ public class UserSettingsServiceImpl implements UserSettingsService {
 	}
 
 	/**
+	 * 신규 유저 가계부 목록 추가
+	 * @param Map
+	 * @return void
+	 * @exception Exception
+	 */
+	@Override
+	public void addSignUpBookViewConfig(Map<String, Object> param) {
+		userSettingsMapper.addSignUpBookViewConfig(param);
+	}
+
+	/**
 	 * 가계부 목록 관리
 	 * @param Map
 	 * @return List

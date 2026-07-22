@@ -21,6 +21,46 @@
 
 	// 아이디 찾기
 	function fn_searchUserId() {
+
+		// Id
+		if($("#memberNm").val() == "") {
+			alert("이름은 필수입니다.");
+			$("#memberNm").focus();
+			return false;
+		}
+
+		// Email
+		if($("#memberEmail").val() == "") {
+			alert("이메일은 필수입니다.");
+			$("#memberEmail").focus();
+			return false;
+		} else if(!emailCheck($("#memberEmail").val())) {
+			alert("유효한 이메일 형식이 아닙니다.");
+			$("#memberEmail").focus();
+			return false;
+		}
+
+		// Birth
+		if($("#memberBrthdy").val() == "") {
+			alert("생년월일은 필수입니다.");
+			$("#memberBrthdy").focus();
+			return false;
+		} else if($("#memberBrthdy").val().length != 10) {
+			alert("형식은 0000-00-00입니다.");
+			$("#memberBrthdy").focus();
+			return false;
+		}
+
+		// Phone
+		if($("#memberPhone").val() == "") {
+			alert("핸드폰 번호는 필수입니다.");
+			$("#memberPhone").focus();
+			return false;
+		} else if($("#memberPhone").val().length < 13) {
+			alert("핸드폰 번호는 13자리 입니다.");
+			return false;
+		}
+
 		var formData = new FormData($("#searchIdForm")[0]);
 
 		$.ajax({
@@ -67,7 +107,7 @@
 	            <input type="text" id="memberEmail" name="memberEmail" placeholder="ex)xxxx@xxx.xxx 형식" />
 
 	            <label for="memberBrthdy">생년월일<span class="required-label"></span></label>
-	            <input type="text" class="datepicker" id="memberBrthdy" name="memberBrthdy" readonly/>
+	            <input type="text" class="only_date datepicker" id="memberBrthdy" name="memberBrthdy" maxlength="10"/>
 
 	            <label for="memberPhone">핸드폰번호<span class="required-label"></span></label>
 	            <input type="text" class="tel" id="memberPhone" name="memberPhone" placeholder="핸드폰 번호를 입력하세요" />

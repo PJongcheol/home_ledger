@@ -513,9 +513,9 @@ function chart3Layer(date, inoutType) {
 			                    <h3>카테고리별 소비</h3>
 			                    <div class="search-box">
 					                <div class="search-row">
-					                    <input type="text" id="categoryBeginDe" name="categoryBeginDe" value="${holder.categoryBeginDe}" class="search-input-small datepicker change" readonly>
+					                    <input type="text" id="categoryBeginDe" name="categoryBeginDe" value="${holder.categoryBeginDe}" class="only_date search-input-small datepicker change" maxlength="10">
 					                     ~
-					                    <input type="text" id="categoryEndDe" name="categoryEndDe" value="${holder.categoryEndDe}" class="search-input-small datepicker change" readonly>
+					                    <input type="text" id="categoryEndDe" name="categoryEndDe" value="${holder.categoryEndDe}" class="only_date search-input-small datepicker change" maxlength="10">
 					                </div>
 					            </div>
 				            </div>
